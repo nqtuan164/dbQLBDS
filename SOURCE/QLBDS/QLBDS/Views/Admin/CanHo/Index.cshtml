@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Quản lý Căn Hộ";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+<h2 class="dashboard-title">QUẢN LÝ CĂN HỘ</h2>
+
+<div class="editor-field">
+
+    <div class="list-content">
+        
+        <a href="@Url.Action("TaoCanHo", "CanHo")" class="create-button">Tạo căn hộ mới</a>
+        <br />
+
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <th width="5%">
+                    Mã
+                </th>
+                <th width="25%">
+                    Tên Căn Hộ
+                </th>
+                <th width="25%">
+                    Địa Chỉ
+                </th>
+                <th width="15%">
+                    Giá Thuê (VND)
+                </th>
+                <th width="15%">
+                    Diện Tích (m<sup style="font-size:10px;">2</sup>)
+                </th>
+                <th width="10%">
+                    &nbsp;
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    1
+                </td>
+                <td>
+                    Căn hộ A
+                </td>
+                <td>
+                    23 Nguyễn Thông, P.3, Q.3
+                </td>
+                <td>
+                    23.000
+                </td>
+                <td>
+                    23
+                </td>
+                <td>
+                    <a href="" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
+                    <a href="" class="list-delete-button" ><img src="@Url.Content("~/Content/images/del.png")" /></a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="list-paging">
+            <ul>
+                <li>
+                    <a href="" class="cur">1</a>
+                </li>
+                <li>
+                    <a href="" >2</a>
+                </li>
+                <li>
+                    <a href="" >3</a>
+                </li>
+                <li>
+                    <a href="" >4</a>
+                </li>
+                <li>
+                    <a href="" >5</a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <a href="@Url.Action("TaoCanHo", "CanHo")" class="create-button" >Tạo căn hộ mới</a>
+        <br />
+    </div>
+    
+</div>

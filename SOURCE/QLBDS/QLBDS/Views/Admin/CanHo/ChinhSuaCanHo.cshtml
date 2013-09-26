@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "ChinhSuaCanHo";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+<h2 class="dashboard-title">Chỉnh sửa căn hộ</h2>
+
+<div class="editor-field">
+    <h3 class="editor-field-title">THÔNG TIN CHUNG</h3>
+    
+    <div class="editor-item">
+        <div class="editor-label">
+            Tên căn hộ: <span class="required-field">*</span>
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Miêu tả: 
+        </div>
+        <div class="editor-input">
+            <textarea id="txtMieuTa" name="txtMieuTa" ></textarea>
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Giá thuê: <span class="required-field">*</span>
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtGiaThue" id="txtGiaThue" class="input-txt" />
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Diện tích: <span class="required-field">*</span>
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtDienTich" id="txtDienTich" class="input-txt" />
+        </div>
+    </div>
+
+    <h3 class="editor-field-title">VỊ Trí địa lý</h3>
+    
+    <div class="editor-item">
+        <div class="editor-label">
+            Địa chỉ: <span class="required-field">*</span>
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtDiaChi" id="txtDiaChi" class="input-txt" />
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            &nbsp;
+        </div>
+        <div class="editor-input">
+            <select class="">
+                <option value="1">Hà Nội</option>
+                <option value="2">Hồ Chí Minh</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="editor-item">
+        <div class="editor-label">
+            &nbsp;
+        </div>
+        <div class="editor-input">
+            <select class="">
+                <option value="1">Hà Nội</option>
+                <option value="2">Hồ Chí Minh</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            &nbsp;
+        </div>
+        <div class="editor-input">
+            <select class="">
+                <option value="1">Hà Nội</option>
+                <option value="2">Hồ Chí Minh</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="editor-item">
+        <div class="editor-label">
+            Tọa độ: <span class="required-field">*</span>
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtToaDo" id="txtToaDo" class="input-txt" />
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            &nbsp;
+        </div>
+        <div class="editor-input">
+            <div class="map-api">
+
+            </div>
+        </div>
+    </div>
+
+    <h3 class="editor-field-title">TRẠNG THÁI</h3>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Ngày đăng: 
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtNgayDang" id="txtNgayDang" class="input-txt" value="@DateTime.Now.ToShortDateString()" disabled/>
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Người đăng: 
+        </div>
+        <div class="editor-input">
+            <input type="text" name="txtNguoiDang" id="txtNguoiDang" class="input-txt" value="Nguyễn Quốc Tuấn" disabled/>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

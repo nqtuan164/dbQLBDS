@@ -5,7 +5,7 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
-    public class ThueCanHoModel
+    public class ThueCanHo
     {
         private int maThueCanHo;
         private int maTaiKhoan;
@@ -75,7 +75,7 @@ namespace dbQLBDS.Models
             set { kichHoat = value; }
         }
 
-        public ThueCanHoModel(int _maThueCanHo, int _maTaiKhoan, int _maCanHo, float _tienCoc, DateTime _thoiGianThue,
+        public ThueCanHo(int _maThueCanHo, int _maTaiKhoan, int _maCanHo, float _tienCoc, DateTime _thoiGianThue,
                             DateTime _thoiGianKetThuc, DateTime _thoiGianGiaoDich, string _dienThoai, string _diaChi,
                             string _ghiChu, int _kichHoat)
         {

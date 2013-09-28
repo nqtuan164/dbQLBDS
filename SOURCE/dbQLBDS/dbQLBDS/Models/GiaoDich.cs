@@ -5,7 +5,7 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
-    public class GiaoDichModel
+    public class GiaoDich
     {
         private int maGiaoDich;
         private int maTaiKhoan;
@@ -33,7 +33,12 @@ namespace dbQLBDS.Models
             set { maTrangThaiGiaoDich = value; }
         }
 
-        public GiaoDichModel(int _maGiaoDich, int _maTaiKhoan, int _maThueCanHo, int _maTrangThaiGiaoDich)
+        public GiaoDich()
+        {
+
+        }
+
+        public GiaoDich(int _maGiaoDich, int _maTaiKhoan, int _maThueCanHo, int _maTrangThaiGiaoDich)
         {
             this.maGiaoDich = _maGiaoDich;
             this.maTaiKhoan = _maTaiKhoan;

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
-    public class DuongModel
+    public class Duong
     {
         private int maDuong;
         private string tenDuong;
@@ -27,7 +27,12 @@ namespace dbQLBDS.Models
             set { maQuan = value; }
         }
 
-        public DuongModel(int _maDuong, string _tenDuong, int _maQuan) 
+        public Duong()
+        {
+
+        }
+
+        public Duong(int _maDuong, string _tenDuong, int _maQuan) 
         {
             this.maDuong = _maDuong;
             this.tenDuong = _tenDuong;

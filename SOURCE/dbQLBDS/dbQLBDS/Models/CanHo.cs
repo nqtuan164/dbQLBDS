@@ -5,7 +5,7 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
-    public class CanHoModel
+    public class CanHo
     {
         private int maCanHo;
         private string tenCanHo;
@@ -87,7 +87,12 @@ namespace dbQLBDS.Models
             set { kichHoat = value; }
         }
 
-        public CanHoModel(int _maCanHo, string _tenCanHo, int _maDuong, string _diaChi, string _mieuTa, string _toaDo,
+        public CanHo()
+        {
+
+        }
+
+        public CanHo(int _maCanHo, string _tenCanHo, int _maDuong, string _diaChi, string _mieuTa, string _toaDo,
                         float _giaThue, float _dienTich, int _maTrangThaiGiaoDich, DateTime _ngayDang,
                         int _nguoiDang, string _ghiChu, int _kichHoat)
         {

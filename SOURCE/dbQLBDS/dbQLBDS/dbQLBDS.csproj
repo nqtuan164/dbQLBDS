@@ -146,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Saler\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

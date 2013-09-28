@@ -20,6 +20,11 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,10 +81,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CanHoModel.cs" />
-    <Compile Include="Models\DuongModel.cs" />
-    <Compile Include="Models\GiaoDichModel.cs" />
-    <Compile Include="Models\ThueCanHoModel.cs" />
+    <Compile Include="Models\CanHo.cs" />
+    <Compile Include="Models\Duong.cs" />
+    <Compile Include="Models\GiaoDich.cs" />
+    <Compile Include="Models\ThueCanHo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

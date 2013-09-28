@@ -13,7 +13,7 @@ namespace QLBDS.Controllers.Admin
 
         public ActionResult Index()
         {
-            return View();
+            return View("~/Views/Admin/TaiKhoan/Index.cshtml");
         }
 
     }

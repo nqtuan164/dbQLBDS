@@ -5,13 +5,9 @@
 $("document").ready(function () {
     
     $(".btnDangNhap").hover(function () {
-        
         $(".login-container").fadeIn("fast");
-
-        $(this).mouseleave(function () {
-            $(".login-container").fadeOut("fast");
-        });
-        return false;
+    }, function () {
+        $(".login-container").fadeOut("fast");
     });
 
 

@@ -3,4 +3,103 @@
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2 class="dashboard-title">QUẢN LÝ TÀI KHOẢN</h2>
+
+<div class="editor-field">
+
+
+    <h3 class="editor-field-title">TÌM KIẾM</h3>
+        <form method="post" action="" name="search-form" >
+            <div class="editor-item">
+                <div class="editor-label">
+                    Email: 
+                </div>
+                <div class="editor-input">
+                    <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+                </div>
+            </div>
+
+            <div class="editor-item">
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <input type="submit" name="btnSearchCanHo" id="btnSearchCanHo" value="Search"/>
+                </div>
+            </div>
+        </form>
+    <h3 class="editor-field-title">KẾT QUẢ (SỐ LƯỢNG: 1)</h3>
+    <div class="list-content">
+        
+        
+
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <th width="5%">
+                    Mã
+                </th>
+                <th width="25%">
+                    Tên Căn Hộ
+                </th>
+                <th width="25%">
+                    Địa Chỉ
+                </th>
+                <th width="15%">
+                    Giá Thuê (VND)
+                </th>
+                <th width="15%">
+                    Diện Tích (m<sup style="font-size:10px;">2</sup>)
+                </th>
+                <th width="10%">
+                    &nbsp;
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    1
+                </td>
+                <td>
+                    Căn hộ A
+                </td>
+                <td>
+                    23 Nguyễn Thông, P.3, Q.3
+                </td>
+                <td>
+                    23.000
+                </td>
+                <td>
+                    23
+                </td>
+                <td>
+                    <a href="" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
+                    <a href="" class="list-delete-button" ><img src="@Url.Content("~/Content/images/del.png")" /></a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="list-paging">
+            <ul>
+                <li>
+                    <a href="" class="cur">1</a>
+                </li>
+                <li>
+                    <a href="" >2</a>
+                </li>
+                <li>
+                    <a href="" >3</a>
+                </li>
+                <li>
+                    <a href="" >4</a>
+                </li>
+                <li>
+                    <a href="" >5</a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <a href="@Url.Action("TaoCanHo", "CanHo")" class="create-button" >Tạo căn hộ mới</a>
+        <br />
+    </div>
+    
+</div>

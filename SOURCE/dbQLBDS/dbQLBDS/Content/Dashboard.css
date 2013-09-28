@@ -11,6 +11,10 @@
     font-family: "Segoe UI";
 }
 
+img {
+    border: 0px;
+}
+
 #container {
     width: 100%;
     height: 100%;
@@ -184,13 +188,26 @@ input[type=text] {
     width: 300px;
     font-size: 17px;
 }
+
+input[type=button], input[type=submit] {
+    display: block;
+    padding: 0.5em 0.7em;
+    outline: none;
+    color: #e7e7e7;
+    background: #336ca6;
+    text-align: center;
+    text-decoration: none;
+    text-transform:uppercase;
+    border: 0px;
+}
+
 textarea {
     width: 302px;
     height: 150px;
     font-size: 17px;
 }
 .create-button {
-   display: block;
+    display: block;
     float: left;
     clear: both;
     margin: 10px 0px;

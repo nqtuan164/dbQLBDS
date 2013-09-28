@@ -84,6 +84,10 @@
     <Compile Include="Models\CanHo.cs" />
     <Compile Include="Models\Duong.cs" />
     <Compile Include="Models\GiaoDich.cs" />
+    <Compile Include="Models\HinhAnhCanHo.cs" />
+    <Compile Include="Models\Quan.cs" />
+    <Compile Include="Models\TaiKhoan.cs" />
+    <Compile Include="Models\ThanhPho.cs" />
     <Compile Include="Models\ThueCanHo.cs" />
     <Compile Include="Models\HinhAnhCanHoModel.cs" />
     <Compile Include="Models\QuanModel.cs" />
@@ -159,6 +163,9 @@
     <Content Include="Views\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\_LayoutLogin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\TaiKhoan\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

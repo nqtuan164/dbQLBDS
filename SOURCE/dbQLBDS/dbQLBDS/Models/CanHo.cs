@@ -5,6 +5,13 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
+    public enum TrangThaiCanHo
+    {
+        Da_Duoc_Thue = 1,
+        Chua_Duoc_Thue = 2,
+        Dang_Xay_Dung = 3
+    }
+
     public class CanHo
     {
         private int maCanHo;
@@ -15,7 +22,7 @@ namespace dbQLBDS.Models
         private string toaDo;
         private float giaThue;
         private float dienTich;
-        private int maTrangThaiGiaoDich;
+        private TrangThaiCanHo maTrangThaiCanHo;
         private DateTime ngayDang;
         private int nguoiDang;
         private string ghiChu;
@@ -61,10 +68,10 @@ namespace dbQLBDS.Models
             get { return dienTich; }
             set { dienTich = value; }
         }
-        public int MaTrangThaiGiaoDich
+        public TrangThaiCanHo MaTrangThaiCanHo
         {
-            get { return maTrangThaiGiaoDich; }
-            set { maTrangThaiGiaoDich = value; }
+            get { return maTrangThaiCanHo; }
+            set { maTrangThaiCanHo = value; }
         }
         public DateTime NgayDang
         {
@@ -92,9 +99,19 @@ namespace dbQLBDS.Models
 
         }
 
-        public CanHo(int _maCanHo, string _tenCanHo, int _maDuong, string _diaChi, string _mieuTa, string _toaDo,
-                        float _giaThue, float _dienTich, int _maTrangThaiGiaoDich, DateTime _ngayDang,
-                        int _nguoiDang, string _ghiChu, int _kichHoat)
+        public CanHo(int _maCanHo, 
+                    string _tenCanHo, 
+                    int _maDuong, 
+                    string _diaChi, 
+                    string _mieuTa, 
+                    string _toaDo,
+                    float _giaThue, 
+                    float _dienTich, 
+                    TrangThaiCanHo _maTrangThaiCanHo, 
+                    DateTime _ngayDang,
+                    int _nguoiDang, 
+                    string _ghiChu, 
+                    int _kichHoat)
         {
             this.maCanHo = _maCanHo;
             this.tenCanHo = _tenCanHo;
@@ -104,7 +121,7 @@ namespace dbQLBDS.Models
             this.toaDo = _toaDo;
             this.giaThue = _giaThue;
             this.dienTich = _dienTich;
-            this.maTrangThaiGiaoDich = _maTrangThaiGiaoDich;
+            this.maTrangThaiCanHo = _maTrangThaiCanHo;
             this.ngayDang = _ngayDang;
             this.nguoiDang = _nguoiDang;
             this.ghiChu = _ghiChu;

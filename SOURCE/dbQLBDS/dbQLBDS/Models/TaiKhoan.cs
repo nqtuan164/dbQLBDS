@@ -5,12 +5,19 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
+    public enum LoaiTaiKhoan
+    {
+        Admin = 1,
+        Member = 2,
+        Sales = 3
+    }
+
     public class TaiKhoan
     {
         int maTaiKhoan;
         string email;
         string matKhau;
-        int maLoaiTaiKhoan;
+        LoaiTaiKhoan maLoaiTaiKhoan;
         string ten;
         DateTime ngaySinh;
         string diaChi;
@@ -36,7 +43,7 @@ namespace dbQLBDS.Models
             set { matKhau = value; }
         }
 
-        public int MaLoaiTaiKhoan
+        public LoaiTaiKhoan MaLoaiTaiKhoan
         {
             get { return maLoaiTaiKhoan; }
             set { maLoaiTaiKhoan = value; }
@@ -92,7 +99,16 @@ namespace dbQLBDS.Models
             this.trangThai = 0;
         }
 
-        public TaiKhoan(int matk, string mail, string matkhau, int maloai, string Ten, DateTime ngaysinh, string diachi, string dienthoai, DateTime ngaydk, int trangthai)
+        public TaiKhoan(int matk, 
+                        string mail, 
+                        string matkhau, 
+                        LoaiTaiKhoan maloai, 
+                        string Ten, 
+                        DateTime ngaysinh, 
+                        string diachi, 
+                        string dienthoai, 
+                        DateTime ngaydk, 
+                        int trangthai)
         {
             this.maTaiKhoan = matk;
             this.email = mail;

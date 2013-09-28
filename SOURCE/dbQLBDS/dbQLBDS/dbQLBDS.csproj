@@ -85,6 +85,10 @@
     <Compile Include="Models\Duong.cs" />
     <Compile Include="Models\GiaoDich.cs" />
     <Compile Include="Models\ThueCanHo.cs" />
+    <Compile Include="Models\HinhAnhCanHoModel.cs" />
+    <Compile Include="Models\QuanModel.cs" />
+    <Compile Include="Models\TaiKhoanModel.cs" />
+    <Compile Include="Models\ThanhPhoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

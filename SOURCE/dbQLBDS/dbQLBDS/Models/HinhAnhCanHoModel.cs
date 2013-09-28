@@ -36,12 +36,11 @@ namespace dbQLBDS.Models
             this.lienKet = "";
         }
 
-        public HinhAnhCanHoModel(int mahinh, int macanho, string lienket)
+        public HinhAnhCanHoModel(int mahinh, int mach, string lienket)
         {
             this.maHinhAnh = mahinh;
-            this.maCanHo = macanho;
-            this.lienKet = lienket;
+            this.maCanHo = mach;
+            this.lienKet = lienKet;
         }
-
     }
 }

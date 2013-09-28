@@ -16,7 +16,7 @@ namespace dbQLBDS.Models
             get { return maQuan; }
             set { maQuan = value; }
         }
-        
+
         public string TenQuan
         {
             get { return tenQuan; }
@@ -35,12 +35,12 @@ namespace dbQLBDS.Models
             this.tenQuan = "";
             this.maThanhPho = 0;
         }
-        public QuanModel(int maquan, string tenquan, int mathanhpho)
+
+        public QuanModel(int maquan, string tenquan, int matp)
         {
             this.maQuan = maquan;
-            this.tenQuan = tenquan;
-            this.maThanhPho = mathanhpho;
+            this.tenQuan = tenQuan;
+            this.maThanhPho = matp;
         }
-
     }
 }

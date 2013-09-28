@@ -28,10 +28,10 @@ namespace dbQLBDS.Models
             this.tenThanhPho = "";
         }
 
-        public ThanhPhoModel(int mathanhpho, string tenthanhpho)
+        public ThanhPhoModel(int ma, string ten)
         {
-            this.maThanhPho = mathanhpho;
-            this.tenThanhPho = tenthanhpho;
+            this.maThanhPho = ma;
+            this.tenThanhPho = ten;
         }
     }
 }

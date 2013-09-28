@@ -92,18 +92,19 @@ namespace dbQLBDS.Models
             this.trangThai = 0;
         }
 
-        public TaiKhoanModel(int matk, string email, string matkhau, int maloaitk, string ten, DateTime ngaysinh, string diachi, string dienthoai, DateTime ngaydangky, int trangthai)
+        public TaiKhoanModel(int matk, string mail, string matkhau, int maloai, string Ten, DateTime ngaysinh, string diachi, string dienthoai, DateTime ngaydk, int trangthai)
         {
             this.maTaiKhoan = matk;
-            this.email = email;
+            this.email = mail;
             this.matKhau = matkhau;
-            this.maLoaiTaiKhoan = maloaitk ;
-            this.ten = ten;
+            this.maLoaiTaiKhoan = maloai;
+            this.ten = Ten;
             this.ngaySinh = ngaysinh;
             this.diaChi = diachi;
             this.dienThoai = dienthoai;
-            this.ngayDangKy = ngaydangky;
-            this.trangThai = 0;
+            this.ngayDangKy = ngaydk;
+            this.trangThai = trangthai;
         }
+
     }
 }

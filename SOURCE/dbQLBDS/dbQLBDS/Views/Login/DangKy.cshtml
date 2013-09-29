@@ -13,13 +13,15 @@
     
     
     <div class="main-content">
-        <form id="frmDangKy" method="post" action="" name="frmDangKy">
+        @using (Html.BeginForm()) {
+            
             <div class="editor-item">
                 <div class="editor-label">
                     Email:<span class="required-field">*</span>
                 </div>
                 <div class="editor-input">
-                    <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+                    @Html.EditorFor(model => model.Email)
+                    
                 </div>
             </div>
 
@@ -28,7 +30,7 @@
                     Mật khẩu:<span class="required-field">*</span>
                 </div>
                 <div class="editor-input">
-                    <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+                    @Html.PasswordFor(model => model.MatKhau)
                 </div>
             </div>
 
@@ -50,6 +52,6 @@
                 </div>
             </div>
 
-        </form>
+        }
     </div>
 </div>

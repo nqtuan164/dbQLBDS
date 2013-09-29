@@ -255,7 +255,7 @@ body, html {
     clear: both;
 }
 .editor-item .editor-label{
-    width: 15%;
+    width: 20%;
     float: left;
     font-size: 17px;
 }
@@ -271,15 +271,29 @@ body, html {
 	        transition : all 0.1s ease 0.2s;
 }
 
-.main-content input[type=text] {
+.main-content input[type=text], .main-content input[type=password]  {
     width: 300px;
     font-size: 17px;
 }
 
+.main-content textarea {
+    width: 302px;
+    height: 150px;
+    font-size: 17px;
+}
 
 
-
-
+.main-content .submit {
+    display: block;
+    padding: 0.5em 0.7em;
+    outline: none;
+    color: #e7e7e7;
+    background: #336ca6;
+    text-align: center;
+    text-decoration: none;
+    text-transform:uppercase;
+    border: 0px;
+}
 
 
 

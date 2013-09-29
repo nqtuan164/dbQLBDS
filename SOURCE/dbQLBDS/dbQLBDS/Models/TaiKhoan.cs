@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -25,12 +26,15 @@ namespace dbQLBDS.Models
         DateTime ngayDangKy;
         int trangThai;
 
+        
         public int MaTaiKhoan
         {
             get { return maTaiKhoan; }
             set { maTaiKhoan = value; }
         }
 
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email
         {
             get { return email; }
@@ -42,6 +46,8 @@ namespace dbQLBDS.Models
             get { return matKhau; }
             set { matKhau = value; }
         }
+
+        public string XacNhanMatKhau { get; set; }
 
         public LoaiTaiKhoan MaLoaiTaiKhoan
         {

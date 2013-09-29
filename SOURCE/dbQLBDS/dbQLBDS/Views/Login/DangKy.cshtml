@@ -36,10 +36,19 @@
 
             <div class="editor-item">
                 <div class="editor-label">
+                    Xác nhận mật khẩu:<span class="required-field">*</span>
+                </div>
+                <div class="editor-input">
+                    @Html.PasswordFor(model => model.XacNhanMatKhau)
+                </div>
+            </div>
+            
+            <div class="editor-item">
+                <div class="editor-label">
                     Họ và Tên:<span class="required-field">*</span>
                 </div>
                 <div class="editor-input">
-                    <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+                    @Html.EditorFor(model => model.Ten)
                 </div>
             </div>
 
@@ -48,10 +57,38 @@
                     Ngày sinh: 
                 </div>
                 <div class="editor-input">
-                    <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+                    @Html.EditorFor(model => model.NgaySinh, new {@class = "datepicker"})
                 </div>
             </div>
 
+            <div class="editor-item">
+                <div class="editor-label">
+                    Địa chỉ: 
+                </div>
+                <div class="editor-input">
+                    @Html.TextAreaFor(model => model.DiaChi)
+                </div>
+            </div>
+            
+            <div class="editor-item">
+                <div class="editor-label">
+                    Điện thoại: 
+                </div>
+                <div class="editor-input">
+                    @Html.EditorFor(model => model.DienThoai)
+                </div>
+            </div>
+            
+            
+            
+            <div class="editor-item">
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <input type="submit" class="submit" id="btnDangKy" value="Đăng ký"/>
+                </div>
+            </div>
         }
     </div>
 </div>

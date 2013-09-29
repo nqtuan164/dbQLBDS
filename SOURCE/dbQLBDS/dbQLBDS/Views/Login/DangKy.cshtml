@@ -20,8 +20,8 @@
                     Email:<span class="required-field">*</span>
                 </div>
                 <div class="editor-input">
-                    @Html.EditorFor(model => model.Email)
-                    
+                    @Html.EditorFor(model => model.Email, new { @required = ""})
+                    @Html.ValidationMessageFor(model => model.Email)
                 </div>
             </div>
 
@@ -31,6 +31,7 @@
                 </div>
                 <div class="editor-input">
                     @Html.PasswordFor(model => model.MatKhau)
+                    @Html.ValidationMessageFor(model => model.MatKhau)
                 </div>
             </div>
 
@@ -40,6 +41,7 @@
                 </div>
                 <div class="editor-input">
                     @Html.PasswordFor(model => model.XacNhanMatKhau)
+                    @Html.ValidationMessageFor(model => model.XacNhanMatKhau)
                 </div>
             </div>
             
@@ -49,6 +51,7 @@
                 </div>
                 <div class="editor-input">
                     @Html.EditorFor(model => model.Ten)
+                    @Html.ValidationMessageFor(model => model.Ten)
                 </div>
             </div>
 

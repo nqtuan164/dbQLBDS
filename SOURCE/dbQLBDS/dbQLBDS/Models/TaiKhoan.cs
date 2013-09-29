@@ -41,12 +41,14 @@ namespace dbQLBDS.Models
             set { email = value; }
         }
 
+        [Required]
         public string MatKhau
         {
             get { return matKhau; }
             set { matKhau = value; }
         }
 
+        [Required]
         public string XacNhanMatKhau { get; set; }
 
         public LoaiTaiKhoan MaLoaiTaiKhoan
@@ -55,12 +57,14 @@ namespace dbQLBDS.Models
             set { maLoaiTaiKhoan = value; }
         }
 
+        [Required]
         public string Ten
         {
             get { return ten; }
             set { ten = value; }
         }
 
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime NgaySinh
         {
             get { return ngaySinh; }

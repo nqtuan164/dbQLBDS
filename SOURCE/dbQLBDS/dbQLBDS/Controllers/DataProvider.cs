@@ -8,11 +8,17 @@ using System.Web;
 
 namespace dbQLBDS.Controllers
 {
-    public class DataProvider
+    public class DataProvider : IDisposable
     {
         #region attribute
         private string SqlConnectionStr;
         private SqlConnection connect;
+
+        public SqlConnection Connect
+        {
+            get { return connect; }
+            set { connect = value; }
+        }
         #endregion
 
 
@@ -114,6 +120,60 @@ namespace dbQLBDS.Controllers
                 connect.Close();
             }
         }
+
+        public DataTable ExecuteProcQuery(string procName, SqlParameter[] param) 
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                if (OpenConnect())
+                {
+                    SqlCommand cmd = connect.CreateCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = procName;
+                    cmd.Parameters.AddRange(param);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connect.Close();
+            }
+        }
+
+        public bool ExecuteProcNonQuery(string procName, SqlParameter[] param)
+        {
+            try
+            {
+                if (OpenConnect())
+                {
+                    SqlCommand cmd = connect.CreateCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = procName;
+                    cmd.Parameters.AddRange(param);
+
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connect.Close();
+            }
+        }
+
         #endregion
     }
 }

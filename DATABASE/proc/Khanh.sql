@@ -1,19 +1,28 @@
-﻿CREATE PROC sp_dangNhapTaiKhoan
+﻿CREATE PROCEDURE dbo.sp_DangNhapTaiKhoan
 	@email nvarchar(100), @matkhau nvarchar(100)
 AS
 BEGIN
-	IF(NOT EXISTS(SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau))
+	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) 
 	BEGIN
-		RAISERROR('Đăng nhập không thành công', 16, 1)
+		RAISERROR ('Đăng nhập không thành công', 16, 1)
+	END
+	ELSE 
+	BEGIN
+		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau
 	END
 END
-GO
 --exec sp_dangNhapTaiKhoan 'd2phap@gmail.com', phapabcdf
 
-CREATE PROC sp_dangKyTaiKhoan
-	@email nvarchar(100), @matkhau nvarchar(100), @maloaitaikhoan int, 
-	@ten nvarchar(100), @ngaysinh datetime, @diachi nvarchar(255),	
-	@dienthoai nvarchar(100), @ngaydangky datetime, @trangthai int
+CREATE PROCEDURE dbo.sp_DangKyTaiKhoan
+	@email nvarchar(100), 
+	@matkhau nvarchar(100), 
+	@maloaitaikhoan int, 
+	@ten nvarchar(100), 
+	@ngaysinh datetime, 
+	@diachi nvarchar(255),	
+	@dienthoai nvarchar(100), 
+	@ngaydangky datetime, 
+	@trangthai int
 AS
 BEGIN
 	IF(EXISTS(SELECT email FROM taikhoan WHERE email = @email)) BEGIN
@@ -24,7 +33,7 @@ BEGIN
 		VALUES(@email, @matkhau, @maloaitaikhoan, @ten, @ngaysinh, @diachi, @dienthoai, @ngaydangky, @trangthai)
 	END
 END
-GO
+
 
 CREATE PROC sp_capNhatTaiKhoan
 	@email nvarchar(100), @matkhau nvarchar(100), @maloaitaikhoan int, 

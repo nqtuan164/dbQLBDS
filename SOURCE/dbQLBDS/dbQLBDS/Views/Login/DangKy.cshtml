@@ -2,7 +2,20 @@
 @{
     ViewBag.Title = "Đăng ký";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (ViewBag.Result != null)
+    {
+        if (ViewBag.Result == true) 
+        {
+            <script>
+                var url = window.location.hostname + ":" + window.location.port + "/";
+                console.log(url);
+                window.location.href = "/";
+            </script>    
+        }
+    }
 }
+
 
 <div id="index-content">
     <div class="cover-image">

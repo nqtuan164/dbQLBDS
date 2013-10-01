@@ -8,7 +8,7 @@ using System.Web;
 
 namespace dbQLBDS.Controllers
 {
-    public class DataProvider : IDisposable
+    public class DataProvider
     {
         #region attribute
         private string SqlConnectionStr;
@@ -121,7 +121,7 @@ namespace dbQLBDS.Controllers
             }
         }
 
-        public DataTable ExecuteProcQuery(string procName, SqlParameter[] param) 
+        public DataTable ExecuteProcQuery(string procName,ref SqlParameter[] param) 
         {
             DataTable dt = new DataTable();
             try
@@ -135,6 +135,12 @@ namespace dbQLBDS.Controllers
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(dt);
+
+                    for (int i = 0; i < cmd.Parameters.Count; i++)
+                    {
+                        param[i].Value = cmd.Parameters[i].Value;
+                    }
+
                 }
                 return dt;
             }
@@ -148,7 +154,7 @@ namespace dbQLBDS.Controllers
             }
         }
 
-        public bool ExecuteProcNonQuery(string procName, SqlParameter[] param)
+        public bool ExecuteProcNonQuery(string procName,ref SqlParameter[] param)
         {
             try
             {
@@ -160,6 +166,11 @@ namespace dbQLBDS.Controllers
                     cmd.Parameters.AddRange(param);
 
                     cmd.ExecuteNonQuery();
+
+                    for (int i = 0; i < cmd.Parameters.Count; i++)
+                    {
+                        param[i].Value = cmd.Parameters[i].Value;
+                    }
                     return true;
                 }
                 return false;

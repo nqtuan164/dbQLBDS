@@ -14,6 +14,7 @@ namespace QLBDS.Controllers
         public ActionResult Index()
         {
             return View("~/Views/Index.cshtml");
+            //return Request.Url.Host ;
         }
 
     }

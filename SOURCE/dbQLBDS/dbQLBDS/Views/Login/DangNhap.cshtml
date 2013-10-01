@@ -1,0 +1,79 @@
+﻿@model dbQLBDS.Models.TaiKhoan
+
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Result == true)
+{
+    <script>
+        var url = window.location.host + "/Index/";
+        console.log(url);
+        window.location.href = "/";
+    </script>
+}
+
+<div id="index-content">
+    <div class="cover-image">
+        <img src="@Url.Content("~/Content/images/wall1.jpg")" />
+    </div>
+    <h2 class="index-title">Đăng nhập
+    </h2>
+    
+    
+    <div class="main-content">
+        @using (Html.BeginForm()) {
+            
+            <div class="editor-item">
+                <div class="editor-label">
+                    Email:<span class="required-field">*</span>
+                </div>
+                <div class="editor-input">
+                    @Html.EditorFor(model => model.Email, new { @required = ""})
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="editor-item">
+                <div class="editor-label">
+                    Mật khẩu:<span class="required-field">*</span>
+                </div>
+                <div class="editor-input">
+                    @Html.PasswordFor(model => model.MatKhau)
+                    @Html.ValidationMessageFor(model => model.MatKhau)
+                </div>
+            </div>
+            
+            
+            <div class="editor-item">
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <input type="submit" class="submit" id="btnDangNhap" value="Đăng nhập"/>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

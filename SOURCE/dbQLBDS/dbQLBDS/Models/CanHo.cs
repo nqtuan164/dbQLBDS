@@ -20,8 +20,8 @@ namespace dbQLBDS.Models
         private string diaChi;
         private string mieuTa;
         private string toaDo;
-        private float giaThue;
-        private float dienTich;
+        private double giaThue;
+        private double dienTich;
         private TrangThaiCanHo maTrangThaiCanHo;
         private DateTime ngayDang;
         private int nguoiDang;
@@ -58,12 +58,12 @@ namespace dbQLBDS.Models
             get { return toaDo; }
             set { toaDo = value; }
         }
-        public float GiaThue
+        public double GiaThue
         {
             get { return giaThue; }
             set { giaThue = value; }
         }
-        public float DienTich
+        public double DienTich
         {
             get { return dienTich; }
             set { dienTich = value; }

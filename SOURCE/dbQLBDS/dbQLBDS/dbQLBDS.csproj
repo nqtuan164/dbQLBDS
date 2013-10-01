@@ -80,6 +80,7 @@
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\Login\DangKyController.cs" />
     <Compile Include="Controllers\Login\DangNhapController.cs" />
+    <Compile Include="Controllers\Login\DangXuatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,7 +146,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Login\DangNhap.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

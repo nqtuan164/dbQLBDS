@@ -27,11 +27,11 @@ namespace dbQLBDS
                 new { controller = "CanHo", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
-            routes.MapRoute(
-                "Admin", // Route name
-                "Admin/{controller}/{action}/{page}", // URL with parameters
-                new { controller = "CanHo", action = "Index", page = 0 } // Parameter defaults
-            );
+            //routes.MapRoute(
+            //    "Admin", // Route name
+            //    "Admin/{controller}/{action}/{id}", // URL with parameters
+            //    new { controller = "CanHo", action = "Index", page = 1 } // Parameter defaults
+            //);
 
             routes.MapRoute(
                 "Default", // Route name

@@ -1,7 +1,17 @@
-﻿@{
+﻿@using dbQLBDS.Models;
+@model List<CanHo>
+
+@{
     ViewBag.Title = "Quản lý Căn Hộ";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
 }
+
+@{
+    int count = ViewBag.Count;
+    int rowperpage = ViewBag.RowPerPage;
+    int page = ViewBag.Page;
+}
+
 
 <h2 class="dashboard-title">QUẢN LÝ CĂN HỘ</h2>
 
@@ -38,7 +48,7 @@
 
 
 
-    <h3 class="editor-field-title">KẾT QUẢ (SỐ LƯỢNG: 1)</h3>
+    <h3 class="editor-field-title">KẾT QUẢ (SỐ LƯỢNG: @count)</h3>
     <div class="list-content">
         
         
@@ -64,46 +74,56 @@
                     &nbsp;
                 </th>
             </tr>
+
+            @foreach(CanHo item in Model) { 
             <tr>
                 <td>
-                    1
+                    @item.MaCanHo
                 </td>
                 <td>
-                    Căn hộ A
+                    @item.TenCanHo
                 </td>
                 <td>
-                    23 Nguyễn Thông, P.3, Q.3
+                    @item.DiaChi
                 </td>
                 <td>
-                    23.000
+                    @item.GiaThue
                 </td>
                 <td>
-                    23
+                    @item.DienTich
                 </td>
                 <td>
-                    <a href="" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
+                    <a href="/CanHo/ChinhSuaCanHo/@item.MaCanHo" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
                     <a href="" class="list-delete-button" ><img src="@Url.Content("~/Content/images/del.png")" /></a>
                 </td>
             </tr>
+            }
         </table>
 
         <div class="list-paging">
+
+            @{
+                double num = Math.Ceiling(count * 1.0 / rowperpage);
+            }
+
             <ul>
-                <li>
-                    <a href="" class="cur">1</a>
-                </li>
-                <li>
-                    <a href="" >2</a>
-                </li>
-                <li>
-                    <a href="" >3</a>
-                </li>
-                <li>
-                    <a href="" >4</a>
-                </li>
-                <li>
-                    <a href="" >5</a>
-                </li>
+                
+                @for (int i = 1; i <= num; i++)
+                {
+                    if (i == page)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","CanHo", new {@page = i})" class="cur">@i</a>
+                        </li>
+                    }
+                    else 
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","CanHo", new {@page = i})" >@i</a>
+                        </li>
+                    }
+                }
+                
             </ul>
         </div>
 

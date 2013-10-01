@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using dbQLBDS.Models;
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,6 +14,13 @@
 <body>
     <div id="container">
         
+        @{
+            TaiKhoan tk = new TaiKhoan();
+            if (Session["taikhoan"] != null)
+            {
+                tk = (TaiKhoan)Session["taikhoan"];
+            }
+        }
 
         <div id="nav">
             
@@ -27,14 +36,22 @@
                 <li>
                     <a href="" >QUẢN LÝ GIAO DỊCH</a>
                 </li>
-                <li>
-                    <a href="" >QUẢN LÝ TÀI KHOẢN</a>
-                </li>
-                <li>
-                    <a href="" >QUẢN LÝ ĐỊA ĐIỂM</a>
-                </li>
 
+
+                @if (tk.MaLoaiTaiKhoan == LoaiTaiKhoan.Admin)
+                {
+                    <li>
+                        <a href="" >QUẢN LÝ TÀI KHOẢN</a>
+                    </li>
+                }
+                
+                <li>
+                    <a href="/DangXuat" >ĐĂNG XUẤT</a>
+                </li>
             </ul>
+
+
+
         </div>
         <div id="dashboard-content">
             @RenderBody()

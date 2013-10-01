@@ -1,6 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using dbQLBDS.Models
+
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewBag.Title</title>
 
     <link href="@Url.Content("~/Content/Index.css")" type="text/css" rel="stylesheet"/>
@@ -8,60 +11,59 @@
     <script src="@Url.Content("~/Scripts/Index.js")" type="text/javascript" ></script>
 </head>
 <body>
+
+    @{
+        if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "") 
+        {
+            <script type="text/javascript">
+                alert("@ViewBag.ErrorMessage");
+            </script>
+        }
+
+
+        TaiKhoan tk = new TaiKhoan();
+        if (Session["taikhoan"] != null)
+        {
+            tk = (TaiKhoan)Session["taikhoan"];
+        }
+    }
     <div id="index-container">
         <div class="header">
-            <a href="@Url.Action("Index", "Index")" class="logo">
+            <a href="/Index" class="logo">
                 <img src="@Url.Content("~/Content/images/icon100.png")" />
             </a>
-
-            <a href="@Url.Action("DangKy")" class="btnDangKy">Đăng ký</a>
-
+            @if (Session["taikhoan"] == null)
+            {
+                <a href="/DangKy" class="btnDangKy">Đăng ký</a>
+            }
             <ul class="menu">
                 
-                <li>
-                    <a class="btnDangNhap" data-islogin="false">Đăng nhập
-                        
-                        <div class="login-container">
-                            <form class="login-form" id="login-form" method="post" action="">
-                                <div class="login-content-item">
-                                    <div class="item-label">Tên đăng nhập: </div>
-                                    <div class="item-editor">
-                                        <input type="text" class="txtLogin" id="txtUsername" name="txtUsername" />
-                                    </div>
-                                </div>
-                                <div class="login-content-item">
-                                    <div class="item-label">Mật khẩu: </div>
-                                    <div class="item-editor">
-                                        <input type="password" class="txtLogin" id="txtPassword" name="txtPassword" />
-                                    </div>
-                                </div>
-                                <div class="login-content-item">
-                                    <div class="item-label">&nbsp; </div>
-                                    <div class="item-editor">
-                                        <input type="submit" class="btnLogin" id="btnLogin" name="btnLogin"  value="Đăng Nhập"/>
-                                        
-                                    </div>
-                                </div>
-                            </form>
+                @if (Session["taikhoan"] != null)
+                {
+                    <li>
+                        <a href="/DangXuat" class="" data-islogin="false">Đăng xuất
+                        </a>
+                        <div class="user-info">
+                            <p>Chào, @tk.Ten</p>
                         </div>
-                    </a>
-                    <div class="user-info">
-                        <p>Chào, User Akjdsadfjk</p>
-                    </div>
 
+                    </li>
+                } else {
+                    <li>
+                        <a href="/DangNhap" class="btnDangNhap" data-islogin="false">Đăng nhập
+                        </a>
+                    </li>
+                }
+                <li>
+                    <a href="/TimKiem" >Tìm kiếm</a>
                 </li>
 
                 <li>
-                    <a href="" >Tìm kiếm</a>
+                    <a href="/GioiThieu" >Giới thiệu</a>
                 </li>
 
                 <li>
-                    <a href="" >Giới thiệu</a>
-                </li>
-
-                
-                <li>
-                    <a href="" >Trang chủ</a>
+                    <a href="/Index" >Trang chủ</a>
                 </li>
             </ul>
 

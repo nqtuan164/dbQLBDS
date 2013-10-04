@@ -140,6 +140,18 @@ namespace QLBDS.Controllers.Admin
         // POST: /CanHo/TaoCanHo
         public ActionResult TaoCanHo()
         {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+
+            }
             return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
         }
 
@@ -147,6 +159,18 @@ namespace QLBDS.Controllers.Admin
         // POST: /CanHo/ChinhSuaCanHo
         public ActionResult ChinhSuaCanHo(int id)
         {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+
+            }
             return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
         }
 

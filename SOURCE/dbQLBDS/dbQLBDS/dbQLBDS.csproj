@@ -77,10 +77,12 @@
     <Compile Include="Controllers\Admin\TaiKhoanController.cs" />
     <Compile Include="Controllers\Admin\ThueCanHoController.cs" />
     <Compile Include="Controllers\DataProvider.cs" />
+    <Compile Include="Controllers\DuongController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\Login\DangKyController.cs" />
     <Compile Include="Controllers\Login\DangNhapController.cs" />
     <Compile Include="Controllers\Login\DangXuatController.cs" />
+    <Compile Include="Controllers\QuanController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -165,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Login\DangKy.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\Helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Duong.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

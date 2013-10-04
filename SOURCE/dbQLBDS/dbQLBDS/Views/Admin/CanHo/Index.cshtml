@@ -103,7 +103,7 @@
         <div class="list-paging">
 
             @{
-                double num = Math.Ceiling(count * 1.0 / rowperpage);
+                double num = Math.Ceiling(count * 1.0 / rowperpage); // số trang cần phát sinh, ceiling làm tròn số, class = 'cur' màu đỏ index trang hiện tại
             }
 
             <ul>
@@ -113,7 +113,7 @@
                     if (i == page)
                     {
                         <li>
-                            <a href="@Url.Action("Index","CanHo", new {@page = i})" class="cur">@i</a>
+                            <a href="@Url.Action("Index","CanHo", new {@page = i})" class="cur">@i</a> 
                         </li>
                     }
                     else 

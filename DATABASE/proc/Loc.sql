@@ -78,3 +78,24 @@ BEGIN
 END
 GO
 
+CREATE PROC sp_DanhSachTaiKhoan
+@page INT,
+@pagesize INT,
+@count INT OUTPUT
+AS
+BEGIN
+	SELECT @count = COUNT(*)
+	FROM taikhoan
+	
+	DECLARE @start INT
+	SET @start = @pagesize * (@page - 1)
+	
+	SELECT TOP(@pagesize)*
+	FROM(
+		SELECT  *, ROW_NUMBER() OVER(ORDER BY mataikhoan) AS NUM
+		FROM taikhoan
+		)AS A
+	WHERE NUM > @start
+	
+	RETURN @count
+END

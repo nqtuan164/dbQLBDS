@@ -83,6 +83,7 @@
     <Compile Include="Controllers\Login\DangNhapController.cs" />
     <Compile Include="Controllers\Login\DangXuatController.cs" />
     <Compile Include="Controllers\QuanController.cs" />
+    <Compile Include="Controllers\TimKiemController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +174,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Duong.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\TimKiem.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

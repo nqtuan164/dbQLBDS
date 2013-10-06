@@ -31,8 +31,8 @@ namespace dbQLBDS.Controllers.Login
                 {
 
                     taikhoan.NgayDangKy = DateTime.Now;
-                    taikhoan.TrangThai = 1;
                     taikhoan.MaLoaiTaiKhoan = LoaiTaiKhoan.Member;
+                    taikhoan.TrangThai = TrangThaiTaiKhoan.Active;
 
                     using (MD5 md5hash = MD5.Create())
                     {
@@ -83,7 +83,7 @@ namespace dbQLBDS.Controllers.Login
                     param[7].Value = taikhoan.NgayDangKy;
 
                     param[8] = new SqlParameter("@trangthai", SqlDbType.Int);
-                    param[8].Value = taikhoan.TrangThai;
+                    param[8].Value = (int)taikhoan.TrangThai;
 
                     dp.ExecuteProcNonQuery("sp_DangKyTaiKhoan",ref param);
                     ViewBag.Result = true;

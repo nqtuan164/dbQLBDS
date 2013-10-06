@@ -169,7 +169,16 @@ namespace QLBDS.Controllers.Admin
             }
             else
             {
+                //*/
+                try
+                {
 
+                }
+                catch (Exception ex)
+                {
+
+                }
+                //*/
             }
             return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
         }

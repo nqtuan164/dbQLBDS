@@ -77,10 +77,38 @@ BEGIN
 	
 	SELECT TOP(@pagesize)*
 	FROM(
-		SELECT  *, ROW_NUMBER() OVER(ORDER BY mataikhoan) AS NUM
+		SELECT  *, ROW_NUMBER() OVER(ORDER BY mataikhoan) AS num
 		FROM taikhoan
-		)AS A
-	WHERE NUM > @start
+		)AS a
+	WHERE num > @start
 	
 	RETURN @count
 END
+GO
+
+
+-----------------THUE CAN HO-----------------
+CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]
+	@page INT,
+	@pagesize INT,
+	@count INT OUTPUT
+AS
+BEGIN
+	SELECT @count = COUNT(*)
+	FROM canho
+
+	DECLARE @start INT
+	SET @start = @pagesize * (@page - 1)
+
+	SELECT TOP(@pagesize) * 
+	FROM 
+	(
+		SELECT * , ROW_NUMBER() OVER (ORDER BY mathuecanho ASC, thoigiangiaodich DESC) as num
+		FROM thuecanho
+		WHERE kichhoat = 1
+	) AS a
+	WHERE num > @start
+
+	RETURN @count
+END
+

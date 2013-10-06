@@ -13,7 +13,7 @@ namespace QLBDS.Controllers.Admin
 {
     public class TaiKhoanController : Controller
     {
-        protected static int RowPerPage = 10;
+        protected static int RowPerPage = 15;
         public int isLogin()
         {
             if (Session["taikhoan"] != null)
@@ -82,13 +82,13 @@ namespace QLBDS.Controllers.Admin
                         switch((int)dt.Rows[i]["maloaitaikhoan"])
                         {
                             case 1:
-                                tk.TrangThai = (int)LoaiTaiKhoan.Admin;
+                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Admin;
                                 break;
                             case 2:
-                                tk.TrangThai = (int)LoaiTaiKhoan.Member;
+                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Member;
                                 break;
                             case 3:
-                                tk.TrangThai = (int)LoaiTaiKhoan.Sales;
+                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Sales;
                                 break;
                         }
                         
@@ -104,7 +104,16 @@ namespace QLBDS.Controllers.Admin
                         }
                         
                         tk.NgayDangKy = (DateTime)dt.Rows[i]["ngaydangky"];
-                        tk.TrangThai = (int)dt.Rows[i]["trangthai"];
+
+                        switch ((int)dt.Rows[i]["trangthai"])
+                        {
+                            case 0:
+                                tk.TrangThai = TrangThaiTaiKhoan.Deactive;
+                                break;
+                            case 1:
+                                tk.TrangThai = TrangThaiTaiKhoan.Active;
+                                break;
+                        }
 
                         ls.Add(tk);
                     }

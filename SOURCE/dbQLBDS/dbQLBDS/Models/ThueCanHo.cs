@@ -8,7 +8,10 @@ namespace dbQLBDS.Models
     public class ThueCanHo
     {
         private int maThueCanHo;
+        
         private int maTaiKhoan;
+
+
         private int maCanHo;
         private float tienCoc;
         private DateTime thoiGianThue;
@@ -74,6 +77,23 @@ namespace dbQLBDS.Models
             get { return kichHoat; }
             set { kichHoat = value; }
         }
+
+
+        public ThueCanHo()
+        {
+            this.maThueCanHo = 0;
+            this.maTaiKhoan = 0;
+            this.maCanHo = 0;
+            this.tienCoc = 0;
+            this.thoiGianThue = DateTime.Now;
+            this.thoiGianKetThuc = DateTime.Now;
+            this.thoiGianGiaoDich = DateTime.Now;
+            this.dienThoai = "";
+            this.diaChi = "";
+            this.ghiChu = "";
+            this.kichHoat = 1;
+        }
+
 
         public ThueCanHo(int _maThueCanHo, int _maTaiKhoan, int _maCanHo, float _tienCoc, DateTime _thoiGianThue,
                             DateTime _thoiGianKetThuc, DateTime _thoiGianGiaoDich, string _dienThoai, string _diaChi,

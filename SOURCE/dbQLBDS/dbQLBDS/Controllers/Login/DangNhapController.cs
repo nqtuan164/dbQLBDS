@@ -73,6 +73,16 @@ namespace dbQLBDS.Controllers.Login
                                 Session.Add("taikhoan", tk);
                                 return Redirect("/Admin/");
                         };
+
+                        switch ((int)dt.Rows[0]["trangthai"])
+                        {
+                            case 0:
+                                tk.TrangThai = TrangThaiTaiKhoan.Deactive;
+                                break;
+                            case 1:
+                                tk.TrangThai = TrangThaiTaiKhoan.Active;
+                                break;
+                        }
                     }
                     else
                     {

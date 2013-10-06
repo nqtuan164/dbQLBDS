@@ -6,6 +6,12 @@ using System.Web;
 
 namespace dbQLBDS.Models
 {
+    public enum TrangThaiTaiKhoan
+    {
+        Active = 1,
+        Deactive = 0
+    }
+
     public enum LoaiTaiKhoan
     {
         Admin = 1,
@@ -24,7 +30,7 @@ namespace dbQLBDS.Models
         string diaChi;
         string dienThoai;
         DateTime ngayDangKy;
-        int trangThai;
+        TrangThaiTaiKhoan trangThai;
 
         
         public int MaTaiKhoan
@@ -64,7 +70,7 @@ namespace dbQLBDS.Models
             set { ten = value; }
         }
 
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime NgaySinh
         {
             get { return ngaySinh; }
@@ -83,13 +89,14 @@ namespace dbQLBDS.Models
             set { dienThoai = value; }
         }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime NgayDangKy
         {
             get { return ngayDangKy; }
             set { ngayDangKy = value; }
         }
 
-        public int TrangThai
+        public TrangThaiTaiKhoan TrangThai
         {
             get { return trangThai; }
             set { trangThai = value; }
@@ -118,7 +125,7 @@ namespace dbQLBDS.Models
                         string diachi, 
                         string dienthoai, 
                         DateTime ngaydk, 
-                        int trangthai)
+                        TrangThaiTaiKhoan trangthai)
         {
             this.maTaiKhoan = matk;
             this.email = mail;

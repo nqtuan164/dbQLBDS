@@ -58,7 +58,7 @@
 
     <div class="editor-item">
         <div class="editor-label">
-            Ngày đăng ký: <span class="required-field">*</span>
+            Ngày đăng ký: 
         </div>
         <div class="editor-input">
             
@@ -73,9 +73,7 @@
         </div>
         <div class="editor-input">
             <select name="MaTrangThaiCanHo" id="MaTrangThaiTaiKhoan" >
-                <option value ="1" @if (Model.TrangThai == 1) { @Html.Raw("selected"); }>Đã được thuê</option>
-                <option value ="2" @if (Model.TrangThai == 2) { @Html.Raw("selected"); }>Chưa được thuê</option>
-                <option value ="3" @if (Model.TrangThai == 3) { @Html.Raw("selected"); }>Đang xây dựng</option>
+                
             </select>
         </div>
     </div>

@@ -96,13 +96,13 @@ namespace QLBDS.Controllers.Admin
                         switch ((int)dt.Rows[i]["matrangthaicanho"])
                         {
                             case 1:
-                                item.MaTrangThaiCanHo = TrangThaiCanHo.Da_Duoc_Thue;
+                                item.TrangThaiCanHo = TrangThaiCanHo.Da_Duoc_Thue;
                                 break;
                             case 2:
-                                item.MaTrangThaiCanHo = TrangThaiCanHo.Chua_Duoc_Thue;
+                                item.TrangThaiCanHo = TrangThaiCanHo.Chua_Duoc_Thue;
                                 break;
                             case 3:
-                                item.MaTrangThaiCanHo = TrangThaiCanHo.Dang_Xay_Dung;
+                                item.TrangThaiCanHo = TrangThaiCanHo.Dang_Xay_Dung;
                                 break;
                         }
 
@@ -150,10 +150,56 @@ namespace QLBDS.Controllers.Admin
             }
             else
             {
+                List<ThanhPho> lsThanhPho = new List<ThanhPho>();
+                lsThanhPho = ThanhPhoController.ListThanhPho();
+                ViewBag.MaThanhPho = new SelectList(lsThanhPho, "mathanhpho", "tenthanhpho");
 
+                List<Quan> lsQuan = new List<Quan>();
+                lsQuan = QuanController.ListQuan();
+                ViewBag.MaQuan = new SelectList(lsQuan, "maquan", "tenquan");
+
+                List<Duong> lsDuong = new List<Duong>();
+                lsDuong = DuongController.ListDuong();
+                ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong");
             }
             return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
         }
+
+        [HttpPost]
+        public ActionResult TaoCanHo(CanHo canho)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                }
+                catch (Exception ex)
+                {
+
+                }
+                List<ThanhPho> lsThanhPho = new List<ThanhPho>();
+                lsThanhPho = ThanhPhoController.ListThanhPho();
+                ViewBag.MaThanhPho = new SelectList(lsThanhPho, "mathanhpho", "tenthanhpho");
+
+                List<Quan> lsQuan = new List<Quan>();
+                lsQuan = QuanController.ListQuan();
+                ViewBag.MaQuan = new SelectList(lsQuan, "maquan", "tenquan");
+
+                List<Duong> lsDuong = new List<Duong>();
+                lsDuong = DuongController.ListDuong();
+                ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong");
+            }
+            return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
+        }
+
 
         //
         // POST: /CanHo/ChinhSuaCanHo
@@ -172,16 +218,158 @@ namespace QLBDS.Controllers.Admin
                 //*/
                 try
                 {
+                    string sql = @"SELECT * , tk.ten as tennguoidang
+                                   FROM canho ch, taikhoan tk 
+                                   WHERE 
+                                        tk.mataikhoan = ch.nguoidang AND 
+                                        ch.macanho = " + id.ToString() + @" AND 
+                                        ch.kichhoat = 1 ";
+
+                    DataProvider dp = new DataProvider();
+                    DataTable dt = new DataTable();
+                    dt = dp.ExecuteQuery(sql);
+
+                    CanHo item = new CanHo();
+                    if (dt.Rows.Count == 1)
+                    {
+                        item.MaCanHo = (int)dt.Rows[0]["macanho"];
+                        item.TenCanHo = (string)dt.Rows[0]["tencanho"];
+                        item.MaDuong = (int)dt.Rows[0]["maduong"];
+                        item.DiaChi = (string)dt.Rows[0]["diachi"];
+
+                        if (dt.Rows[0]["mieuta"] != DBNull.Value)
+                        {
+                            item.MieuTa = (string)dt.Rows[0]["mieuta"];
+                        }
+
+                        item.ToaDo = (string)dt.Rows[0]["toado"];
+                        item.GiaThue = (double)dt.Rows[0]["giathue"];
+                        item.DienTich = (double)dt.Rows[0]["dientich"];
+                        item.MaTrangThaiCanHo = (int)dt.Rows[0]["matrangthaicanho"];
+
+                        switch ((int)dt.Rows[0]["matrangthaicanho"])
+                        {
+                            case 1:
+                                item.TrangThaiCanHo = TrangThaiCanHo.Da_Duoc_Thue;
+                                break;
+                            case 2:
+                                item.TrangThaiCanHo = TrangThaiCanHo.Chua_Duoc_Thue;
+                                break;
+                            case 3:
+                                item.TrangThaiCanHo = TrangThaiCanHo.Dang_Xay_Dung;
+                                break;
+                        }
+
+                        item.NgayDang = (DateTime)dt.Rows[0]["ngaydang"];
+                        item.NguoiDang = (int)dt.Rows[0]["nguoidang"];
+                        item.TenNguoiDang = (string)dt.Rows[0]["tennguoidang"];
+
+                        if (dt.Rows[0]["ghichu"] != DBNull.Value)
+                        {
+                            item.GhiChu = (string)dt.Rows[0]["ghichu"];
+                        }
+
+                        item.KichHoat = (int)dt.Rows[0]["kichhoat"];
+
+                        List<ThanhPho> lsThanhPho = new List<ThanhPho>();
+                        lsThanhPho = ThanhPhoController.ListThanhPho();
+                        ViewBag.MaThanhPho = new SelectList(lsThanhPho, "mathanhpho", "tenthanhpho");
+
+                        List<Quan> lsQuan = new List<Quan>();
+                        lsQuan = QuanController.ListQuan();
+                        ViewBag.MaQuan = new SelectList(lsQuan, "maquan", "tenquan");
+
+                        List<Duong> lsDuong = new List<Duong>();
+                        lsDuong = DuongController.ListDuong();
+                        ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong", item.MaDuong);
+
+                        ViewBag.ErrorMessage = "Cập nhật thành công!";
+                        return View("~/Views/Admin/CanHo/ChinhSuaCanHo.cshtml", item);
+                    }
+                    return Redirect("/Admin/CanHo/");
+                }
+                catch (Exception ex)
+                {
+                    return Redirect("/Admin/CanHo/");
+                }
+                //*/
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult ChinhSuaCanHo(CanHo canho)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                //*/
+                try
+                {
+                    DataProvider dp = new DataProvider();
+
+                    SqlParameter[] param = new SqlParameter[9];
+                    param[0] = new SqlParameter("@macanho", SqlDbType.Int);
+                    param[0].Value = canho.MaCanHo;
+
+                    param[1] = new SqlParameter("@tencanho", SqlDbType.NVarChar);
+                    param[1].Value = canho.TenCanHo;
+
+                    param[2] = new SqlParameter("@maduong", SqlDbType.Int);
+                    param[2].Value = canho.MaDuong;
+
+                    param[3] = new SqlParameter("@diachi", SqlDbType.NVarChar);
+                    param[3].Value = canho.DiaChi;
+
+                    param[4] = new SqlParameter("@mieuta", SqlDbType.NVarChar);
+                    param[4].Value = canho.MieuTa;
+
+                    param[5] = new SqlParameter("@toado", SqlDbType.NVarChar);
+                    param[5].Value = canho.ToaDo;
+
+                    param[6] = new SqlParameter("@giathue", SqlDbType.Float);
+                    param[6].Value = canho.GiaThue;
+
+                    param[7] = new SqlParameter("@dientich", SqlDbType.Float);
+                    param[7].Value = canho.DienTich;
+
+                    param[8] = new SqlParameter("@matrangthaicanho", SqlDbType.Int);
+                    param[8].Value = canho.MaTrangThaiCanHo;
+
+                    dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo", ref param);
+
+                    return Redirect("/Admin/CanHo/");
 
                 }
                 catch (Exception ex)
                 {
+                    List<ThanhPho> lsThanhPho = new List<ThanhPho>();
+                    lsThanhPho = ThanhPhoController.ListThanhPho();
+                    ViewBag.MaThanhPho = new SelectList(lsThanhPho, "mathanhpho", "tenthanhpho");
 
+                    List<Quan> lsQuan = new List<Quan>();
+                    lsQuan = QuanController.ListQuan();
+                    ViewBag.MaQuan = new SelectList(lsQuan, "maquan", "tenquan");
+
+                    List<Duong> lsDuong = new List<Duong>();
+                    lsDuong = DuongController.ListDuong();
+                    ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong", canho.MaDuong);
+                    ViewBag.ErrorMessage = "";
+                    return View("~/Views/Admin/CanHo/ChinhSuaCanHo.cshtml", canho);
                 }
                 //*/
             }
-            return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
+
+            
         }
+
 
     }
 }

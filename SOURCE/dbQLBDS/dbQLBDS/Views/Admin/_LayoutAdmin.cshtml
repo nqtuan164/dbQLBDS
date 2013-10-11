@@ -12,6 +12,14 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </head>
 <body>
+    @{
+        if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "") 
+        {
+            <script type="text/javascript">
+                alert("@ViewBag.ErrorMessage");
+            </script>
+        }
+    }
     <div id="container">
         
         @{

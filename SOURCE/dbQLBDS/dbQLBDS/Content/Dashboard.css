@@ -191,7 +191,7 @@ input[type=text] {
 
 input[type=button], input[type=submit] {
     display: block;
-    padding: 0.5em 0.7em;
+    padding: 0.5em 1.9em;
     outline: none;
     color: #e7e7e7;
     background: #336ca6;
@@ -199,6 +199,7 @@ input[type=button], input[type=submit] {
     text-decoration: none;
     text-transform:uppercase;
     border: 0px;
+    font-size: 17px;
 }
 
 textarea {
@@ -255,6 +256,6 @@ select {
 
 .map-api {
     width:99%;
-    height: 300px;
+    height: 400px;
     border: 1px solid #295685;
 }

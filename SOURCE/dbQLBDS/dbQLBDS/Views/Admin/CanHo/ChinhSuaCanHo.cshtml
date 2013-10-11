@@ -1,11 +1,14 @@
-﻿@{
-    ViewBag.Title = "ChinhSuaCanHo";
+﻿@model dbQLBDS.Models.CanHo
+@{
+    ViewBag.Title = "Chỉnh sửa căn hộ";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
 }
 
 <h2 class="dashboard-title">Chỉnh sửa căn hộ</h2>
 
+@using(Html.BeginForm()) {
 <div class="editor-field">
+    @Html.HiddenFor(model => model.MaCanHo)
     <h3 class="editor-field-title">THÔNG TIN CHUNG</h3>
     
     <div class="editor-item">
@@ -13,7 +16,7 @@
             Tên căn hộ: <span class="required-field">*</span>
         </div>
         <div class="editor-input">
-            <input type="text" name="txtTenCanHo" id="txtTenCanHo" class="input-txt" />
+            @Html.EditorFor(model => model.TenCanHo, new { @class = "input-txt" })
         </div>
     </div>
 
@@ -22,7 +25,7 @@
             Miêu tả: 
         </div>
         <div class="editor-input">
-            <textarea id="txtMieuTa" name="txtMieuTa" ></textarea>
+            @Html.TextAreaFor(model => model.MieuTa, new { @class = "input-txt" })
         </div>
     </div>
 
@@ -31,7 +34,7 @@
             Giá thuê: <span class="required-field">*</span>
         </div>
         <div class="editor-input">
-            <input type="text" name="txtGiaThue" id="txtGiaThue" class="input-txt" />
+            @Html.EditorFor(model => model.GiaThue, new { @class = "input-txt" })
         </div>
     </div>
 
@@ -40,18 +43,18 @@
             Diện tích: <span class="required-field">*</span>
         </div>
         <div class="editor-input">
-            <input type="text" name="txtDienTich" id="txtDienTich" class="input-txt" />
+            @Html.EditorFor(model => model.DienTich, new { @class = "input-txt" })
         </div>
     </div>
 
-    <h3 class="editor-field-title">VỊ Trí địa lý</h3>
+    <h3 class="editor-field-title">VỊ TRÍ ĐỊA LÝ</h3>
     
     <div class="editor-item">
         <div class="editor-label">
             Địa chỉ: <span class="required-field">*</span>
         </div>
         <div class="editor-input">
-            <input type="text" name="txtDiaChi" id="txtDiaChi" class="input-txt" />
+            @Html.EditorFor(model => model.DiaChi, new { @class = "input-txt" })
         </div>
     </div>
 
@@ -60,10 +63,9 @@
             &nbsp;
         </div>
         <div class="editor-input">
-            <select class="">
-                <option value="1">Hà Nội</option>
-                <option value="2">Hồ Chí Minh</option>
-            </select>
+            
+            @Html.DropDownList("MaThanhPho", string.Empty)
+            
         </div>
     </div>
 
@@ -73,10 +75,9 @@
             &nbsp;
         </div>
         <div class="editor-input">
-            <select class="">
-                <option value="1">Hà Nội</option>
-                <option value="2">Hồ Chí Minh</option>
-            </select>
+
+            @Html.DropDownList("MaQuan", string.Empty)
+           
         </div>
     </div>
 
@@ -85,10 +86,9 @@
             &nbsp;
         </div>
         <div class="editor-input">
-            <select class="">
-                <option value="1">Hà Nội</option>
-                <option value="2">Hồ Chí Minh</option>
-            </select>
+            
+            @Html.DropDownList("MaDuong", string.Empty)
+
         </div>
     </div>
     
@@ -97,16 +97,18 @@
             Tọa độ: <span class="required-field">*</span>
         </div>
         <div class="editor-input">
-            <input type="text" name="txtToaDo" id="txtToaDo" class="input-txt" />
+            
+            @Html.EditorFor(model => model.ToaDo, new { @class = "input-txt" })
+            
         </div>
     </div>
 
     <div class="editor-item">
         <div class="editor-label">
-            &nbsp;
+            
         </div>
         <div class="editor-input">
-            <div class="map-api">
+            <div class="map-api" id="map-canvas">
 
             </div>
         </div>
@@ -116,10 +118,23 @@
 
     <div class="editor-item">
         <div class="editor-label">
+            Trạng thái căn hộ: 
+        </div>
+        <div class="editor-input">
+            <select name="MaTrangThaiCanHo" id="MaTrangThaiCanHo" >
+                <option value ="1" @if (Model.MaTrangThaiCanHo == 1) { @Html.Raw("selected"); }>Đã được thuê</option>
+                <option value ="2" @if (Model.MaTrangThaiCanHo == 2) { @Html.Raw("selected"); }>Chưa được thuê</option>
+                <option value ="3" @if (Model.MaTrangThaiCanHo == 3) { @Html.Raw("selected"); }>Đang xây dựng</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
             Ngày đăng: 
         </div>
         <div class="editor-input">
-            <input type="text" name="txtNgayDang" id="txtNgayDang" class="input-txt" value="@DateTime.Now.ToShortDateString()" disabled/>
+            @Html.DisplayFor(model => model.NgayDang)
         </div>
     </div>
 
@@ -128,13 +143,12 @@
             Người đăng: 
         </div>
         <div class="editor-input">
-            <input type="text" name="txtNguoiDang" id="txtNguoiDang" class="input-txt" value="Nguyễn Quốc Tuấn" disabled/>
+            @Html.DisplayFor(model => model.TenNguoiDang)
         </div>
     </div>
-
-
-
-
-
-
+    
+    <br />
+    <input type="submit" name="btnSave" value="Lưu thay đổi" />
+        
 </div>
+}

@@ -1,0 +1,88 @@
+﻿@model dbQLBDS.Models.TaiKhoan
+@{
+    ViewBag.Title = "ChinhSuaTaiKhoan";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+<h2>ChinhSuaTaiKhoan</h2>
+
+@using(Html.BeginForm()) {
+<div class="editor-field">
+    @Html.HiddenFor(model => model.MaTaiKhoan)
+    <h3 class="editor-field-title">THÔNG TIN CHUNG</h3>
+    
+    <div class="editor-item">
+        <div class="editor-label">
+            Email: 
+        </div>
+        <div class="editor-input">
+            
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Tên người dùng: 
+        </div>
+        <div class="editor-input">
+            
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Ngày sinh: 
+        </div>
+        <div class="editor-input">
+            
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Địa chỉ: 
+        </div>
+        <div class="editor-input">
+            
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Điện thoại: 
+        </div>
+        <div class="editor-input">
+            
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Ngày đăng ký: <span class="required-field">*</span>
+        </div>
+        <div class="editor-input">
+            
+        </div>
+    </div>
+
+    <h3 class="editor-field-title">TRẠNG THÁI</h3>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Trạng thái tài khoản: 
+        </div>
+        <div class="editor-input">
+            <select name="MaTrangThaiCanHo" id="MaTrangThaiTaiKhoan" >
+                <option value ="1" @if (Model.TrangThai == 1) { @Html.Raw("selected"); }>Đã được thuê</option>
+                <option value ="2" @if (Model.TrangThai == 2) { @Html.Raw("selected"); }>Chưa được thuê</option>
+                <option value ="3" @if (Model.TrangThai == 3) { @Html.Raw("selected"); }>Đang xây dựng</option>
+            </select>
+        </div>
+    </div>
+    
+    <br />
+    <input type="submit" name="btnSave" value="Lưu thay đổi" />
+        
+</div>
+}
+

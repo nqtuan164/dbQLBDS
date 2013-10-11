@@ -33,6 +33,22 @@ namespace QLBDS.Controllers.Admin
             return 1;
         }
 
+        public ActionResult ChinhSuaTaiKhoan(int id)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml");
+            }
+        }
+
         //
         // GET: /TaiKhoan_/
 

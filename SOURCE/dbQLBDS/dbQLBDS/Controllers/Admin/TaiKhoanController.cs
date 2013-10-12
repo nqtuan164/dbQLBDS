@@ -148,7 +148,7 @@ namespace QLBDS.Controllers.Admin
             {
                 try
                 {
-                    string sql = @"SELECT * ,tk.ten as tentaikhoan
+                    string sql = @"SELECT *
                                    FROM taikhoan tk
                                    WHERE
                                         tk.mataikhoan = " + id.ToString();
@@ -166,6 +166,21 @@ namespace QLBDS.Controllers.Admin
                         tk.DienThoai = (string)dt.Rows[0]["dienthoai"];
                         tk.NgayDangKy = (DateTime)dt.Rows[0]["ngaydangky"];
 
+                        tk.MaLoaiTaiKhoan = (int)dt.Rows[0]["maloaitaikhoan"];
+                        switch (tk.MaLoaiTaiKhoan)
+                        {
+                            case 1:
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Admin;
+                                break;
+                            case 2:
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Member;
+                                break;
+                            case 3:
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Sales;
+                                break;
+                        }
+
+                        tk.MaTrangThai = (int)dt.Rows[0]["trangthai"];
                         switch ((int)dt.Rows[0]["trangthai"])
                         {
                             case 1:
@@ -175,7 +190,7 @@ namespace QLBDS.Controllers.Admin
                                 tk.TrangThai = TrangThaiTaiKhoan.Deactive;
                                 break;
                         }
-                        ViewBag.ErrorMessage = "Cập nhật thành công";
+
                         return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml", tk);
                     }
                     return Redirect("/Admin/TaiKhoan/");
@@ -184,8 +199,6 @@ namespace QLBDS.Controllers.Admin
                 {
                     return Redirect("/Admin/TaiKhoan/");
                 }
-
-                return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml");
             }
         }
 

@@ -34,6 +34,12 @@ namespace dbQLBDS.Models
         TrangThaiTaiKhoan trangThai;
         int maTrangThai;
 
+        public int MaTaiKhoan
+        {
+            get { return maTaiKhoan; }
+            set { maTaiKhoan = value; }
+        }
+
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email
@@ -51,6 +57,12 @@ namespace dbQLBDS.Models
 
         [Required]
         public string XacNhanMatKhau { get; set; }
+
+        public int MaLoaiTaiKhoan
+        {
+            get { return maLoaiTaiKhoan; }
+            set { maLoaiTaiKhoan = value; }
+        }
 
         public LoaiTaiKhoan LoaiTaiKhoan
         {
@@ -91,28 +103,16 @@ namespace dbQLBDS.Models
             set { ngayDangKy = value; }
         }
 
-        public TrangThaiTaiKhoan TrangThai
-        {
-            get { return trangThai; }
-            set { trangThai = value; }
-        }
-
-        public int MaLoaiTaiKhoan
-        {
-            get { return maLoaiTaiKhoan; }
-            set { maLoaiTaiKhoan = value; }
-        }
-
-        public int MaTaiKhoan
-        {
-            get { return maTaiKhoan; }
-            set { maTaiKhoan = value; }
-        }
-
         public int MaTrangThai
         {
             get { return maTrangThai; }
             set { maTrangThai = value; }
+        }
+
+        public TrangThaiTaiKhoan TrangThai
+        {
+            get { return trangThai; }
+            set { trangThai = value; }
         }
 
         public TaiKhoan()

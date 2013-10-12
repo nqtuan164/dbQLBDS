@@ -160,6 +160,27 @@ BEGIN
 END
 GO
 
+CREATE PROC sp_ChinhSuaTaiKhoan
+	@mataikhoan int,
+	@maloaitaikhoan int,
+	@trangthai int
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM taikhoan WHERE maloaitaikhoan = @mataikhoan)
+	BEGIN
+		RAISERROR(N'Không tìm thấy tài khoản cần chỉnh sửa', 10, 1)
+	END
+	
+	UPDATE taikhoan
+	SET maloaitaikhoan = @maloaitaikhoan,
+		trangthai = @trangthai
+	WHERE mataikhoan = @mataikhoan
+	
+	RETURN	
+	
+END
+GO
+exec sp_ChinhSuaTaiKhoan 1, 3, 1
 
 -----------------THUE CAN HO-----------------
 CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]

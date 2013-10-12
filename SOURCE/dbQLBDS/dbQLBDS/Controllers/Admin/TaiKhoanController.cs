@@ -33,22 +33,6 @@ namespace QLBDS.Controllers.Admin
             return 1;
         }
 
-        public ActionResult ChinhSuaTaiKhoan(int id)
-        {
-            if (isLogin() == -1)
-            {
-                return Redirect("/DangNhap");
-            }
-            else if (isLogin() == 2)
-            {
-                return Redirect("/");
-            }
-            else
-            {
-                return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml");
-            }
-        }
-
         //
         // GET: /TaiKhoan_/
 
@@ -148,6 +132,61 @@ namespace QLBDS.Controllers.Admin
 
             }
             
+        }
+
+        public ActionResult ChinhSuaTaiKhoan(int id) // hiển thị thông tin tài khoản
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                    string sql = @"SELECT * ,tk.ten as tentaikhoan
+                                   FROM taikhoan tk
+                                   WHERE
+                                        tk.mataikhoan = " + id.ToString();
+                    DataProvider dp = new DataProvider();
+                    DataTable dt = new DataTable();
+                    dt = dp.ExecuteQuery(sql);
+
+                    TaiKhoan tk = new TaiKhoan();
+                    if (dt.Rows.Count == 1)
+                    {
+                        tk.Email = (string)dt.Rows[0]["email"];
+                        tk.Ten = (string)dt.Rows[0]["ten"];
+                        tk.NgaySinh = (DateTime)dt.Rows[0]["ngaysinh"];
+                        tk.DiaChi = (string)dt.Rows[0]["diachi"];
+                        tk.DienThoai = (string)dt.Rows[0]["dienthoai"];
+                        tk.NgayDangKy = (DateTime)dt.Rows[0]["ngaydangky"];
+
+                        switch ((int)dt.Rows[0]["trangthai"])
+                        {
+                            case 1:
+                                tk.TrangThai = TrangThaiTaiKhoan.Active;
+                                break;
+                            case 0:
+                                tk.TrangThai = TrangThaiTaiKhoan.Deactive;
+                                break;
+                        }
+                        ViewBag.ErrorMessage = "Cập nhật thành công";
+                        return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml", tk);
+                    }
+                    return Redirect("/Admin/TaiKhoan/");
+                }
+                catch (Exception ex)
+                {
+                    return Redirect("/Admin/TaiKhoan/");
+                }
+
+                return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml");
+            }
         }
 
     }

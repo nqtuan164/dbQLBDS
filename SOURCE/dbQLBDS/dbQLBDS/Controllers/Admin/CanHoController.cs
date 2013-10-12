@@ -180,24 +180,31 @@ namespace QLBDS.Controllers.Admin
             {
                 try
                 {
+                    SqlParameter[] param = new SqlParameter[9]; 
+
+
+                    return Redirect("/Admin/CanHo/");
                 }
                 catch (Exception ex)
                 {
+                    List<ThanhPho> lsThanhPho = new List<ThanhPho>();
+                    lsThanhPho = ThanhPhoController.ListThanhPho();
+                    ViewBag.MaThanhPho = new SelectList(lsThanhPho, "mathanhpho", "tenthanhpho");
 
+                    List<Quan> lsQuan = new List<Quan>();
+                    lsQuan = QuanController.ListQuan();
+                    ViewBag.MaQuan = new SelectList(lsQuan, "maquan", "tenquan");
+
+                    List<Duong> lsDuong = new List<Duong>();
+                    lsDuong = DuongController.ListDuong();
+                    ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong");
+
+                    ViewBag.ErrorMessage = "Khởi tạo không thành công";
+                    return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
                 }
-                List<ThanhPho> lsThanhPho = new List<ThanhPho>();
-                lsThanhPho = ThanhPhoController.ListThanhPho();
-                ViewBag.MaThanhPho = new SelectList(lsThanhPho, "mathanhpho", "tenthanhpho");
-
-                List<Quan> lsQuan = new List<Quan>();
-                lsQuan = QuanController.ListQuan();
-                ViewBag.MaQuan = new SelectList(lsQuan, "maquan", "tenquan");
-
-                List<Duong> lsDuong = new List<Duong>();
-                lsDuong = DuongController.ListDuong();
-                ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong");
+                
             }
-            return View("~/Views/Admin/CanHo/TaoCanHo.cshtml");
+            
         }
 
 
@@ -283,7 +290,6 @@ namespace QLBDS.Controllers.Admin
                         lsDuong = DuongController.ListDuong();
                         ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong", item.MaDuong);
 
-                        ViewBag.ErrorMessage = "Cập nhật thành công!";
                         return View("~/Views/Admin/CanHo/ChinhSuaCanHo.cshtml", item);
                     }
                     return Redirect("/Admin/CanHo/");
@@ -345,6 +351,7 @@ namespace QLBDS.Controllers.Admin
 
                     dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo", ref param);
 
+                    ViewBag.ErrorMessage = "Cập nhật thành công!";
                     return Redirect("/Admin/CanHo/");
 
                 }

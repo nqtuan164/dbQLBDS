@@ -24,20 +24,15 @@ namespace dbQLBDS.Models
         int maTaiKhoan;
         string email;
         string matKhau;
-        LoaiTaiKhoan maLoaiTaiKhoan;
+        LoaiTaiKhoan loaiTaiKhoan;
+        int maLoaiTaiKhoan;
         string ten;
         DateTime ngaySinh;
         string diaChi;
         string dienThoai;
         DateTime ngayDangKy;
         TrangThaiTaiKhoan trangThai;
-
-        
-        public int MaTaiKhoan
-        {
-            get { return maTaiKhoan; }
-            set { maTaiKhoan = value; }
-        }
+        int maTrangThai;
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -57,10 +52,10 @@ namespace dbQLBDS.Models
         [Required]
         public string XacNhanMatKhau { get; set; }
 
-        public LoaiTaiKhoan MaLoaiTaiKhoan
+        public LoaiTaiKhoan LoaiTaiKhoan
         {
-            get { return maLoaiTaiKhoan; }
-            set { maLoaiTaiKhoan = value; }
+            get { return loaiTaiKhoan; }
+            set { loaiTaiKhoan = value; }
         }
 
         [Required]
@@ -102,41 +97,64 @@ namespace dbQLBDS.Models
             set { trangThai = value; }
         }
 
+        public int MaLoaiTaiKhoan
+        {
+            get { return maLoaiTaiKhoan; }
+            set { maLoaiTaiKhoan = value; }
+        }
+
+        public int MaTaiKhoan
+        {
+            get { return maTaiKhoan; }
+            set { maTaiKhoan = value; }
+        }
+
+        public int MaTrangThai
+        {
+            get { return maTrangThai; }
+            set { maTrangThai = value; }
+        }
+
         public TaiKhoan()
         {
             this.maTaiKhoan = 0;
             this.email = "";
             this.matKhau = "";
-            this.maLoaiTaiKhoan = 0;
+            this.loaiTaiKhoan = 0;
             this.ten = "";
             this.ngaySinh = DateTime.Now;
             this.diaChi = "";
             this.dienThoai = "";
             this.ngayDangKy = DateTime.Now;
             this.trangThai = 0;
+            this.maLoaiTaiKhoan = 0;
         }
 
         public TaiKhoan(int matk, 
                         string mail, 
                         string matkhau, 
-                        LoaiTaiKhoan maloai, 
+                        LoaiTaiKhoan loai,
+                        int maLoaiTaiKhoan,
                         string Ten, 
                         DateTime ngaysinh, 
                         string diachi, 
                         string dienthoai, 
                         DateTime ngaydk, 
-                        TrangThaiTaiKhoan trangthai)
+                        TrangThaiTaiKhoan trangthai,
+                        int maTrangThai)
         {
             this.maTaiKhoan = matk;
             this.email = mail;
             this.matKhau = matkhau;
-            this.maLoaiTaiKhoan = maloai;
+            this.loaiTaiKhoan = loai;
+            this.maLoaiTaiKhoan = maLoaiTaiKhoan;
             this.ten = Ten;
             this.ngaySinh = ngaysinh;
             this.diaChi = diachi;
             this.dienThoai = dienthoai;
             this.ngayDangKy = ngaydk;
             this.trangThai = trangthai;
+            this.maTrangThai = maTrangThai;
         }
 
     }

@@ -21,7 +21,7 @@ namespace QLBDS.Controllers.Admin
             {
                 TaiKhoan tk = new TaiKhoan();
                 tk = (TaiKhoan)Session["taikhoan"];
-                switch (tk.MaLoaiTaiKhoan)
+                switch (tk.LoaiTaiKhoan)
                 {
                     case LoaiTaiKhoan.Admin:
                         return 1;

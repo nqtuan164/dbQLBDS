@@ -20,7 +20,7 @@ namespace QLBDS.Controllers.Admin
             {
                 TaiKhoan tk = new TaiKhoan();
                 tk = (TaiKhoan)Session["taikhoan"];
-                switch (tk.MaLoaiTaiKhoan)
+                switch (tk.LoaiTaiKhoan)
                 {
                     case LoaiTaiKhoan.Admin:
                         return 1;
@@ -82,13 +82,13 @@ namespace QLBDS.Controllers.Admin
                         switch((int)dt.Rows[i]["maloaitaikhoan"])
                         {
                             case 1:
-                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Admin;
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Admin;
                                 break;
                             case 2:
-                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Member;
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Member;
                                 break;
                             case 3:
-                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Sales;
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Sales;
                                 break;
                         }
                         

@@ -61,15 +61,15 @@ namespace dbQLBDS.Controllers.Login
                         switch ((int)dt.Rows[0]["maloaitaikhoan"])
                         {
                             case 1:
-                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Admin;
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Admin;
                                 Session.Add("taikhoan", tk);
                                 return Redirect("/Admin/CanHo");
                             case 2:
-                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Member;
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Member;
                                 Session.Add("taikhoan", tk);
                                 break;
                             case 3:
-                                tk.MaLoaiTaiKhoan = LoaiTaiKhoan.Sales;
+                                tk.LoaiTaiKhoan = LoaiTaiKhoan.Sales;
                                 Session.Add("taikhoan", tk);
                                 return Redirect("/Admin/");
                         };

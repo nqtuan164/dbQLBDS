@@ -31,7 +31,7 @@ namespace dbQLBDS.Controllers.Login
                 {
 
                     taikhoan.NgayDangKy = DateTime.Now;
-                    taikhoan.MaLoaiTaiKhoan = LoaiTaiKhoan.Member;
+                    taikhoan.LoaiTaiKhoan = LoaiTaiKhoan.Member;
                     taikhoan.TrangThai = TrangThaiTaiKhoan.Active;
 
                     using (MD5 md5hash = MD5.Create())
@@ -50,7 +50,7 @@ namespace dbQLBDS.Controllers.Login
                     param[1].Value = taikhoan.MatKhau;
 
                     param[2] = new SqlParameter("@maloaitaikhoan", SqlDbType.Int);
-                    param[2].Value = taikhoan.MaLoaiTaiKhoan;
+                    param[2].Value = taikhoan.LoaiTaiKhoan;
 
                     param[3] = new SqlParameter("@ten", SqlDbType.NVarChar);
                     param[3].Value = taikhoan.Ten;

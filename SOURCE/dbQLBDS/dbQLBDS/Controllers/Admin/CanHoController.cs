@@ -180,9 +180,44 @@ namespace QLBDS.Controllers.Admin
             {
                 try
                 {
-                    SqlParameter[] param = new SqlParameter[9]; 
+                    TaiKhoan tk = new TaiKhoan();
+                    tk = (TaiKhoan)Session["taikhoan"];
 
+                    SqlParameter[] param = new SqlParameter[10];
+                    param[0] = new SqlParameter("@tencanho", SqlDbType.NVarChar);
+                    param[0].Value = canho.TenCanHo;
 
+                    param[1] = new SqlParameter("@maduong", SqlDbType.Int);
+                    param[1].Value = canho.MaDuong;
+
+                    param[2] = new SqlParameter("@diachi", SqlDbType.NVarChar);
+                    param[2].Value = canho.DiaChi;
+
+                    param[3] = new SqlParameter("@mieuta", SqlDbType.NVarChar);
+                    param[3].Value = canho.MieuTa;
+
+                    param[4] = new SqlParameter("@toado", SqlDbType.NVarChar);
+                    param[4].Value = canho.ToaDo;
+
+                    param[5] = new SqlParameter("@giathue", SqlDbType.Float);
+                    param[5].Value = canho.GiaThue;
+
+                    param[6] = new SqlParameter("@dientich", SqlDbType.Float);
+                    param[6].Value = canho.DienTich;
+
+                    param[7] = new SqlParameter("@matrangthaicanho", SqlDbType.Int);
+                    param[7].Value = canho.MaTrangThaiCanHo;
+
+                    param[8] = new SqlParameter("@ngaydang", SqlDbType.Int);
+                    param[8].Value = canho.NgayDang;
+
+                    param[9] = new SqlParameter("@nguoidang", SqlDbType.Int);
+                    param[9].Value = canho.NguoiDang;
+
+                    DataProvider dp = new DataProvider();
+                    dp.ExecuteProcNonQuery("sp_TaoCanHo", ref param);
+
+                    ViewBag.ErrorMessage = "Đăng tin căn hộ thành công";
                     return Redirect("/Admin/CanHo/");
                 }
                 catch (Exception ex)

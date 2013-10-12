@@ -14,6 +14,7 @@ namespace QLBDS.Controllers.Admin
     public class TaiKhoanController : Controller
     {
         protected static int RowPerPage = 15;
+
         public int isLogin()
         {
             if (Session["taikhoan"] != null)
@@ -134,6 +135,8 @@ namespace QLBDS.Controllers.Admin
             
         }
 
+        //
+        // POST/TaiKhoan/ChinhSuaTaiKhoan
         public ActionResult ChinhSuaTaiKhoan(int id) // hiển thị thông tin tài khoản
         {
             if (isLogin() == -1)
@@ -198,6 +201,46 @@ namespace QLBDS.Controllers.Admin
                 catch (Exception ex)
                 {
                     return Redirect("/Admin/TaiKhoan/");
+                }
+            }
+        }
+
+        //
+        [HttpPost]
+        public ActionResult ChinhSuaTaiKhoan(TaiKhoan taikhoan) //cập nhật lại tài khoản
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                    DataProvider dp = new DataProvider();
+
+                    SqlParameter[] param = new SqlParameter[3];
+                    param[0] = new SqlParameter("@mataikhoan", SqlDbType.Int);
+                    param[0].Value = taikhoan.MaTaiKhoan;
+
+                    param[1] = new SqlParameter("@maloaitaikhoan", SqlDbType.Int);
+                    param[1].Value = taikhoan.MaLoaiTaiKhoan;
+
+                    param[2] = new SqlParameter("@trangthai", SqlDbType.Int);
+                    param[2].Value = taikhoan.MaTrangThai;
+
+                    dp.ExecuteProcNonQuery("sp_ChinhSuaTaiKhoan", ref param);
+                    ViewBag.ErrorMessage = "Cập nhật thành công!";
+                    return Redirect("/Admin/TaiKhoan/");
+                }
+                catch(Exception ex)
+                {
+                    ViewBag.ErrorMessage = "";
+                    return View("~/Views/Admin/TaiKhoan/ChinhSuaTaiKhoan.cshtml", taikhoan);
                 }
             }
         }

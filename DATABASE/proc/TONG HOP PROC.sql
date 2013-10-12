@@ -23,8 +23,82 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo]
+	@macanho INT,
+	@tencanho NVARCHAR(255),
+	@maduong INT,
+	@diachi NVARCHAR(100),
+	@mieuta NVARCHAR(4000),
+	@toado NVARCHAR(30),
+	@giathue FLOAT,
+	@dientich FLOAT,
+	@matrangthaicanho INT
+AS
+BEGIN
+	/* SET NOCOUNT ON */
+	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
+	BEGIN
+		RAISERROR (N'Không tìm thấy căn hộ cần chỉnh sửa', 10, 1)
+	END
 
 
+	UPDATE canho 
+	SET
+		tencanho = @tencanho,
+		maduong = @maduong,
+		diachi = @diachi,
+		mieuta = @mieuta,
+		toado = @toado,
+		giathue = @giathue,
+		dientich = @dientich,
+		matrangthaicanho = @matrangthaicanho
+	WHERE macanho = @macanho
+
+	RETURN
+END
+GO
+
+CREATE PROCEDURE dbo.sp_TaoCanHo
+	@tencanho NVARCHAR(255),
+	@maduong INT,
+	@diachi NVARCHAR(100),
+	@mieuta NVARCHAR(4000),
+	@toado NVARCHAR(30),
+	@giathue FLOAT,
+	@dientich FLOAT,
+	@matrangthaicanho INT,
+	@ngaydang DATETIME,
+	@nguoidang INT
+AS
+BEGIN
+	/* SET NOCOUNT ON */
+	INSERT INTO canho (
+		tencanho, 
+		maduong, 
+		diachi, 
+		mieuta, 
+		toado, 
+		giathue, 
+		dientich,
+		matrangthaicanho,
+		ngaydang,
+		nguoidang,
+		kichhoat)
+	VALUES (
+		@tencanho, 
+		@maduong,
+		@diachi,
+		@mieuta,
+		@toado,
+		@giathue,
+		@dientich,
+		@matrangthaicanho,
+		@ngaydang,
+		@nguoidang,
+		1
+		)		   
+	RETURN
+END
 -----------------TAI KHOAN-----------------
 CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
 	@email nvarchar(100), @matkhau nvarchar(100)

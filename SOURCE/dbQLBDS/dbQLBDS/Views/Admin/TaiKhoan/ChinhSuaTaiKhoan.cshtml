@@ -1,6 +1,6 @@
 ﻿@model dbQLBDS.Models.TaiKhoan
 @{
-    ViewBag.Title = "ChinhSuaTaiKhoan";
+    ViewBag.Title = "Chỉnh sửa tài khoản";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
 }
 
@@ -16,7 +16,7 @@
             Email: 
         </div>
         <div class="editor-input">
-            @Html.EditorFor(model => model.Email, new { @class = "input-txt" })
+            @Html.DisplayFor(model => model.Email)
         </div>
     </div>
 
@@ -25,7 +25,7 @@
             Tên người dùng: 
         </div>
         <div class="editor-input">
-            @Html.EditorFor(model => model.Ten, new { @class = "input-txt" })
+            @Html.DisplayFor(model => model.Ten)
         </div>
     </div>
 
@@ -34,7 +34,7 @@
             Ngày sinh: 
         </div>
         <div class="editor-input">
-            @Html.EditorFor(model => model.NgaySinh, new { @class = "input-txt" })
+            @Html.DisplayFor(model => model.NgaySinh)
         </div>
     </div>
 
@@ -43,7 +43,7 @@
             Địa chỉ: 
         </div>
         <div class="editor-input">
-            @Html.EditorFor(model => model.DiaChi, new { @class = "input-txt" })
+            @Html.DisplayFor(model => model.DiaChi)
         </div>
     </div>
 
@@ -52,7 +52,7 @@
             Điện thoại: 
         </div>
         <div class="editor-input">
-            @Html.EditorFor(model => model.DienThoai, new { @class = "input-txt" })
+            @Html.DisplayFor(model => model.DienThoai)
         </div>
     </div>
 
@@ -61,7 +61,7 @@
             Ngày đăng ký: 
         </div>
         <div class="editor-input">
-            @Html.EditorFor(model => model.NgayDangKy)
+            @Html.DisplayFor(model => model.NgayDangKy)
         </div>
     </div>
 
@@ -70,11 +70,25 @@
     <div class="editor-item">
         <div class="editor-label">
             Trạng thái tài khoản: 
+            @Model.MaLoaiTaiKhoan
         </div>
         <div class="editor-input">
-            <select name="TrangThaiTaiKhoan" id="TrangThaiTaiKhoan" >
-                @*<option value = "1" @if (Model.TrangThai == 1) { @Html.Raw("selected"); }>Đang hoạt động</option>
-                <option value = "0" @if (Model.TrangThai == 0) { @Html.Raw("selected"); })>Đang bị khóa</option>*@
+            <select name="MaLoaiTaiKhoan" id="MaLoaiTaiKhoan" >
+                <option value = "1" @if (Model.MaLoaiTaiKhoan == 1) { @Html.Raw("selected"); }>Admin</option>
+                <option value = "2" @if (Model.MaLoaiTaiKhoan == 2) { @Html.Raw("selected"); }>Member</option>
+                <option value = "3" @if (Model.MaLoaiTaiKhoan == 3) { @Html.Raw("selected"); }>Sales</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Trạng thái tài khoản: 
+        </div>
+        <div class="editor-input">
+            <select name="MaTrangThai" id="MaTrangThai" >
+                <option value = "1" @if (Model.MaTrangThai == 1) { @Html.Raw("selected"); }>Đang hoạt động</option>
+                <option value = "0" @if (Model.MaTrangThai == 0) { @Html.Raw("selected"); }>Đang bị khóa</option>
             </select>
         </div>
     </div>

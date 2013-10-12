@@ -52,6 +52,7 @@ namespace dbQLBDS.Controllers.Login
                         ViewBag.ErrorMessage = "Đăng nhập thành công";
 
                         TaiKhoan tk = new TaiKhoan();
+                        tk.MaTaiKhoan = (int)dt.Rows[0]["mataikhoan"];
                         tk.Email = (string)dt.Rows[0]["email"];
                         tk.Ten = (string)dt.Rows[0]["ten"];
                         if (dt.Rows[0]["ngaysinh"] != DBNull.Value) tk.NgaySinh = (DateTime)dt.Rows[0]["ngaysinh"];

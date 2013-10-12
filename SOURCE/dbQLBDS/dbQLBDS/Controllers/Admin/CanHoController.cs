@@ -31,7 +31,7 @@ namespace QLBDS.Controllers.Admin
                         return 3;
                 };
             }
-            return 1;
+            return -1;
         }
 
         //
@@ -183,6 +183,9 @@ namespace QLBDS.Controllers.Admin
                     TaiKhoan tk = new TaiKhoan();
                     tk = (TaiKhoan)Session["taikhoan"];
 
+                    canho.NguoiDang = tk.MaTaiKhoan;
+                    canho.NgayDang = DateTime.Now;
+
                     SqlParameter[] param = new SqlParameter[10];
                     param[0] = new SqlParameter("@tencanho", SqlDbType.NVarChar);
                     param[0].Value = canho.TenCanHo;
@@ -208,7 +211,7 @@ namespace QLBDS.Controllers.Admin
                     param[7] = new SqlParameter("@matrangthaicanho", SqlDbType.Int);
                     param[7].Value = canho.MaTrangThaiCanHo;
 
-                    param[8] = new SqlParameter("@ngaydang", SqlDbType.Int);
+                    param[8] = new SqlParameter("@ngaydang", SqlDbType.DateTime);
                     param[8].Value = canho.NgayDang;
 
                     param[9] = new SqlParameter("@nguoidang", SqlDbType.Int);

@@ -76,6 +76,7 @@
     <Compile Include="Controllers\Admin\NhanGiaoDichController.cs" />
     <Compile Include="Controllers\Admin\TaiKhoanController.cs" />
     <Compile Include="Controllers\Admin\ThueCanHoController.cs" />
+    <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\DataProvider.cs" />
     <Compile Include="Controllers\DuongController.cs" />
     <Compile Include="Controllers\IndexController.cs" />

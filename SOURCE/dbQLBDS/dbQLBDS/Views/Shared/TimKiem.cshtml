@@ -1,8 +1,21 @@
-﻿@{
+﻿@using dbQLBDS.Models;
+@model List<CanHo>
+@{
     ViewBag.Title = "Tìm kiếm căn hộ";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
+    List<ThanhPho> dsThanhPho = ViewBag.dsThanhPho;
+
+    string txtTimKiem = ViewBag.txtTimKiem;
+    int cmbDienTich = (int)ViewBag.cmbDienTich;
+    int cmbGia = (int)ViewBag.cmbGia;
+    int cmbThanhPho = (int)ViewBag.cmbThanhPho;
+    int cmbQuan = (int)ViewBag.cmbQuan;
+    int cmbDuong = (int)ViewBag.cmbDuong;
+
+    int soLuongCanHo = (int)ViewBag.dsCanHoCount;
+    bool isTimKiem = (bool)ViewBag.isTimKiem;
+}
 <div id="index-content">
     <div class="cover-image">
         <img src="@Url.Content("~/Content/images/wall1.jpg")" />
@@ -13,207 +26,163 @@
 
     <!--tim kiem-->
     <div class="main-content">
-        <div class="editor-item">
-            <div class="editor-label">
-                Tên căn hộ:
+        @using (Html.BeginForm())
+        {
+            <div class="editor-item">
+                <div class="editor-label">
+                    Tên căn hộ:
+                </div>
+                <div class="editor-input">
+                    <input type="text" name="txtTimKiem" id="txtTimKiem" value="@txtTimKiem"/>
+                </div>
             </div>
-            <div class="editor-input">
-                <input type="text" name="txtTenCanHo" id="txtTenCanHo" />
-            </div>
-        </div>
 
-        <div class="editor-item">
-            <div class="editor-label">
-                Diện tích:
+            <div class="editor-item">
+                <div class="editor-label">
+                    Diện tích:
+                </div>
+                <div class="editor-input">
+                    <select name="cmbDienTich" id="cmbDienTich">
+                        <option value="0" @if (cmbDienTich == 0) { @Html.Raw("selected"); } >Tất cả</option>
+                        <option value="1" @if (cmbDienTich == 1) { @Html.Raw("selected"); } >< 30 m2</option>
+                        <option value="2" @if (cmbDienTich == 2) { @Html.Raw("selected"); } >30 m2 - 50 m2</option>
+                        <option value="3" @if (cmbDienTich == 3) { @Html.Raw("selected"); } >50 m2 - 80 m2</option>
+                        <option value="4" @if (cmbDienTich == 4) { @Html.Raw("selected"); } >80 m2 - 100 m2</option>
+                        <option value="5" @if (cmbDienTich == 5) { @Html.Raw("selected"); } >> 100 m2</option>
+                    </select>
+                </div>
             </div>
-            <div class="editor-input">
-                <select name="cmbDienTich" id="cmbDienTich">
-                    <option value="0">Tất cả</option>
-                    <option value="1">< 30 m2</option>
-                    <option value="2">30 m2 - 50 m2</option>
-                    <option value="3">50 m2 - 80 m2</option>
-                    <option value="3">80 m2 - 100 m2</option>
-                    <option value="4">> 100 m2</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="editor-item">
-            <div class="editor-label">
-                Giá:
+            <div class="editor-item">
+                <div class="editor-label">
+                    Giá:
+                </div>
+                <div class="editor-input">
+                    <select name="cmbGia" id="cmbGia">
+                        <option value="0" @if (cmbGia == 0) { @Html.Raw("selected"); }>Tất cả</option>
+                        <option value="1" @if (cmbGia == 1) { @Html.Raw("selected"); }>< 1,000,000 VNĐ</option>
+                        <option value="2" @if (cmbGia == 2) { @Html.Raw("selected"); }>1,000,000 - 3,000,000 VNĐ</option>
+                        <option value="3" @if (cmbGia == 3) { @Html.Raw("selected"); }>3,000,000 - 5,000,000 VNĐ</option>
+                        <option value="3" @if (cmbGia == 4) { @Html.Raw("selected"); }>5,000,000 - 10,000,000 VNĐ</option>
+                        <option value="4" @if (cmbGia == 5) { @Html.Raw("selected"); }>> 10,000,000 VNĐ</option>
+                    </select>
+                </div>
             </div>
-            <div class="editor-input">
-                <select name="cmbGia" id="cmbGia">
-                    <option value="0">Tất cả</option>
-                    <option value="1">< 1,000,000 VNĐ</option>
-                    <option value="2">1,000,000 - 3,000,000 VNĐ</option>
-                    <option value="3">3,000,000 - 5,000,000 VNĐ</option>
-                    <option value="3">5,000,000 - 10,000,000 VNĐ</option>
-                    <option value="4">> 10,000,000 VNĐ</option>
-                </select>
-            </div>
-        </div>
         
-        <div class="editor-item">
-            <div class="editor-label">
-                Địa chỉ:
+            <div class="editor-item">
+                <div class="editor-label">
+                    Địa chỉ:
+                </div>
+                <div class="editor-input">
+                    <select name="cmbThanhPho" id="cmbThanhPho">
+                        <option value="0">Tất cả</option>
+                        @foreach (ThanhPho item in dsThanhPho)
+                        {
+                            <option value="@item.MaThanhPho" @if (cmbThanhPho == item.MaThanhPho) { @Html.Raw("selected"); }>@item.TenThanhPho</option>
+                        }
+                    </select>
+                </div>
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <select name="cmbQuan" id="cmbQuan">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <select name="cmbDuong" id="cmbDuong">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
             </div>
-            <div class="editor-input">
-                <select name="cmbThanhPho" id="cmbThanhPho">
-                    <option value="0">Tất cả</option>
-                </select>
+            
+            <script type="text/javascript">
+                function LoadDSQuan() {
+                    var ma = $("#cmbThanhPho").val();
+                    var des_url = "http://localhost:34119/Ajax";
+
+                    $.ajax({
+                        type: "POST",
+                        url: des_url,
+                        data: {
+                            type: "loaddsquan",
+                            ma: ma
+                        },
+                        success: function (html) {
+                            jQuery("#cmbQuan").html(html);
+                        }
+                    });
+                };
+
+                function LoadDSDuong() {
+                    var ma = $("#cmbQuan").val();
+                    var des_url = "http://localhost:34119/Ajax";
+
+                    $.ajax({
+                        type: "POST",
+                        url: des_url,
+                        data: {
+                            type: "loaddsduong",
+                            ma: ma
+                        },
+                        success: function (html) {
+                            jQuery("#cmbDuong").html(html);
+                        }
+                    });
+                };
+
+                LoadDSQuan();
+
+                $("#cmbThanhPho").change(function () {
+                    LoadDSQuan();
+                });
+
+                $("#cmbQuan").change(function () {
+                    LoadDSDuong();
+                });
+            </script>
+            
+            <div class="editor-item">
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <input type="submit" class="submit" id="btnTimKiem" value="Tìm kiếm" />
+
+                </div>
             </div>
-            <div class="editor-label">
-                &nbsp;
-            </div>
-            <div class="editor-input">
-                <select name="cmbQuan" id="cmbQuan">
-                    <option value="0">Tất cả</option>
-                </select>
-            </div>
-            <div class="editor-label">
-                &nbsp;
-            </div>
-            <div class="editor-input">
-                <select name="cmbDuong" id="cmbDuong">
-                    <option value="0">Tất cả</option>
-                </select>
-            </div>
-        </div>
-        
-        <div class="editor-item">
-            <div class="editor-label">
-                &nbsp;
-            </div>
-            <div class="editor-input">
-                <input type="submit" class="submit" id="btnTimKiem" value="Tìm kiếm"/>
-            </div>
-        </div>
+        }
     </div><!--#tim kiem-->
 
-    <!--ket qua tim kiem-->
-    <div class="list-new-prop">
-        <h2>Tìm thấy 21 kết quả</h2>
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/1.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="" >Chi tiết</a>
-            </div>
-        </div>
+    @if(isTimKiem){
+        <!--ket qua tim kiem-->
+        <div class="list-new-prop">
+            <h2>Tìm thấy @soLuongCanHo kết quả</h2>
 
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/2.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="" >Chi tiết</a>
-            </div>
-        </div>
-
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/3.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="" >Chi tiết</a>
-            </div>
-        </div>
-
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/4.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="">Chi tiết</a>
-            </div>
-        </div>
-
-
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/5.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="" >Chi tiết</a>
-            </div>
-        </div>
-
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/6.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="" >Chi tiết</a>
-            </div>
-        </div>
-
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/7.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="" >Chi tiết</a>
-            </div>
-        </div>
-
-        <div class="prop-item">
-            <div class="prop-img">
-                <img src="@Url.Content("~/Content/images/home/8.jpg")" />
-            </div>
-            <div class="prop-add">
-                32/45 Thái Văn Lung, Phường Bến Nghé, Quận 1, TP.HCM
-            </div>
-            <div class="prop-price">
-                15.000.000.000 <sup class="vnd">VNĐ</sup>
-            </div>
-            <div class="prop-detail">
-                <a href="">Chi tiết</a>
-            </div>
-        </div>
-    </div><!--#ket qua tim kiem-->
-
+            @foreach (CanHo item in Model)
+            {
+                <div class="prop-item" style="height:275px;">
+                    <div class="prop-img">
+                        <img src="@Url.Content("~/Content/images/home/1.jpg")" />
+                    </div>
+                    <div class="prop-name">
+                        @item.TenCanHo
+                    </div>
+                    <div class="prop-add">
+                        @item.DiaChi
+                    </div>
+                    <div class="prop-price">
+                        @item.GiaThue <sup class="vnd">VNĐ</sup>
+                    </div>
+                    <div class="prop-detail">
+                        <a href="#" >Chi tiết</a>
+                    </div>
+                </div>
+            }
+        </div><!--#ket qua tim kiem-->
+    }
 </div>

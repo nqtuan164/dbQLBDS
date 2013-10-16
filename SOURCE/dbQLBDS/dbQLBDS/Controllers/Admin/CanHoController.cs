@@ -31,7 +31,7 @@ namespace QLBDS.Controllers.Admin
                         return 3;
                 };
             }
-            return -1;
+            return 1;
         }
 
         //
@@ -413,6 +413,117 @@ namespace QLBDS.Controllers.Admin
             }
 
             
+        }
+
+        public ActionResult XoaCanHo(int id)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                    DataProvider dp = new DataProvider();
+                    string sql = "SELECT * FROM canho WHERE macanho = " + id.ToString();
+
+                    DataTable dt = new DataTable();
+                    dt = dp.ExecuteQuery(sql);
+
+                    CanHo item = new CanHo();
+                    if (dt.Rows.Count == 1)
+                    {
+                        item.MaCanHo = (int)dt.Rows[0]["macanho"];
+                        item.TenCanHo = (string)dt.Rows[0]["tencanho"];
+                        item.MaDuong = (int)dt.Rows[0]["maduong"];
+                        item.DiaChi = (string)dt.Rows[0]["diachi"];
+
+                        if (dt.Rows[0]["mieuta"] != DBNull.Value)
+                        {
+                            item.MieuTa = (string)dt.Rows[0]["mieuta"];
+                        }
+
+                        item.ToaDo = (string)dt.Rows[0]["toado"];
+                        item.GiaThue = (double)dt.Rows[0]["giathue"];
+                        item.DienTich = (double)dt.Rows[0]["dientich"];
+                        item.MaTrangThaiCanHo = (int)dt.Rows[0]["matrangthaicanho"];
+
+                        switch ((int)dt.Rows[0]["matrangthaicanho"])
+                        {
+                            case 1:
+                                item.TrangThaiCanHo = TrangThaiCanHo.Da_Duoc_Thue;
+                                break;
+                            case 2:
+                                item.TrangThaiCanHo = TrangThaiCanHo.Chua_Duoc_Thue;
+                                break;
+                            case 3:
+                                item.TrangThaiCanHo = TrangThaiCanHo.Dang_Xay_Dung;
+                                break;
+                        }
+
+                        item.NgayDang = (DateTime)dt.Rows[0]["ngaydang"];
+                        item.NguoiDang = (int)dt.Rows[0]["nguoidang"];
+
+                        if (dt.Rows[0]["ghichu"] != DBNull.Value)
+                        {
+                            item.GhiChu = (string)dt.Rows[0]["ghichu"];
+                        }
+
+                        item.KichHoat = (int)dt.Rows[0]["kichhoat"];
+
+
+                        return View("~/Views/Admin/CanHo/XoaCanHo.cshtml", item);
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "Không tìm thấy căn hộ";
+                        return Redirect("/Admin/CanHo/");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                    return Redirect("/Admin/CanHo/");
+                }
+            }
+        }
+
+        [HttpPost, ActionName("XoaCanHo")]
+        public ActionResult XacNhanXoaCanHo(int id)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                    DataProvider dp = new DataProvider();
+
+                    SqlParameter[] param = new SqlParameter[1];
+                    param[0] = new SqlParameter("@macanho", SqlDbType.Int);
+                    param[0].Value = id;
+
+                    dp.ExecuteProcNonQuery("sp_XoaCanHo", ref param);
+                    ViewBag.ErrorMessage = "";
+                    return Redirect("/Admin/CanHo/");
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                    return Redirect("/Admin/CanHo/");
+                }
+            }
         }
 
 

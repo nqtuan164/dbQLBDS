@@ -180,7 +180,6 @@ BEGIN
 	
 END
 GO
-exec sp_ChinhSuaTaiKhoan 1, 3, 1
 
 -----------------THUE CAN HO-----------------
 CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]

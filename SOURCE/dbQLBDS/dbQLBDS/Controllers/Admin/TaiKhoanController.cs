@@ -162,6 +162,7 @@ namespace QLBDS.Controllers.Admin
                     TaiKhoan tk = new TaiKhoan();
                     if (dt.Rows.Count == 1)
                     {
+                        tk.MaTaiKhoan = (int)dt.Rows[0]["mataikhoan"];
                         tk.Email = (string)dt.Rows[0]["email"];
                         tk.Ten = (string)dt.Rows[0]["ten"];
                         tk.NgaySinh = (DateTime)dt.Rows[0]["ngaysinh"];
@@ -244,6 +245,5 @@ namespace QLBDS.Controllers.Admin
                 }
             }
         }
-
     }
 }

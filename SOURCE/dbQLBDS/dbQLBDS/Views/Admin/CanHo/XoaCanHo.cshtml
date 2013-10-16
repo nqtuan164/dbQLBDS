@@ -1,0 +1,21 @@
+﻿@model dbQLBDS.Models.CanHo
+@{
+    ViewBag.Title = "XoaCanHo";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+<h2 class="dashboard-title">Xóa căn hộ</h2>
+
+@using(Html.BeginForm()) {
+<div class="editor-field">
+    @Html.HiddenFor(model => model.MaCanHo)
+    <h3 class="editor-field-title">XÁC NHẬN THÔNG TIN</h3>
+
+    <p>
+        Bạn có chắc rằng bạn muốn xóa căn hộ này?
+    </p>
+    <br />
+    <input type="submit" name="btnDelete" value="Đồng ý" />
+
+</div>
+}

@@ -1,0 +1,62 @@
+﻿@using dbQLBDS.Models;
+@model CanHo
+@{
+    ViewBag.Title = @Model.TenCanHo +  " | Thông tin căn hộ";
+    List<HinhAnhCanHo> dsHinhAnhCanHo = ViewBag.dsHinhAnhCanHo;
+    TaiKhoan taiKhoan = ViewBag.taiKhoan;
+}
+
+<div id="index-content">
+    <div class="cover-image">
+        <img src="@Url.Content("~/Content/images/wall1.jpg")" />
+    </div>
+    <h2 class="index-title">
+        Thông tin căn hộ
+    </h2>
+
+    <!--thông tin căn hộ-->
+    <div class="main-content">
+        @if (Model.MaTrangThaiCanHo == -999)
+        {
+            <h2>Lỗi 404: Không tìm thấy trang bạn yêu cầu!</h2>
+        }
+        else
+        {
+            <h2>@Model.TenCanHo</h2>
+            <i>Địa chỉ: @Model.DiaChi</i>
+            <div class="prop-mieuta">
+                <b>Thông tin mô tả:</b><br />
+                @Model.MieuTa
+            </div>
+            <div class="prop-mieuta">
+                <b>Giá thuê / tháng:</b> @Model.GiaThue VNĐ<br />
+                <b>Diện tích:</b> @Model.DienTich m2<br />
+                <b>Bản đồ:</b> <a href="https://maps.google.com/maps?q=@Model.ToaDo&num=1&t=m&z=15" target="_blank">@Model.ToaDo</a><br />
+                <b>Ngày đăng:</b> @Model.NgayDang.ToString("dd/MM/yyyy")<br />
+            </div>
+            <div class="prop-mieuta">
+                <b>Hình ảnh:</b><br />
+
+                <div class="prop-hinhanh">
+                    @foreach (HinhAnhCanHo h in dsHinhAnhCanHo)
+                    {
+                        <a href="@h.LienKet" target="_blank">
+                            <img class="prop-hinhanh-img" src="@h.LienKet" alt="" />
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="prop-mieuta">
+                <b>Người liên hệ:</b><br />
+                Tên liên lạc: <i>@taiKhoan.Ten</i><br />
+                Email: <i>@taiKhoan.Email</i><br />
+                Điện thoại: <i>@taiKhoan.DienThoai</i><br />
+            </div>
+            
+            <div class="prop-mieuta" style="text-align:center;">
+                <a class="btn" href="#">Đặt thuê</a>
+            </div>
+        }
+    </div><!--#thông tin căn hộ-->
+
+</div>

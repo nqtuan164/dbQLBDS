@@ -170,10 +170,7 @@
 
             @foreach (CanHo item in Model)
             {
-                <div class="prop-item" style="height:275px;">
-                    <div class="prop-img">
-                        <img src="@Url.Content("~/Content/images/home/1.jpg")" />
-                    </div>
+                <div class="prop-item">
                     <div class="prop-name">
                         @item.TenCanHo
                     </div>
@@ -184,7 +181,7 @@
                         @item.GiaThue <sup class="vnd">VNĐ</sup>
                     </div>
                     <div class="prop-detail">
-                        <a href="#" >Chi tiết</a>
+                        <a href="/ChiTietCanHo?id=@item.MaCanHo" >Chi tiết</a>
                     </div>
                 </div>
             }

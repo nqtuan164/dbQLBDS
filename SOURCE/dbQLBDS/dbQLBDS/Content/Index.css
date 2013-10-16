@@ -174,16 +174,24 @@ body, html {
 
 .prop-item {
     width: 220px;
-    height: 250px;
+    overflow: hidden;
+    padding-bottom: 30px;
 
     border: 1px solid #336ca6;
     border-top: 7px solid #336ca6;
 
     float:left;
-
     margin: 7px;
 
     position:relative;
+}
+.prop-item:hover {
+    background-color:#fff;
+}
+
+.prop-name {
+    padding:5px;
+    font-weight:bold;
 }
 
 .prop-img {
@@ -211,11 +219,11 @@ body, html {
 .prop-price {
     text-align:right;
     font-weight:bold;
-
+    padding:5px;
 }
 
-.prop-detail a{
-    display:block;
+.prop-detail a {
+    display: block;
     text-decoration: none;
     padding: 3px 10px;
     background-color: #336ca6;
@@ -224,11 +232,42 @@ body, html {
     font-size: 13px;
     bottom: 0px;
     right: 0px;
-    position:absolute;
+    position: absolute;
     text-transform: uppercase;
-    text-align:center;
-
+    text-align: center;
 }
+
+.prop-mieuta {
+    overflow:hidden;
+    margin:20px 0 20px 0;
+}
+.prop-hinhanh {
+    overflow:hidden;
+    padding:10px;
+}
+.prop-hinhanh-img {
+    max-width: 200px;
+    margin:5px 10px 5px 0px;
+
+    display:inline-block;
+}
+    .prop-hinhanh-img:hover {
+        outline:3px solid #295685;
+    }
+
+.btn {
+    padding:8px 15px;
+    color:#fff;
+    text-decoration:none;
+    background-color:#295685;
+    display:inline-block;
+}
+    .btn:hover {
+        background-color:rgb(51, 108, 166);
+    }
+    .btn:active {
+        background-color:#000;
+    }
 
 .vnd {
     font-size: 10px;

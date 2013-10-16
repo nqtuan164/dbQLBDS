@@ -165,7 +165,8 @@ namespace dbQLBDS.Controllers
                     item.ToaDo = dt.Rows[i]["toado"].ToString();
                     item.GiaThue = (double)dt.Rows[i]["giathue"];
                     item.DienTich = (double)dt.Rows[i]["dientich"];
-                    item.MaTrangThaiCanHo = (TrangThaiCanHo)dt.Rows[i]["matrangthaicanho"];
+                    item.MaTrangThaiCanHo = (int)dt.Rows[i]["matrangthaicanho"];
+                    item.TrangThaiCanHo = (TrangThaiCanHo)dt.Rows[i]["matrangthaicanho"];
                     item.NgayDang = DateTime.Parse(dt.Rows[i]["ngaydang"].ToString());
                     item.NguoiDang = (int)dt.Rows[i]["nguoidang"];
                     item.GhiChu = dt.Rows[i]["ghichu"].ToString();

@@ -79,6 +79,7 @@
     <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\ChiTietCanHoController.cs" />
     <Compile Include="Controllers\DataProvider.cs" />
+    <Compile Include="Controllers\DatThueCanHoController.cs" />
     <Compile Include="Controllers\DuongController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\Login\DangKyController.cs" />
@@ -187,6 +188,9 @@
   <ItemGroup>
     <Content Include="Views\Admin\CanHo\XoaCanHo.cshtml" />
     <Content Include="Views\Shared\ChiTietCanHo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\DatThueCanHo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

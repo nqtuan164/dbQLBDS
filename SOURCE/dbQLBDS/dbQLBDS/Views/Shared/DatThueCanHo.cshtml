@@ -1,0 +1,183 @@
+﻿@using dbQLBDS.Models;
+@model CanHo
+@{
+    ViewBag.Title = @Model.TenCanHo + " | Đặt thuê căn hộ";
+    TaiKhoan tk = ViewBag.taiKhoan;
+}
+
+<div id="index-content">
+    <div class="cover-image">
+        <img src="@Url.Content("~/Content/images/wall1.jpg")" />
+    </div>
+    <h2 class="index-title">
+        Đặt thuê căn hộ
+    </h2>
+
+    <!--thông tin căn hộ-->
+    <div class="main-content">
+        @using (Html.BeginForm())
+        {
+            <div class="editor-item">
+                <div class="editor-label">
+                    Ngày bắt đầu thuê:
+                </div>
+                <div class="editor-input">
+                    <input type="date" required="required" name="txtNgayBatDauThue" id="txtNgayBatDauThue" value="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")"/>
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Thời gian thuê:
+                </div>
+                <div class="editor-input">
+                    <input type="number" required="required" min="6" max="60" step="6" name="txtThoiGianThue" id="txtThoiGianThue" value="6"/>
+                    tháng
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Ngày kết thúc:
+                </div>
+                <div class="editor-input">
+                    <input type="text" required="required" disabled="disabled" name="txtNgayKetThuc" id="txtNgayKetThuc" value=""/>
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Tiền thuê:
+                </div>
+                <div class="editor-input">
+                    @{
+                        double tienThue = Model.GiaThue * 6;
+                    }
+                    <input type="text" required="required" disabled="disabled" name="txtTienThue" id="txtTienThue" value="@tienThue"/>
+                    VNĐ
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Giảm giá:
+                </div>
+                <div class="editor-input">
+                    <input type="text" required="required" disabled="disabled" name="txtGiamGia" id="txtGiamGia" value=""/>
+                    VNĐ
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Tiền phải trả:
+                </div>
+                <div class="editor-input">
+                    <input type="text" required="required" disabled="disabled" name="txtTienPhaiTra" id="txtTienPhaiTra" value=""/>
+                    VNĐ
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Tiền cọc (10%):
+                </div>
+                <div class="editor-input">
+                    <input type="text" required="required" disabled="disabled" name="txtTienCoc" id="txtTienCoc" value=""/>
+                    VNĐ
+                </div>
+            </div>
+
+            <h3 style="color:#295685; margin-top:20px;">Thông tin người thuê:</h3>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Họ tên:
+                </div>
+                <div class="editor-input">
+                    <input type="text" required="required" disabled="disabled" name="txtHoTen" id="txtHoTen" value="@tk.Ten"/>
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Email:
+                </div>
+                <div class="editor-input">
+                    <input type="email" required="required" disabled="disabled" name="txtEmail" id="txtEmail" value="@tk.Email"/>
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Địa chỉ:
+                </div>
+                <div class="editor-input">
+                    <input type="text" required="required" name="txtDiaChi" id="txtDiaChi" value=""/>
+                </div>
+            </div>
+            <div class="editor-item">
+                <div class="editor-label">
+                    Điện thoại liên lạc:
+                </div>
+                <div class="editor-input">
+                    <input type="tel" required="required" name="txtDienThoai" id="txtDienThoai" value=""/>
+                </div>
+            </div>
+
+            <h3 style="color:#295685; margin-top:20px;">Thông tin căn hộ:</h3>
+            <div class="prop-mieuta" style="margin:5px 20px 0 20px;">
+                <b>Tên căn hộ:</b> @Model.TenCanHo<br />
+                <b>Địa chỉ:</b> @Model.DiaChi<br />
+                <b>Giá thuê / tháng:</b> @Model.GiaThue VNĐ<br />
+                <b>Diện tích:</b> @Model.DienTich m2<br />
+                <b>Bản đồ:</b> <a href="https://maps.google.com/maps?q=@Model.ToaDo&num=1&t=m&z=15" target="_blank">@Model.ToaDo</a><br />
+                <b>Ngày đăng:</b> @Model.NgayDang.ToString("dd/MM/yyyy")<br />
+            </div>
+            <br />
+            <div class="editor-item">
+                <div class="editor-label">
+                    &nbsp;
+                </div>
+                <div class="editor-input">
+                    <input type="submit" class="submit" id="btnTimKiem" value="Đặt thuê" />
+                </div>
+            </div>
+        }
+
+        <script type="text/javascript">
+            function TinhTien() {
+                var txtNgayBatDauThue = new Date($("#txtNgayBatDauThue").val());
+                var newdate = new Date(txtNgayBatDauThue);
+                var txtThoiGianThue = $("#txtThoiGianThue").val();
+                var dongia = @Model.GiaThue
+                
+                    
+                newdate.setMonth(txtThoiGianThue);
+                var txtNgayKetThuc = new Date(newdate);
+                var kq = txtNgayKetThuc.getDate() + "/" +
+                                        (txtNgayKetThuc.getMonth() + 1) + "/" +
+                                        txtNgayKetThuc.getFullYear();
+                var giagiam = 0;
+                var tienphaitra = txtThoiGianThue * dongia;
+                
+
+                $("#txtNgayKetThuc").val(kq);
+                $("#txtTienThue").val(tienphaitra);
+
+                if (txtThoiGianThue >= 36) {
+                    giagiam = 0.1 * (txtThoiGianThue * dongia);
+                }
+                $("#txtGiamGia").val(giagiam);
+
+                tienphaitra -= giagiam;
+                var tiencoc = 0.1 * tienphaitra;
+
+                $("#txtTienPhaiTra").val(tienphaitra);
+                $("#txtTienCoc").val(tiencoc);
+            }
+
+            TinhTien();
+
+            $("#txtNgayBatDauThue").change(function () {
+                TinhTien();
+            });
+
+            $("#txtThoiGianThue").change(function () {
+                TinhTien();
+            });
+        </script>
+    </div><!--#thông tin căn hộ-->
+
+</div>

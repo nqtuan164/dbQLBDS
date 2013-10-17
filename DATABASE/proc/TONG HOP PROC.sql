@@ -22,7 +22,7 @@ BEGIN
 	RETURN @count
 END
 GO
-
+--
 CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo]
 	@macanho INT,
 	@tencanho NVARCHAR(255),
@@ -57,7 +57,7 @@ BEGIN
 	RETURN
 END
 GO
-
+--
 CREATE PROCEDURE dbo.sp_TaoCanHo
 	@tencanho NVARCHAR(255),
 	@maduong INT,
@@ -97,6 +97,53 @@ BEGIN
 		@nguoidang,
 		1
 		)		   
+	RETURN
+END
+--
+ALTER PROCEDURE dbo.sp_XoaCanHo
+	@macanho INT
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
+	BEGIN
+		RAISERROR ('Căn hộ không tồn tại', 10, 1)
+	END
+	ELSE
+	BEGIN
+		--XOA HINH ANH CAN HO
+		IF EXISTS (SELECT * FROM hinhanhcanho WHERE macanho = @macanho)
+		BEGIN
+			DELETE FROM hinhanhcanho WHERE macanho = @macanho
+		END
+
+		--XOA DS THUE CAN HO
+		IF EXISTS (SELECT * FROM thuecanho WHERE macanho = @macanho)
+		BEGIN
+		
+			DECLARE cur_DSThueCanHo CURSOR 
+			FOR SELECT mathuecanho FROM thuecanho WHERE macanho = @macanho
+		
+			OPEN cur_DSThueCanHo
+			DECLARE @mathuecanho INT
+			FETCH NEXT FROM cur_DSThueCanHo INTO @mathuecanho
+
+			WHILE @@fetch_status = 0
+			BEGIN
+				IF EXISTS (SELECT * FROM nhangiaodich WHERE mathuecanho = @mathuecanho)
+				BEGIN
+					DELETE FROM nhangiaodich WHERE mathuecanho = @mathuecanho
+				END
+				DELETE FROM thuecanho WHERE mathuecanho = @mathuecanho
+			END
+
+			CLOSE cur_DSThueCanHo
+			DEALLOCATE cur_DSThueCanHo
+		END
+
+		-- XOA CAN HO
+		DELETE FROM canho WHERE macanho = @macanho
+
+	END
 	RETURN
 END
 -----------------TAI KHOAN-----------------
@@ -182,14 +229,14 @@ END
 GO
 
 -----------------THUE CAN HO-----------------
-CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]
+ALTER PROCEDURE [dbo].[sp_DanhSachThueCanHo]
 	@page INT,
 	@pagesize INT,
 	@count INT OUTPUT
 AS
 BEGIN
 	SELECT @count = COUNT(*)
-	FROM canho
+	FROM thuecanho
 
 	DECLARE @start INT
 	SET @start = @pagesize * (@page - 1)
@@ -197,12 +244,31 @@ BEGIN
 	SELECT TOP(@pagesize) * 
 	FROM 
 	(
-		SELECT * , ROW_NUMBER() OVER (ORDER BY mathuecanho ASC, thoigiangiaodich DESC) as num
-		FROM thuecanho
-		WHERE kichhoat = 1
+		SELECT 
+			t.mathuecanho,
+			t.macanho,
+			t.mataikhoan,
+			t.tiencoc,
+			t.thoigianthue,
+			t.thoigianketthuc,
+			t.thoigiangiaodich,
+			t.dienthoai,
+			t.diachi,
+			t.ghichu,
+			t.kichhoat,
+			ch.tencanho,
+			tk.ten,
+			tk.email, 
+			ROW_NUMBER() OVER (ORDER BY t.mathuecanho ASC, t.thoigiangiaodich DESC) as num
+		FROM thuecanho t, canho ch, taikhoan tk 
+		WHERE
+			t.macanho = ch.macanho AND
+			t.mataikhoan = tk.mataikhoan AND 
+			t.kichhoat = 1
 	) AS a
 	WHERE num > @start
 
 	RETURN @count
 END
+
 

@@ -34,7 +34,7 @@ namespace QLBDS.Controllers.Admin
             return 1;
         }
         //
-        // GET: /Duong_/
+        // GET: /ThueCanHo/
 
         public ActionResult Index()
         {

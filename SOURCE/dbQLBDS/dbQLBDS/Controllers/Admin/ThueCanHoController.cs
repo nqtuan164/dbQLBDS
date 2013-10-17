@@ -121,5 +121,66 @@ namespace QLBDS.Controllers.Admin
             }
         }
 
+        public ActionResult ChiTietThueCanHo(int id)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                    DataProvider dp = new DataProvider();
+
+                    SqlParameter[] param = new SqlParameter[1];
+                    param[0] = new SqlParameter("@mathuecanho", SqlDbType.Int);
+                    param[0].Value = id;
+
+                    DataTable dt = new DataTable();
+                    dt = dp.ExecuteProcQuery("sp_ChiTietThueCanHo", ref param);
+
+                    ThueCanHo item = new ThueCanHo();
+                    if (dt.Rows.Count > 0)
+                    {
+                        item.MaThueCanHo = (int)dt.Rows[0]["mathuecanho"];
+                        item.MaTaiKhoan = (int)dt.Rows[0]["mataikhoan"];
+                        item.TenTaiKhoan = (string)dt.Rows[0]["ten"];
+                        item.MaCanHo = (int)dt.Rows[0]["macanho"];
+                        item.TenCanHo = (string)dt.Rows[0]["tencanho"];
+                        item.TienCoc = (double)dt.Rows[0]["tiencoc"];
+                        item.ThoiGianThue = (DateTime)dt.Rows[0]["thoigianthue"];
+                        item.ThoiGianKetThuc = (DateTime)dt.Rows[0]["thoigianketthuc"];
+                        item.ThoiGianGiaoDich = (DateTime)dt.Rows[0]["thoigiangiaodich"];
+
+                        if (dt.Rows[0]["dienthoai"] != DBNull.Value)
+                        {
+                            item.DienThoai = (string)dt.Rows[0]["dienthoai"];
+                        }
+                        if (dt.Rows[0]["diachi"] != DBNull.Value)
+                        {
+                            item.DiaChi = (string)dt.Rows[0]["diachi"];
+                        }
+                        if (dt.Rows[0]["ghichu"] != DBNull.Value)
+                        {
+                            item.GhiChu = (string)dt.Rows[0]["ghichu"];
+                        }
+                        item.KichHoat = (int)dt.Rows[0]["kichhoat"];
+                    }
+
+                    return View("~/Views/Admin/ThueCanHo/ChiTietThueCanHo.cshtml", item);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                    return Redirect("/Admin/ThueCanHo/");
+                }
+            }
+        }
+
     }
 }

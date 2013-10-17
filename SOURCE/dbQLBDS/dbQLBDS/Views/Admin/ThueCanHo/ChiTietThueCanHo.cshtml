@@ -1,7 +1,91 @@
-﻿@{
+﻿@model dbQLBDS.Models.ThueCanHo
+@{
     ViewBag.Title = "ChiTietThueCanHo";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
 }
 
 <h2>Chi Tiết Thuê Căn Hộ</h2>
 
+@using(Html.BeginForm()) {
+<div class="editor-field">
+    @Html.HiddenFor(model => model.MaCanHo)
+    <h3 class="editor-field-title">THÔNG TIN CHUNG</h3>
+    
+    <div class="editor-item">
+        <div class="editor-label">
+            Tên căn hộ:
+        </div>
+        <div class="editor-input">
+            @Html.DisplayFor(model => model.TenCanHo)
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Tên Người Mua: 
+        </div>
+        <div class="editor-input">
+            @Html.DisplayFor(model => model.TenTaiKhoan)
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Điện thoại: 
+        </div>
+        <div class="editor-input">
+            @Html.DisplayFor(model => model.DienThoai)
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Địa chỉ: 
+        </div>
+        <div class="editor-input">
+            @Html.DisplayFor(model => model.DiaChi)
+        </div>
+    </div>
+
+    <h3 class="editor-field-title">VỊ TRÍ ĐỊA LÝ</h3>
+    
+    <div class="editor-item">
+        <div class="editor-label">
+            Tiền cọc: 
+        </div>
+        <div class="editor-input">
+            @Html.DisplayFor(model => model.DiaChi)
+        </div>
+    </div>
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Thời gian thuê:
+        </div>
+        <div class="editor-input">
+            
+            @Html.Raw(Model.ThoiGianThue.ToString("dd/MM/yyyy"))
+            
+        </div>
+    </div>
+
+
+    <div class="editor-item">
+        <div class="editor-label">
+            Thời gian kết thúc
+        </div>
+        <div class="editor-input">
+            @{
+                int sothang = Model.ThoiGianKetThuc.Month - Model.ThoiGianThue.Month;
+            }
+            @Html.Raw(Model.ThoiGianThue.ToString("dd/MM/yyyy") + "(" + sothang.ToString() + ")")
+           
+        </div>
+    </div>
+
+    
+    <br />
+    <input type="submit" name="btnSave" value="Lưu thay đổi" />
+        
+</div>
+}

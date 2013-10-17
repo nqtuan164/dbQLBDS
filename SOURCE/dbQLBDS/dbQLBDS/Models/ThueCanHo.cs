@@ -10,10 +10,10 @@ namespace dbQLBDS.Models
         private int maThueCanHo;
         
         private int maTaiKhoan;
-
-
+        private string tenTaiKhoan;
         private int maCanHo;
-        private float tienCoc;
+        private string tenCanHo;
+        private double tienCoc;
         private DateTime thoiGianThue;
         private DateTime thoiGianKetThuc;
         private DateTime thoiGianGiaoDich;
@@ -32,12 +32,22 @@ namespace dbQLBDS.Models
             get { return maTaiKhoan; }
             set { maTaiKhoan = value; }
         }
+        public string TenTaiKhoan
+        {
+            get { return tenTaiKhoan; }
+            set { tenTaiKhoan = value; }
+        }
         public int MaCanHo
         {
             get { return maCanHo; }
             set { maCanHo = value; }
         }
-        public float TienCoc
+        public string TenCanHo
+        {
+            get { return tenCanHo; }
+            set { tenCanHo = value; }
+        }
+        public double TienCoc
         {
             get { return tienCoc; }
             set { tienCoc = value; }

@@ -100,7 +100,7 @@ BEGIN
 	RETURN
 END
 --
-ALTER PROCEDURE dbo.sp_XoaCanHo
+CREATE PROCEDURE dbo.sp_XoaCanHo
 	@macanho INT
 AS
 BEGIN
@@ -229,7 +229,7 @@ END
 GO
 
 -----------------THUE CAN HO-----------------
-ALTER PROCEDURE [dbo].[sp_DanhSachThueCanHo]
+CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]
 	@page INT,
 	@pagesize INT,
 	@count INT OUTPUT
@@ -270,5 +270,3 @@ BEGIN
 
 	RETURN @count
 END
-
-

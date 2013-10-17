@@ -80,8 +80,10 @@ namespace QLBDS.Controllers.Admin
 
                         item.MaThueCanHo = (int)dt.Rows[i]["mathuecanho"];
                         item.MaTaiKhoan = (int)dt.Rows[i]["mataikhoan"];
+                        item.TenTaiKhoan = (string)dt.Rows[i]["ten"];
                         item.MaCanHo = (int)dt.Rows[i]["macanho"];
-                        item.TienCoc = (float)dt.Rows[i]["tiencoc"];
+                        item.TenCanHo = (string)dt.Rows[i]["tencanho"];
+                        item.TienCoc = (double)dt.Rows[i]["tiencoc"];
                         item.ThoiGianThue = (DateTime)dt.Rows[i]["thoigianthue"];
                         item.ThoiGianKetThuc = (DateTime)dt.Rows[i]["thoigianketthuc"];
                         item.ThoiGianGiaoDich = (DateTime)dt.Rows[i]["thoigiangiaodich"];

@@ -270,8 +270,6 @@ BEGIN
 
 	RETURN @count
 END
-<<<<<<< HEAD
-=======
 
 CREATE PROC sp_thuecanho
 	@mataikhoan int, @macanho int, @tiencoc float, @thoigianthue datetime, @thoigiankethuc datetime,
@@ -292,4 +290,4 @@ BEGIN
 END
 GO
 
->>>>>>> eabdd951f17acb48b6b9643d0b2bd9792b93f8dc
+

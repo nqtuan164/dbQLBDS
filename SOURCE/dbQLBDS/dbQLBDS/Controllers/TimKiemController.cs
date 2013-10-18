@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -49,13 +51,15 @@ namespace dbQLBDS.Controllers
         [HttpPost]
         public ActionResult Index(string txtTimKiem, int cmbDienTich, 
                                     int cmbGia, int cmbDuong, 
-                                    int cmbQuan, int cmbThanhPho)
+                                    int cmbQuan, int cmbThanhPho,
+                                    string chkSuaLoi)
         {
             //Load danh sach thanh pho
             DataProvider dp = new DataProvider();
             string sql = @"SELECT * FROM thanhpho t ";
             DataTable dt = new DataTable();
             dt = dp.ExecuteQuery(sql);
+
 
             List<ThanhPho> dsThanhPho = new List<ThanhPho>();
             if (dt.Rows.Count > 0)
@@ -76,11 +80,12 @@ namespace dbQLBDS.Controllers
             ViewBag.cmbThanhPho = cmbThanhPho;
             ViewBag.cmbQuan = cmbQuan;
             ViewBag.cmbDuong = cmbDuong;
+            ViewBag.chkSuaLoi = chkSuaLoi;
 
+            
 
             //TRUY VAN TIM KIEM CAN HO
-            sql = @"SELECT ch.*, d.tenduong, q.tenquan, tp.tenthanhpho
-                    FROM canho ch, duong d, quan q, thanhpho tp
+            sql = @"FROM canho ch, duong d, quan q, thanhpho tp
                     WHERE ch.kichhoat = 1 AND
 	                    ch.matrangthaicanho = 2 AND
 	                    ch.maduong = d.maduong AND
@@ -144,39 +149,110 @@ namespace dbQLBDS.Controllers
                 sql += " AND d.maduong = " + cmbDuong + " ";
             }
 
-
-            dt = new DataTable();
-            dt = dp.ExecuteQuery(sql);
-
+            
+            //Tao lenh moi
+            string sqlHeader = "SELECT COUNT(ch.macanho) ";
+            SqlCommand cmd = new SqlCommand(sqlHeader + sql, dp.Connect);
+            SqlDataReader reader = null;
             List<CanHo> dsCanHo = new List<CanHo>();
-            if (dt.Rows.Count > 0)
+            dp.OpenConnect();
+
+            //Tao transaction moi
+            if (chkSuaLoi != null)
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    CanHo item = new CanHo();
-                    item.MaCanHo = (int)dt.Rows[i]["macanho"];
-                    item.TenCanHo = dt.Rows[i]["tencanho"].ToString();
-                    item.MaDuong = (int)dt.Rows[i]["maduong"];
-                    item.DiaChi = dt.Rows[i]["diachi"].ToString() + " " +
-                                    dt.Rows[i]["tenduong"].ToString() + ", " +
-                                    dt.Rows[i]["tenquan"].ToString() + ", " +
-                                    dt.Rows[i]["tenthanhpho"].ToString();
-                    item.MieuTa = dt.Rows[i]["mieuta"].ToString();
-                    item.ToaDo = dt.Rows[i]["toado"].ToString();
-                    item.GiaThue = (double)dt.Rows[i]["giathue"];
-                    item.DienTich = (double)dt.Rows[i]["dientich"];
-                    item.MaTrangThaiCanHo = (int)dt.Rows[i]["matrangthaicanho"];
-                    item.TrangThaiCanHo = (TrangThaiCanHo)dt.Rows[i]["matrangthaicanho"];
-                    item.NgayDang = DateTime.Parse(dt.Rows[i]["ngaydang"].ToString());
-                    item.NguoiDang = (int)dt.Rows[i]["nguoidang"];
-                    item.GhiChu = dt.Rows[i]["ghichu"].ToString();
-                    item.KichHoat = (int)dt.Rows[i]["kichhoat"];
-                    
-                    dsCanHo.Add(item);
-                }
+                //Set level = Serializable để giải quyết Phantom
+                cmd.Transaction = cmd.Connection.BeginTransaction(IsolationLevel.Serializable);
+            }
+            else
+            {
+                //Set level = ReadCommitted mức mặc định
+                cmd.Transaction = cmd.Connection.BeginTransaction(IsolationLevel.ReadCommitted);
             }
 
-            ViewBag.dsCanHoCount = dsCanHo.Count;
+            try
+            {
+                reader = cmd.ExecuteReader();
+
+                //Doc so dong du lieu
+                while (reader.Read())
+                {
+                    ViewBag.dsCanHoCount = reader.GetValue(0);
+                }
+                reader.Close();
+
+                Thread.Sleep(5000); //Wait for 15 seconds
+
+                //truy van tim kiem
+                sqlHeader = "SELECT ch.*, d.tenduong, q.tenquan, tp.tenthanhpho ";
+                cmd.CommandText = sqlHeader + sql;
+                reader = cmd.ExecuteReader();
+
+                /*
+                    0 macanho
+                    1 tencanho
+                    2 maduong
+                    3 diachi
+                    4 mieuta
+                    5 toado
+                    6 giathue
+                    7 dientich
+                    8 matrangthaicanho
+                    9 ngaydang
+                    10 nguoidang
+                    11 ghichu
+                    12 kichhoat
+                    13 tenduong
+                    14 tenquan
+                    15 tenthanhpho
+                 */
+
+                while (reader.Read())
+                {
+                    //Tao mang luu tru dong du lieu (FieldCount = so cot du lieu)
+                    object[] row = new object[reader.FieldCount];
+
+                    //Doc gia tri vao mang
+                    reader.GetValues(row);
+                    
+
+                    CanHo item = new CanHo();
+                    item.MaCanHo = int.Parse(row[0].ToString());
+                    item.TenCanHo = row[1].ToString();
+                    item.MaDuong = int.Parse(row[2].ToString());
+                    item.DiaChi = row[3].ToString() + " " + row[13].ToString() + ", " +
+                                    row[14].ToString() + ", " + row[15].ToString();
+                    item.MieuTa = row[4].ToString();
+                    item.ToaDo = row[5].ToString();
+                    item.GiaThue = double.Parse(row[6].ToString());
+                    item.DienTich = double.Parse(row[7].ToString());
+                    item.MaTrangThaiCanHo = int.Parse(row[8].ToString());
+                    item.TrangThaiCanHo = (TrangThaiCanHo)int.Parse(row[8].ToString());
+                    item.NgayDang = DateTime.Parse(row[9].ToString());
+                    item.NguoiDang = int.Parse(row[10].ToString());
+                    item.GhiChu = row[11].ToString();
+                    item.KichHoat = int.Parse(row[12].ToString());
+
+                    dsCanHo.Add(item);
+                    
+                }
+                reader.Close();
+
+                cmd.Transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                //Roll back neu bi loi
+                if (cmd.Transaction != null)
+                {
+                    cmd.Transaction.Rollback();
+                }
+            }
+            finally
+            {
+                //Dong ket noi
+                dp.Connect.Close();
+            }
+            
             ViewBag.isTimKiem = true;
 
             return View("~/Views/Shared/TimKiem.cshtml", dsCanHo);

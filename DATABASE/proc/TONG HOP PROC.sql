@@ -178,25 +178,6 @@ AS
 	RETURN
 GO
 --
-CREATE PROC [dbo].[sp_thuecanho]
-	@mataikhoan int, @macanho int, @tiencoc float, @thoigianthue datetime, @thoigiankethuc datetime,
-	@thoigiangiaodich datetime, @dienthoai nvarchar(100), @diachi nvarchar(100), @ghichu text
-AS
-BEGIN
-	IF NOT EXISTS(SELECT * FROM canho WHERE macanho = @macanho)
-		BEGIN
-			RAISERROR(N'Mã căn hộ không tồn tại', 16, 9)
-		END
-	ELSE
-		BEGIN
-			INSERT INTO thuecanho(mataikhoan, macanho, tiencoc, thoigianthue, thoigianketthuc,
-								thoigiangiaodich, dienthoai, diachi, ghichu, kichhoat)
-			VALUES(@mataikhoan, @macanho, @tiencoc, @thoigianthue, @thoigiankethuc, 
-				@thoigiangiaodich, @dienthoai, @diachi, @ghichu, 1)
-		END
-END
-GO
---
 CREATE PROCEDURE [dbo].[sp_ChiTietThueCanHo]
 	@mathuecanho INT
 AS
@@ -425,5 +406,23 @@ BEGIN
 	WHERE num > @start
 
 	RETURN @count
+END
+GO
+
+--
+CREATE PROC [dbo].[sp_ThueCanHo]
+	@mataikhoan int, @macanho int, @tiencoc float, @thoigianthue datetime, @thoigiankethuc datetime,
+	@thoigiangiaodich datetime, @dienthoai nvarchar(100), @diachi nvarchar(100), @ghichu text
+AS
+BEGIN
+	IF NOT EXISTS(SELECT * FROM canho WHERE macanho = @macanho) BEGIN
+			RAISERROR(N'Mã căn hộ không tồn tại', 16, 9)
+	END
+	ELSE BEGIN
+		INSERT INTO thuecanho(mataikhoan, macanho, tiencoc, thoigianthue, thoigianketthuc,
+							thoigiangiaodich, dienthoai, diachi, ghichu, kichhoat)
+		VALUES(@mataikhoan, @macanho, @tiencoc, @thoigianthue, @thoigiankethuc, 
+			@thoigiangiaodich, @dienthoai, @diachi, @ghichu, 1)
+	END
 END
 GO

@@ -58,8 +58,8 @@ namespace dbQLBDS.Controllers.Login
                         if (dt.Rows[0]["ngaysinh"] != DBNull.Value) tk.NgaySinh = (DateTime)dt.Rows[0]["ngaysinh"];
                         if (dt.Rows[0]["diachi"] != DBNull.Value) tk.DiaChi = (string)dt.Rows[0]["diachi"];
                         if (dt.Rows[0]["dienthoai"] != DBNull.Value) tk.DienThoai = (string)dt.Rows[0]["dienthoai"];
-
-                        switch ((int)dt.Rows[0]["maloaitaikhoan"])
+                        tk.MaLoaiTaiKhoan = (int)dt.Rows[0]["maloaitaikhoan"];
+                        switch (tk.MaLoaiTaiKhoan)
                         {
                             case 1:
                                 tk.LoaiTaiKhoan = LoaiTaiKhoan.Admin;

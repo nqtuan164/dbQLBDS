@@ -61,16 +61,16 @@
                         @item.TienCoc
                     </td>
                     <td>
-                        @item.ThoiGianThue.ToString("dd/MM/yyyy");
+                        @item.ThoiGianThue.ToString("dd/MM/yyyy")
                     </td>
                     <td>
-                        @item.ThoiGianGiaoDich.ToString("dd/MM/yyyy");
+                        @item.ThoiGianGiaoDich.ToString("dd/MM/yyyy")
                     </td>
                     <td>
                         @item.DienThoai
                     </td>
                     <td>
-                        <a href="" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
+                        <a href="@Url.Action("ChiTietThueCanHo", "ThueCanHo", new { id = item.MaThueCanHo })" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
                     </td>
                 </tr>
             }
@@ -87,13 +87,13 @@
                     if (i == page)
                     { 
                         <li>
-                            <a href = "@Url.Action("Index", "TaiKhoan", new { @page = i })" class = "cur">@i</a>
+                            <a href = "@Url.Action("Index", "ThueCanHo", new { @page = i })" class = "cur">@i</a>
                         </li>
                     }
                     else
                     { 
                         <li>
-                            <a href="@Url.Action("Index","TaiKhoan", new { @page = i })" >@i</a>
+                            <a href="@Url.Action("Index","ThueCanHo", new { @page = i })" >@i</a>
                         </li>
                     }
                   }

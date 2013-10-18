@@ -31,7 +31,7 @@ namespace QLBDS.Controllers.Admin
                         return 3;
                 };
             }
-            return 1;
+            return -1;
         }
 
         //

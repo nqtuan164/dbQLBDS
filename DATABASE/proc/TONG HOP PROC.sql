@@ -1,4 +1,126 @@
------------------CAN HO-----------------
+
+CREATE PROC [dbo].[sp_DanhSachTaiKhoan]
+	@page INT,
+	@pagesize INT,
+	@count INT OUTPUT
+	AS
+BEGIN
+	SELECT @count = COUNT(*)
+	FROM taikhoan
+	
+	DECLARE @start INT
+	SET @start = @pagesize * (@page - 1)
+	
+	SELECT TOP(@pagesize)*
+	FROM(
+		SELECT  *, ROW_NUMBER() OVER(ORDER BY mataikhoan) AS num
+		FROM taikhoan
+		)AS a
+	WHERE num > @start
+	
+	RETURN @count
+END
+GO
+--
+CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
+	@email nvarchar(100), @matkhau nvarchar(100)
+AS
+BEGIN
+	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) 
+	BEGIN
+		RAISERROR (N'Đăng nhập không thành công', 10, 1)
+	END
+	ELSE 
+	BEGIN
+		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau
+	END
+END
+GO
+--
+CREATE PROCEDURE [dbo].[sp_DangKyTaiKhoan]
+	@email nvarchar(100), 
+	@matkhau nvarchar(100), 
+	@maloaitaikhoan int, 
+	@ten nvarchar(100), 
+	@ngaysinh datetime, 
+	@diachi nvarchar(255),	
+	@dienthoai nvarchar(100), 
+	@ngaydangky datetime, 
+	@trangthai int
+AS
+BEGIN
+	IF(EXISTS(SELECT email FROM taikhoan WHERE email = @email)) BEGIN
+		RAISERROR(N'Email đã tồn tại', 10, 1)
+	END
+	ELSE BEGIN
+		INSERT INTO taikhoan(email, matkhau, maloaitaikhoan, ten, ngaysinh, diachi, dienthoai, ngaydangky, trangthai)
+		VALUES(@email, @matkhau, @maloaitaikhoan, @ten, @ngaysinh, @diachi, @dienthoai, @ngaydangky, @trangthai)
+	END
+END
+GO
+--
+CREATE PROC [dbo].[sp_ChinhSuaTaiKhoan]
+	@mataikhoan int,
+	@maloaitaikhoan int,
+	@trangthai int
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM taikhoan WHERE maloaitaikhoan = @mataikhoan)
+	BEGIN
+		RAISERROR(N'Không tìm thấy tài khoản cần chỉnh sửa', 10, 1)
+	END
+	
+	UPDATE taikhoan
+	SET maloaitaikhoan = @maloaitaikhoan,
+		trangthai = @trangthai
+	WHERE mataikhoan = @mataikhoan
+	
+	RETURN	
+	
+END
+GO
+--
+CREATE PROCEDURE [dbo].[sp_TaoCanHo]
+	@tencanho NVARCHAR(255),
+	@maduong INT,
+	@diachi NVARCHAR(100),
+	@mieuta NVARCHAR(4000),
+	@toado NVARCHAR(30),
+	@giathue FLOAT,
+	@dientich FLOAT,
+	@matrangthaicanho INT,
+	@ngaydang DATETIME,
+	@nguoidang INT
+AS
+	/* SET NOCOUNT ON */
+	INSERT INTO canho (
+		tencanho, 
+		maduong, 
+		diachi, 
+		mieuta, 
+		toado, 
+		giathue, 
+		dientich,
+		matrangthaicanho,
+		ngaydang,
+		nguoidang,
+		kichhoat)
+	VALUES (
+		@tencanho, 
+		@maduong,
+		@diachi,
+		@mieuta,
+		@toado,
+		@giathue,
+		@dientich,
+		@matrangthaicanho,
+		@ngaydang,
+		@nguoidang,
+		1
+		)		   
+	RETURN
+GO
+--
 CREATE PROCEDURE [dbo].[sp_DanhSachCanHo]
 	@page INT,
 	@pagesize INT,
@@ -34,7 +156,6 @@ CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo]
 	@dientich FLOAT,
 	@matrangthaicanho INT
 AS
-BEGIN
 	/* SET NOCOUNT ON */
 	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
 	BEGIN
@@ -55,52 +176,107 @@ BEGIN
 	WHERE macanho = @macanho
 
 	RETURN
+GO
+--
+CREATE PROC [dbo].[sp_thuecanho]
+	@mataikhoan int, @macanho int, @tiencoc float, @thoigianthue datetime, @thoigiankethuc datetime,
+	@thoigiangiaodich datetime, @dienthoai nvarchar(100), @diachi nvarchar(100), @ghichu text
+AS
+BEGIN
+	IF NOT EXISTS(SELECT * FROM canho WHERE macanho = @macanho)
+		BEGIN
+			RAISERROR(N'Mã căn hộ không tồn tại', 16, 9)
+		END
+	ELSE
+		BEGIN
+			INSERT INTO thuecanho(mataikhoan, macanho, tiencoc, thoigianthue, thoigianketthuc,
+								thoigiangiaodich, dienthoai, diachi, ghichu, kichhoat)
+			VALUES(@mataikhoan, @macanho, @tiencoc, @thoigianthue, @thoigiankethuc, 
+				@thoigiangiaodich, @dienthoai, @diachi, @ghichu, 1)
+		END
 END
 GO
 --
-CREATE PROCEDURE dbo.sp_TaoCanHo
-	@tencanho NVARCHAR(255),
-	@maduong INT,
-	@diachi NVARCHAR(100),
-	@mieuta NVARCHAR(4000),
-	@toado NVARCHAR(30),
-	@giathue FLOAT,
-	@dientich FLOAT,
-	@matrangthaicanho INT,
-	@ngaydang DATETIME,
-	@nguoidang INT
+CREATE PROCEDURE [dbo].[sp_ChiTietThueCanHo]
+	@mathuecanho INT
 AS
 BEGIN
-	/* SET NOCOUNT ON */
-	INSERT INTO canho (
-		tencanho, 
-		maduong, 
-		diachi, 
-		mieuta, 
-		toado, 
-		giathue, 
-		dientich,
-		matrangthaicanho,
-		ngaydang,
-		nguoidang,
-		kichhoat)
-	VALUES (
-		@tencanho, 
-		@maduong,
-		@diachi,
-		@mieuta,
-		@toado,
-		@giathue,
-		@dientich,
-		@matrangthaicanho,
-		@ngaydang,
-		@nguoidang,
-		1
-		)		   
+	IF NOT EXISTS (SELECT * FROM thuecanho WHERE mathuecanho = @mathuecanho)
+	BEGIN
+		RAISERROR (N'Quá trình thuê căn hộ không tồn tại', 10, 1)
+	END
+	ELSE
+	BEGIN
+		SELECT 
+			t.mathuecanho,
+			t.macanho,
+			t.mataikhoan,
+			t.tiencoc,
+			t.thoigianthue,
+			t.thoigianketthuc,
+			t.thoigiangiaodich,
+			t.dienthoai,
+			t.diachi,
+			t.ghichu,
+			t.kichhoat,
+			ch.tencanho,
+			tk.ten,
+			tk.email
+		FROM thuecanho t, canho ch, taikhoan tk 
+		WHERE
+			t.macanho = ch.macanho AND
+			t.mataikhoan = tk.mataikhoan AND 
+			t.mathuecanho = @mathuecanho AND
+			t.kichhoat = 1
+	END
 	RETURN
 END
+GO
 --
-CREATE PROCEDURE dbo.sp_XoaCanHo
+CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]
+	@page INT,
+	@pagesize INT,
+	@count INT OUTPUT
+AS
+BEGIN
+	SELECT @count = COUNT(*)
+	FROM thuecanho
+
+	DECLARE @start INT
+	SET @start = @pagesize * (@page - 1)
+
+	SELECT TOP(@pagesize) * 
+	FROM 
+	(
+		SELECT 
+			t.mathuecanho,
+			t.macanho,
+			t.mataikhoan,
+			t.tiencoc,
+			t.thoigianthue,
+			t.thoigianketthuc,
+			t.thoigiangiaodich,
+			t.dienthoai,
+			t.diachi,
+			t.ghichu,
+			t.kichhoat,
+			ch.tencanho,
+			tk.ten,
+			tk.email, 
+			ROW_NUMBER() OVER (ORDER BY t.mathuecanho ASC, t.thoigiangiaodich DESC) as num
+		FROM thuecanho t, canho ch, taikhoan tk 
+		WHERE
+			t.macanho = ch.macanho AND
+			t.mataikhoan = tk.mataikhoan AND 
+			t.kichhoat = 1
+	) AS a
+	WHERE num > @start
+
+	RETURN @count
+END
+GO
+--
+CREATE PROCEDURE [dbo].[sp_XoaCanHo]
 	@macanho INT
 AS
 BEGIN
@@ -146,97 +322,89 @@ BEGIN
 	END
 	RETURN
 END
------------------TAI KHOAN-----------------
-CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
-	@email nvarchar(100), @matkhau nvarchar(100)
+GO
+--
+CREATE PROCEDURE [dbo].[sp_NhanGiaoDich]
+	@mataikhoan INT,
+	@mathuecanho INT
 AS
-BEGIN
-	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) 
+BEGIN	
+	DECLARE @macanho INT
+	SELECT @macanho = ch.macanho 
+	FROM canho ch, thuecanho t
+	WHERE 
+		ch.macanho = t.macanho AND
+		t.mathuecanho = @mathuecanho AND 
+		ch.matrangthaicanho = 2 AND 
+		ch.kichhoat = 1
+	
+	--TODO: KIỂM TRA SỰ TỒN TẠI CỦA CĂN HỘ VỚI ĐIỀU KIỆN ĐÃ ĐƯỢC THUÊ HAY CHƯA.
+	IF @macanho <> NULL
 	BEGIN
-		RAISERROR (N'Đăng nhập không thành công', 10, 1)
+		RAISERROR (N'Căn hộ đã được sử dụng hoặc không tồn tại', 10, 1)
+		RETURN
 	END
-	ELSE 
+
+	--TODO: KIỂM TRA SỰ TỒN TẠI CỦA THUÊ CĂN HỘ
+	IF EXISTS (SELECT * 
+			   FROM nhangiaodich
+			   WHERE 
+				mathuecanho = @mathuecanho)
 	BEGIN
-		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau
+		RAISERROR (N'Giao dịch đã được nhận xử lý', 10, 1)
+		RETURN
 	END
+
+	--TODO: TẠO GIAO DỊCH CĂN HỘ
+	INSERT INTO nhangiaodich 
+	(mataikhoan, mathuecanho, matrangthaigiaodich) VALUES
+	(@mataikhoan, @mathuecanho, 1)
+
+	--TODO: CẬP NHẬT TRẠNG THÁI CĂN HỘ
+	UPDATE canho 
+	SET matrangthaicanho = 1
+	WHERE macanho = @macanho
+
+	RETURN
 END
 GO
 --
-CREATE PROCEDURE [dbo].[sp_DangKyTaiKhoan]
-	@email nvarchar(100), 
-	@matkhau nvarchar(100), 
-	@maloaitaikhoan int, 
-	@ten nvarchar(100), 
-	@ngaysinh datetime, 
-	@diachi nvarchar(255),	
-	@dienthoai nvarchar(100), 
-	@ngaydangky datetime, 
-	@trangthai int
+CREATE PROCEDURE [dbo].[sp_DanhSachNhanGiaoDichThueCanHo]
+	@mathuecanho INT
 AS
 BEGIN
-	IF(EXISTS(SELECT email FROM taikhoan WHERE email = @email)) BEGIN
-		RAISERROR(N'Email đã tồn tại', 10, 1)
+	IF NOT EXISTS (SELECT * FROM thuecanho WHERE mathuecanho = @mathuecanho)
+	BEGIN
+		RAISERROR (N'Quá trình thuê căn hộ không tồn tại', 10, 1)
 	END
-	ELSE BEGIN
-		INSERT INTO taikhoan(email, matkhau, maloaitaikhoan, ten, ngaysinh, diachi, dienthoai, ngaydangky, trangthai)
-		VALUES(@email, @matkhau, @maloaitaikhoan, @ten, @ngaysinh, @diachi, @dienthoai, @ngaydangky, @trangthai)
-	END
+
+	SELECT 
+		gd.magiaodich,
+		gd.mataikhoan,
+		gd.mathuecanho,
+		gd.matrangthaigiaodich,
+		tk.mataikhoan,
+		tk.ten,
+		tk.maloaitaikhoan
+	FROM nhangiaodich gd, taikhoan tk
+	WHERE
+		gd.mathuecanho = @mathuecanho AND
+		gd.mataikhoan = tk.mataikhoan
+
+	RETURN
 END
 GO
 --
-CREATE PROC sp_DanhSachTaiKhoan
+CREATE PROCEDURE [dbo].[sp_DanhSachGiaoDich]
+	@mataikhoan INT,
 	@page INT,
 	@pagesize INT,
 	@count INT OUTPUT
-	AS
-BEGIN
-	SELECT @count = COUNT(*)
-	FROM taikhoan
-	
-	DECLARE @start INT
-	SET @start = @pagesize * (@page - 1)
-	
-	SELECT TOP(@pagesize)*
-	FROM(
-		SELECT  *, ROW_NUMBER() OVER(ORDER BY mataikhoan) AS num
-		FROM taikhoan
-		)AS a
-	WHERE num > @start
-	
-	RETURN @count
-END
-GO
-
-CREATE PROC sp_ChinhSuaTaiKhoan
-	@mataikhoan int,
-	@maloaitaikhoan int,
-	@trangthai int
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM taikhoan WHERE maloaitaikhoan = @mataikhoan)
-	BEGIN
-		RAISERROR(N'Không tìm thấy tài khoản cần chỉnh sửa', 10, 1)
-	END
-	
-	UPDATE taikhoan
-	SET maloaitaikhoan = @maloaitaikhoan,
-		trangthai = @trangthai
+	SELECT @count = COUNT(*)
+	FROM nhangiaodich
 	WHERE mataikhoan = @mataikhoan
-	
-	RETURN	
-	
-END
-GO
-
------------------THUE CAN HO-----------------
-CREATE PROCEDURE [dbo].[sp_DanhSachThueCanHo]
-	@page INT,
-	@pagesize INT,
-	@count INT OUTPUT
-AS
-BEGIN
-	SELECT @count = COUNT(*)
-	FROM thuecanho
 
 	DECLARE @start INT
 	SET @start = @pagesize * (@page - 1)
@@ -245,49 +413,17 @@ BEGIN
 	FROM 
 	(
 		SELECT 
-			t.mathuecanho,
-			t.macanho,
-			t.mataikhoan,
-			t.tiencoc,
-			t.thoigianthue,
-			t.thoigianketthuc,
-			t.thoigiangiaodich,
-			t.dienthoai,
-			t.diachi,
-			t.ghichu,
-			t.kichhoat,
-			ch.tencanho,
-			tk.ten,
-			tk.email, 
-			ROW_NUMBER() OVER (ORDER BY t.mathuecanho ASC, t.thoigiangiaodich DESC) as num
-		FROM thuecanho t, canho ch, taikhoan tk 
-		WHERE
-			t.macanho = ch.macanho AND
-			t.mataikhoan = tk.mataikhoan AND 
-			t.kichhoat = 1
+		gd.magiaodich,
+		gd.mataikhoan,
+		gd.mathuecanho,
+		gd.matrangthaigiaodich,
+		tk.ten, 
+		ROW_NUMBER() OVER (ORDER BY magiaodich) as num
+		FROM nhangiaodich gd, taikhoan tk
+		WHERE gd.mataikhoan = tk.mataikhoan AND gd.mataikhoan = @mataikhoan
 	) AS a
 	WHERE num > @start
 
 	RETURN @count
 END
-
-CREATE PROC sp_thuecanho
-	@mataikhoan int, @macanho int, @tiencoc float, @thoigianthue datetime, @thoigiankethuc datetime,
-	@thoigiangiaodich datetime, @dienthoai nvarchar(100), @diachi nvarchar(100), @ghichu text
-AS
-BEGIN
-	IF NOT EXISTS(SELECT * FROM canho WHERE macanho = @macanho)
-		BEGIN
-			RAISERROR(N'Mã căn hộ không tồn tại', 16, 9)
-		END
-	ELSE
-		BEGIN
-			INSERT INTO thuecanho(mataikhoan, macanho, tiencoc, thoigianthue, thoigianketthuc,
-								thoigiangiaodich, dienthoai, diachi, ghichu, kichhoat)
-			VALUES(@mataikhoan, @macanho, @tiencoc, @thoigianthue, @thoigiankethuc, 
-				@thoigiangiaodich, @dienthoai, @diachi, @ghichu, 1)
-		END
-END
 GO
-
-

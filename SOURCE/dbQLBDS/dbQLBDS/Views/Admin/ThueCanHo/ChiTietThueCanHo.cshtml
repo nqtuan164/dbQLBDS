@@ -1,14 +1,21 @@
-﻿@model dbQLBDS.Models.ThueCanHo
+﻿@using dbQLBDS.Models;
+@model dbQLBDS.Models.ThueCanHo
 @{
     ViewBag.Title = "ChiTietThueCanHo";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
 }
 
-<h2>Chi Tiết Thuê Căn Hộ</h2>
+<h2 class="dashboard-title">CHI TIẾT THUÊ CĂN HỘ</h2>
 
 @using(Html.BeginForm()) {
 <div class="editor-field">
-    @Html.HiddenFor(model => model.MaCanHo)
+    @{
+        DateTime date2 = Model.ThoiGianThue;
+        DateTime date1 = Model.ThoiGianKetThuc;
+        int sothang = (date1.Year * 12 + date1.Month) - (date2.Year * 12 + date2.Month);
+                
+    }
+    @Html.HiddenFor(model => model.MaThueCanHo)
     <h3 class="editor-field-title">THÔNG TIN CHUNG</h3>
     
     <div class="editor-item">
@@ -16,22 +23,24 @@
             Tên căn hộ:
         </div>
         <div class="editor-input">
+            @Html.HiddenFor(model => model.MaCanHo)
             @Html.DisplayFor(model => model.TenCanHo)
         </div>
     </div>
 
     <div class="editor-item">
         <div class="editor-label">
-            Tên Người Mua: 
+            Tên người mua: 
         </div>
         <div class="editor-input">
+            @Html.HiddenFor(model => model.MaTaiKhoan)
             @Html.DisplayFor(model => model.TenTaiKhoan)
         </div>
     </div>
 
     <div class="editor-item">
         <div class="editor-label">
-            Điện thoại: 
+            Điện thoại liên hệ: 
         </div>
         <div class="editor-input">
             @Html.DisplayFor(model => model.DienThoai)
@@ -40,21 +49,20 @@
 
     <div class="editor-item">
         <div class="editor-label">
-            Địa chỉ: 
+            Địa chỉ liên hệ: 
         </div>
         <div class="editor-input">
             @Html.DisplayFor(model => model.DiaChi)
         </div>
     </div>
 
-    <h3 class="editor-field-title">VỊ TRÍ ĐỊA LÝ</h3>
     
     <div class="editor-item">
         <div class="editor-label">
             Tiền cọc: 
         </div>
         <div class="editor-input">
-            @Html.DisplayFor(model => model.DiaChi)
+            @Html.DisplayFor(model => model.TienCoc)
         </div>
     </div>
 
@@ -65,7 +73,6 @@
         <div class="editor-input">
             
             @Html.Raw(Model.ThoiGianThue.ToString("dd/MM/yyyy"))
-            
         </div>
     </div>
 
@@ -75,17 +82,87 @@
             Thời gian kết thúc
         </div>
         <div class="editor-input">
-            @{
-                int sothang = Model.ThoiGianKetThuc.Month - Model.ThoiGianThue.Month;
-            }
-            @Html.Raw(Model.ThoiGianThue.ToString("dd/MM/yyyy") + "(" + sothang.ToString() + ")")
+            
+            @Html.Raw(Model.ThoiGianKetThuc.ToString("dd/MM/yyyy") + " (" + sothang.ToString() + " tháng)")
            
         </div>
     </div>
+    <br />
+    <h3 class="editor-field-title">THÔNG TIN GIAO DỊCH</h3>
+
+    @if (ViewBag.DanhSachGiaoDich != null)
+    {
+        GiaoDich gd = new GiaoDich();
+        gd = (GiaoDich)ViewBag.DanhSachGiaoDich;
+        
+        <div class="list-content">
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <th width="10%">
+                    Mã
+                </th>
+                <th width="30%">
+                    Tên Người Phụ Trách
+                </th>
+                <th width="25%">
+                    Mã Thuê Căn Hộ
+                </th>
+                <th width="20%">
+                    Trạng Thái
+                </th>
+                @*<th width="15%">
+                    &nbsp;
+                </th>*@
+            </tr>
+            
+            <tr>
+                <td>
+                    @gd.MaGiaoDich
+                </td>
+                <td>
+                    @gd.TenTaiKhoan
+                </td>
+                <td>
+                    @gd.MaThueCanHo
+                </td>
+                <td>
+                    @switch (gd.MaTrangThaiGiaoDich)
+                    {
+                        case 1:
+                            @Html.Raw("Giao dịch đã được nhận");
+                            break;
+                        case 2:
+                            @Html.Raw("Đang được tiến hành");
+                            break;
+                        case 3:
+                            @Html.Raw("Đã hoàn tất giao dịch");
+                            break;
+                        case 4:
+                            @Html.Raw("Thanh toán hoàn tất");
+                            break;
+                        case 5:
+                            @Html.Raw("Giao dịch bị hủy");
+                            break;
+                    }
+                </td>
+                @*<td>
+                    <a href="@Url.Action("ChinhSuaTaiKhoan", "TaiKhoan", new { id = tk.MaTaiKhoan })" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
+                    <a href="" class="list-delete-button" ><img src="@Url.Content("~/Content/images/del.png")" /></a>
+                </td>*@
+            </tr>
+        </table>
+        </div>
+    }
+    else 
+    {
+        @Html.Raw("Giao dịch chưa được nhận")
+        <br /><br />
+        <input type="submit" name="btnSave" value="Nhận giao dịch" />
+    }
 
     
-    <br />
-    <input type="submit" name="btnSave" value="Lưu thay đổi" />
+
+    
         
 </div>
 }

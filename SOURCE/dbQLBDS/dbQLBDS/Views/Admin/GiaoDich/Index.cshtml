@@ -1,0 +1,114 @@
+﻿@using dbQLBDS.Models;
+@model List<GiaoDich>
+    
+@{
+    ViewBag.Title = "Quản lý Giao Dịch";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+@{
+    int count = ViewBag.Count;
+    int rowperpage = ViewBag.RowPerPage;
+    int page = ViewBag.Page;
+}
+<h2 class="dashboard-title">QUẢN LÝ GIAO DỊCH</h2>
+
+<div class="editor-field">
+    <h3 class="editor-field-title">KẾT QUẢ (SỐ LƯỢNG: @count)</h3>
+    <div class="list-content">
+
+        @if (Model != null)
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tr>
+                    <th width="10%">
+                        Mã
+                    </th>
+                    <th width="30%">
+                        Tên Người Phụ Trách
+                    </th>
+                    <th width="25%">
+                        Mã Thuê Căn Hộ
+                    </th>
+                    <th width="20%">
+                        Trạng Thái
+                    </th>
+                    <th width="15%">
+                        &nbsp;
+                    </th>
+                </tr>
+
+                @foreach (GiaoDich gd in Model)
+                {
+                <tr>
+                    <td>
+                        @gd.MaGiaoDich
+                    </td>
+                    <td>
+                        @gd.TenTaiKhoan
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ChiTietThueCanHo", "ThueCanHo", new { id = gd.MaThueCanHo} )" >@gd.MaThueCanHo</a>
+                    </td>
+                    <td>
+                        @switch (gd.MaTrangThaiGiaoDich)
+                        {
+                            case 1:
+                                @Html.Raw("Giao dịch đã được nhận");
+                                break;
+                            case 2:
+                                @Html.Raw("Đang được tiến hành");
+                                break;
+                            case 3:
+                                @Html.Raw("Đã hoàn tất giao dịch");
+                                break;
+                            case 4:
+                                @Html.Raw("Thanh toán hoàn tất");
+                                break;
+                            case 5:
+                                @Html.Raw("Giao dịch bị hủy");
+                                break;
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ChinhSuaTaiKhoan", "TaiKhoan", new { id = gd.MaGiaoDich })" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
+                        <a href="" class="list-delete-button" ><img src="@Url.Content("~/Content/images/del.png")" /></a>
+                    </td>
+                </tr>
+                }
+            </table>
+
+            <div class="list-paging">
+                @{
+                    double num = Math.Ceiling(count * 1.0 / rowperpage);
+                }
+                <ul>
+                    @for (int i = 1; i <= num; i++)
+                    {
+                        if (i == page)
+                        { 
+                            <li>
+                                <a href = "@Url.Action("Index", "GiaoDich", new { @page = i })" class = "cur">@i</a>
+                            </li>
+                        }
+                        else
+                        { 
+                            <li>
+                                <a href="@Url.Action("Index","GiaoDich", new { @page = i })" >@i</a>
+                            </li>
+                        }
+                      }
+                </ul>
+            </div>
+
+        
+        
+            <br />
+        } 
+        else {
+            @Html.Raw("Hiện tại bạn chưa có giao dịch")
+        }
+        
+    </div>
+    
+</div>

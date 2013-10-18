@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using dbQLBDS.Models;
 using dbQLBDS.Controllers;
 using System.Data;
+using System.Web.Helpers;
 
 namespace QLBDS.Controllers.Admin
 {
@@ -31,7 +32,7 @@ namespace QLBDS.Controllers.Admin
                         return 3;
                 };
             }
-            return 1;
+            return -1;
         }
         //
         // GET: /ThueCanHo/
@@ -172,7 +173,52 @@ namespace QLBDS.Controllers.Admin
                         item.KichHoat = (int)dt.Rows[0]["kichhoat"];
                     }
 
+                    GiaoDich gd = GiaoDichController.DanhSachGiaoDichThueCanHo(item.MaThueCanHo);
+
+                    if (gd != null)
+                    {
+                        ViewBag.DanhSachGiaoDich = gd;
+                    }
+
                     return View("~/Views/Admin/ThueCanHo/ChiTietThueCanHo.cshtml", item);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                    return Redirect("/Admin/ThueCanHo/");
+                }
+            }
+        }
+
+        [HttpPost, ActionName("ChiTietThueCanHo")]
+        public ActionResult NhanGiaoDichThueCanHo(ThueCanHo thuecanho)
+        {
+            if (isLogin() == -1)
+            {
+                return Redirect("/DangNhap");
+            }
+            else if (isLogin() == 2)
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                try
+                {
+                    TaiKhoan tk = new TaiKhoan();
+                    tk = (TaiKhoan)Session["taikhoan"];
+
+                    DataProvider dp = new DataProvider();
+
+                    SqlParameter[] param = new SqlParameter[2];
+                    param[0] = new SqlParameter("@mataikhoan", SqlDbType.Int);
+                    param[0].Value = tk.MaTaiKhoan;
+
+                    param[1] = new SqlParameter("@mathuecanho", SqlDbType.Int);
+                    param[1].Value = thuecanho.MaThueCanHo;
+
+                    dp.ExecuteProcNonQuery("sp_NhanGiaoDich", ref param);
+                    return Redirect("/Admin/ThueCanHo/ChiTietThueCanHo/" + thuecanho.MaThueCanHo.ToString());
                 }
                 catch (Exception ex)
                 {

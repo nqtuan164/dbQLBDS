@@ -18,8 +18,11 @@ namespace dbQLBDS.Models
     {
         private int maGiaoDich;
         private int maTaiKhoan;
+        private string tenTaiKhoan;
+        private int maLoaiTaiKhoan;
         private int maThueCanHo;
-        private TrangThaiGiaoDich maTrangThaiGiaoDich;
+        private int maTrangThaiGiaoDich;
+        private TrangThaiGiaoDich trangThaiGiaoDich;
 
         public int MaGiaoDich
         {
@@ -31,15 +34,33 @@ namespace dbQLBDS.Models
             get { return maTaiKhoan; }
             set { maTaiKhoan = value; }
         }
+        public string TenTaiKhoan
+        {
+            get { return tenTaiKhoan; }
+            set { tenTaiKhoan = value; }
+        }
+
+        public int MaLoaiTaiKhoan
+        {
+            get { return maLoaiTaiKhoan; }
+            set { maLoaiTaiKhoan = value; }
+        }
         public int MaThueCanHo
         {
             get { return maThueCanHo; }
             set { maThueCanHo = value; }
         }
-        public TrangThaiGiaoDich MaTrangThaiGiaoDich
+
+        public int MaTrangThaiGiaoDich
         {
             get { return maTrangThaiGiaoDich; }
             set { maTrangThaiGiaoDich = value; }
+        }
+
+        public TrangThaiGiaoDich TrangThaiGiaoDich
+        {
+            get { return trangThaiGiaoDich; }
+            set { trangThaiGiaoDich = value; }
         }
 
         public GiaoDich()
@@ -55,7 +76,7 @@ namespace dbQLBDS.Models
             this.maGiaoDich = _maGiaoDich;
             this.maTaiKhoan = _maTaiKhoan;
             this.maThueCanHo = _maThueCanHo;
-            this.maTrangThaiGiaoDich = _maTrangThaiGiaoDich;
+            this.trangThaiGiaoDich = _maTrangThaiGiaoDich;
         }
     }
 }

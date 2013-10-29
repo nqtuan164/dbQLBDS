@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,9 +26,9 @@ namespace dbQLBDS.Controllers
             else
             {
                 DataProvider dp = new DataProvider();
-
+                string sql = "";
                 //Load danh sach thanh pho
-                string sql = @"SELECT ch.*, d.tenduong, q.tenquan, tp.tenthanhpho
+                /*string sql = @"SELECT ch.*, d.tenduong, q.tenquan, tp.tenthanhpho
                                 FROM canho ch, duong d, quan q, thanhpho tp
                                 WHERE ch.kichhoat = 1 AND
                                     ch.matrangthaicanho = 2 AND
@@ -36,9 +37,14 @@ namespace dbQLBDS.Controllers
                                     q.mathanhpho = tp.mathanhpho AND
                                     ch.macanho = " + canHoID.ToString() + @"
                                 ORDER BY ch.ngaydang DESC
-                                ";
+                                ";*/
+
+                SqlParameter[] param = new SqlParameter[1];
+                param[0] = new SqlParameter("@macanho", SqlDbType.Int);
+                param[0].Value = canHoID.ToString();
+
                 DataTable dt = new DataTable();
-                dt = dp.ExecuteQuery(sql);
+                dt = dp.ExecuteProcQuery("sp_XemCanHo",ref param);
 
                 if (dt.Rows.Count > 0)
                 {

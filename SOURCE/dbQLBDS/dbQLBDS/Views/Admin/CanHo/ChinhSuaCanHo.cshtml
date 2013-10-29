@@ -149,6 +149,9 @@
     
     <br />
     <input type="submit" name="btnSave" value="Lưu thay đổi" />
-        
+    <br />
+    <input type="checkbox" id="chkSuaLoi"  name="chkSuaLoi" @if(ViewBag.chkSuaLoi != null) { @Html.Raw("checked='checked'") } />
+    <label for="chkSuaLoi">Sửa lỗi Lost Update</label>
+
 </div>
 }

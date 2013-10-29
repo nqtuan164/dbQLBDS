@@ -342,7 +342,7 @@ namespace QLBDS.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult ChinhSuaCanHo(CanHo canho)
+        public ActionResult ChinhSuaCanHo(CanHo canho, string chkSuaLoi)
         {
             if (isLogin() == -1)
             {
@@ -357,6 +357,7 @@ namespace QLBDS.Controllers.Admin
                 //*/
                 try
                 {
+                    ViewBag.chkSuaLoi = chkSuaLoi;
                     DataProvider dp = new DataProvider();
 
                     SqlParameter[] param = new SqlParameter[9];
@@ -387,7 +388,17 @@ namespace QLBDS.Controllers.Admin
                     param[8] = new SqlParameter("@matrangthaicanho", SqlDbType.Int);
                     param[8].Value = canho.MaTrangThaiCanHo;
 
-                    dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo", ref param);
+                    if (chkSuaLoi != null)
+                    {
+                        //Set level = Serializable để giải quyết Unrepeatable Read
+                        dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo_Fixed", ref param);
+                    }
+                    else
+                    {
+                        //Set level = ReadCommitted mức mặc định
+                        dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo", ref param);
+                    }
+
 
                     ViewBag.ErrorMessage = "Cập nhật thành công!";
                     return Redirect("/Admin/CanHo/");

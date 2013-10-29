@@ -1,3 +1,20 @@
+CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
+	@email nvarchar(100), @matkhau nvarchar(100)
+AS
+BEGIN TRAN
+	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) BEGIN
+		RAISERROR (N'Đăng nhập không thành công', 10, 1)
+		ROLLBACK TRAN
+		RETURN
+	END
+	ELSE BEGIN
+		WAITFOR DELAY '00:00:05'
+		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1
+	END
+COMMIT TRAN
+GO
+----------------------------------------------
+
 
 CREATE PROC [dbo].[sp_DanhSachTaiKhoan]
 	@page INT,
@@ -20,40 +37,6 @@ BEGIN
 	
 	RETURN @count
 END
-GO
---
-CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
-	@email nvarchar(100), @matkhau nvarchar(100)
-AS
-BEGIN TRAN
-	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) BEGIN
-		RAISERROR (N'Đăng nhập không thành công', 10, 1)
-		ROLLBACK TRAN
-		RETURN
-	END
-	ELSE BEGIN
-		WAITFOR DELAY '00:00:05'
-		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1
-	END
-COMMIT TRAN
-GO
-
-CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan_Fixed]
-	@email nvarchar(100), @matkhau nvarchar(100)
-AS
-BEGIN TRAN
-	set tran isolation level repeatable read
-	
-	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) BEGIN
-		RAISERROR (N'Đăng nhập không thành công', 10, 1)
-		ROLLBACK TRAN
-		RETURN
-	END
-	ELSE BEGIN
-		WAITFOR DELAY '00:00:05'
-		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1
-	END
-COMMIT TRAN
 GO
 --
 CREATE PROCEDURE [dbo].[sp_DangKyTaiKhoan]

@@ -158,6 +158,9 @@
         @Html.Raw("Giao dịch chưa được nhận")
         <br /><br />
         <input type="submit" name="btnSave" value="Nhận giao dịch" />
+        <br />
+        <input type="checkbox" id="chkSuaLoi"  name="chkSuaLoi" @if(ViewBag.chkSuaLoi != null) { @Html.Raw("checked='checked'") } />
+        <label for="chkSuaLoi">Sửa lỗi Lost Update</label>
     }
 
     

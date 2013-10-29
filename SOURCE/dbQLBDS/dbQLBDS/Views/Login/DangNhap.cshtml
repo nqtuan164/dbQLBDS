@@ -52,6 +52,8 @@
                 </div>
                 <div class="editor-input">
                     <input type="submit" class="submit" id="btnDangNhap" value="Đăng nhập"/>
+                    <input type="checkbox" id="chkSuaLoi"  name="chkSuaLoi" @if(ViewBag.chkSuaLoi != null) { @Html.Raw("checked='checked'") } />
+                    <label for="chkSuaLoi">Sửa lỗi Unrepeatable read</label>
                 </div>
             </div>
         }

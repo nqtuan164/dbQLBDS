@@ -25,16 +25,35 @@ GO
 CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
 	@email nvarchar(100), @matkhau nvarchar(100)
 AS
-BEGIN
-	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) 
-	BEGIN
+BEGIN TRAN
+	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) BEGIN
 		RAISERROR (N'Đăng nhập không thành công', 10, 1)
+		ROLLBACK TRAN
+		RETURN
 	END
-	ELSE 
-	BEGIN
-		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau
+	ELSE BEGIN
+		WAITFOR DELAY '00:00:05'
+		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1
 	END
-END
+COMMIT TRAN
+GO
+
+CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan_Fixed]
+	@email nvarchar(100), @matkhau nvarchar(100)
+AS
+BEGIN TRAN
+	set tran isolation level repeatable read
+	
+	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) BEGIN
+		RAISERROR (N'Đăng nhập không thành công', 10, 1)
+		ROLLBACK TRAN
+		RETURN
+	END
+	ELSE BEGIN
+		WAITFOR DELAY '00:00:05'
+		SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1
+	END
+COMMIT TRAN
 GO
 --
 CREATE PROCEDURE [dbo].[sp_DangKyTaiKhoan]
@@ -64,10 +83,12 @@ CREATE PROC [dbo].[sp_ChinhSuaTaiKhoan]
 	@maloaitaikhoan int,
 	@trangthai int
 AS
-BEGIN
-	IF NOT EXISTS (SELECT * FROM taikhoan WHERE maloaitaikhoan = @mataikhoan)
+BEGIN TRAN
+	IF NOT EXISTS (SELECT * FROM taikhoan WHERE mataikhoan = @mataikhoan)
 	BEGIN
 		RAISERROR(N'Không tìm thấy tài khoản cần chỉnh sửa', 10, 1)
+		ROLLBACK TRAN
+		RETURN
 	END
 	
 	UPDATE taikhoan
@@ -75,9 +96,7 @@ BEGIN
 		trangthai = @trangthai
 	WHERE mataikhoan = @mataikhoan
 	
-	RETURN	
-	
-END
+COMMIT TRAN
 GO
 --
 CREATE PROCEDURE [dbo].[sp_TaoCanHo]

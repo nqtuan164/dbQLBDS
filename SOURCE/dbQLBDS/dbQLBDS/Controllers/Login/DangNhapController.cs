@@ -22,10 +22,12 @@ namespace dbQLBDS.Controllers.Login
         }
 
         [HttpPost]
-        public ActionResult Index(TaiKhoan taikhoan)
+        public ActionResult Index(TaiKhoan taikhoan, string chkSuaLoi)
         {
             try
             {
+                ViewBag.chkSuaLoi = chkSuaLoi;
+
                 if (taikhoan.Email != null && taikhoan.MatKhau != null)
                 {
                     DataProvider dp = new DataProvider();
@@ -44,7 +46,20 @@ namespace dbQLBDS.Controllers.Login
                     param[1] = new SqlParameter("@matkhau", SqlDbType.NVarChar);
                     param[1].Value = taikhoan.MatKhau;
 
-                    DataTable dt = dp.ExecuteProcQuery("sp_DangNhapTaiKhoan",ref param);
+                    DataTable dt = null;
+
+                    
+                    if (chkSuaLoi != null)
+                    {
+                        //Set level = Repeatable Read để giải quyết Unrepeatable Read
+                        dt = dp.ExecuteProcQuery("sp_DangNhapTaiKhoan_Fixed", ref param);
+                    }
+                    else
+                    {
+                        //Set level = ReadCommitted mức mặc định
+                        dt = dp.ExecuteProcQuery("sp_DangNhapTaiKhoan", ref param);
+                    }
+
 
                     if (dt.Rows.Count > 0)
                     {

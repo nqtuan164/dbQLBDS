@@ -191,7 +191,7 @@ namespace QLBDS.Controllers.Admin
         }
 
         [HttpPost, ActionName("ChiTietThueCanHo")]
-        public ActionResult NhanGiaoDichThueCanHo(ThueCanHo thuecanho)
+        public ActionResult NhanGiaoDichThueCanHo(ThueCanHo thuecanho, string chkSuaLoi)
         {
             if (isLogin() == -1)
             {
@@ -207,6 +207,7 @@ namespace QLBDS.Controllers.Admin
                 {
                     TaiKhoan tk = new TaiKhoan();
                     tk = (TaiKhoan)Session["taikhoan"];
+                    ViewBag.chkSuaLoi = chkSuaLoi;
 
                     DataProvider dp = new DataProvider();
 
@@ -217,7 +218,19 @@ namespace QLBDS.Controllers.Admin
                     param[1] = new SqlParameter("@mathuecanho", SqlDbType.Int);
                     param[1].Value = thuecanho.MaThueCanHo;
 
-                    dp.ExecuteProcNonQuery("sp_NhanGiaoDich", ref param);
+
+                    if (chkSuaLoi != null)
+                    {
+                        //Set level = Serializable để giải quyết Unrepeatable Read
+                        dp.ExecuteProcNonQuery("sp_NhanGiaoDich_Fixed", ref param);
+                    }
+                    else
+                    {
+                        //Set level = ReadCommitted mức mặc định
+                        dp.ExecuteProcNonQuery("sp_NhanGiaoDich", ref param);
+                    }
+
+
                     return Redirect("/Admin/ThueCanHo/ChiTietThueCanHo/" + thuecanho.MaThueCanHo.ToString());
                 }
                 catch (Exception ex)

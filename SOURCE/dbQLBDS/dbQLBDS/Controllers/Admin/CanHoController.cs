@@ -129,7 +129,7 @@ namespace QLBDS.Controllers.Admin
                 catch (Exception ex)
                 {
                     ViewBag.ErrorMessage = ex.Message;
-                    return null;
+                    return Redirect("/Admin/");
                 }
                 
             }
@@ -406,7 +406,7 @@ namespace QLBDS.Controllers.Admin
                     List<Duong> lsDuong = new List<Duong>();
                     lsDuong = DuongController.ListDuong();
                     ViewBag.MaDuong = new SelectList(lsDuong, "maduong", "tenduong", canho.MaDuong);
-                    ViewBag.ErrorMessage = "";
+                    ViewBag.ErrorMessage = ex.Message;
                     return View("~/Views/Admin/CanHo/ChinhSuaCanHo.cshtml", canho);
                 }
                 //*/

@@ -85,11 +85,11 @@ namespace QLBDS.Controllers.Admin
                     {
                         GiaoDich item = new GiaoDich();
 
-                        item.MaGiaoDich = (int)dt.Rows[0]["magiaodich"];
-                        item.MaTaiKhoan = (int)dt.Rows[0]["mataikhoan"];
-                        item.TenTaiKhoan = (String)dt.Rows[0]["ten"];
-                        item.MaThueCanHo = (int)dt.Rows[0]["mathuecanho"];
-                        item.MaTrangThaiGiaoDich = (int)dt.Rows[0]["matrangthaigiaodich"];
+                        item.MaGiaoDich = (int)dt.Rows[i]["magiaodich"];
+                        item.MaTaiKhoan = (int)dt.Rows[i]["mataikhoan"];
+                        item.TenTaiKhoan = (String)dt.Rows[i]["ten"];
+                        item.MaThueCanHo = (int)dt.Rows[i]["mathuecanho"];
+                        item.MaTrangThaiGiaoDich = (int)dt.Rows[i]["matrangthaigiaodich"];
                         switch (item.MaTrangThaiGiaoDich)
                         {
                             case 1:
@@ -123,7 +123,7 @@ namespace QLBDS.Controllers.Admin
                 catch (Exception ex)
                 {
                     ViewBag.ErrorMessage = ex.Message;
-                    return null;
+                    return Redirect("/Admin/");
                 }
                 //*/
             }

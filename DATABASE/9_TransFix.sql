@@ -23,6 +23,7 @@ CREATE PROCEDURE [dbo].[sp_NhanGiaoDich_Fixed]
 AS
 BEGIN TRAN
 	set tran isolation level Serializable
+	SET DEADLOCK_PRIORITY LOW
 	
 	DECLARE @macanho INT
 	SELECT @macanho = ch.macanho 
@@ -84,6 +85,7 @@ CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo_Fixed]
 AS
 BEGIN TRAN
 	set tran isolation level Serializable
+	SET DEADLOCK_PRIORITY HIGH
 	
 	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
 	BEGIN
@@ -125,3 +127,4 @@ BEGIN TRAN
     ORDER BY ch.ngaydang DESC
 
 COMMIT TRAN
+GO

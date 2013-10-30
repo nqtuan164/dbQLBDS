@@ -142,10 +142,8 @@ BEGIN TRAN
 	BEGIN
 		ROLLBACK TRAN
 	END
-	ELSE
-	BEGIN
-		COMMIT TRAN
-	END
+COMMIT TRAN
+GO
 ----------------------------------------------
 
 CREATE PROCEDURE [dbo].[sp_XemCanHo]
@@ -164,5 +162,6 @@ BEGIN TRAN
     ORDER BY ch.ngaydang DESC
 
 COMMIT TRAN
+GO
 
 

@@ -1,9 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan_Fixed]
+﻿CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
 	@email nvarchar(100), @matkhau nvarchar(100)
 AS
 BEGIN TRAN
-	set tran isolation level repeatable read
-	
 	IF(NOT EXISTS (SELECT * FROM taikhoan WHERE email = @email AND matkhau = @matkhau AND trangthai = 1)) BEGIN
 		RAISERROR (N'Đăng nhập không thành công', 10, 1)
 		ROLLBACK TRAN
@@ -18,7 +16,7 @@ GO
 ----------------------------------------------
 
 
-ALTER PROCEDURE [dbo].[sp_NhanGiaoDich]
+CREATE PROCEDURE [dbo].[sp_NhanGiaoDich]
 	@mataikhoan INT,
 	@mathuecanho INT
 AS
@@ -69,7 +67,7 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
-ALTER PROCEDURE [dbo].[sp_ChinhSuaCanHo]
+CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo]
 	@macanho INT,
 	@tencanho NVARCHAR(255),
 	@maduong INT,
@@ -81,8 +79,6 @@ ALTER PROCEDURE [dbo].[sp_ChinhSuaCanHo]
 	@matrangthaicanho INT
 AS
 BEGIN TRAN
-	set tran isolation level Serializable
-	
 	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
 	BEGIN
 		RAISERROR (N'Không tìm thấy căn hộ cần chỉnh sửa', 10, 1)

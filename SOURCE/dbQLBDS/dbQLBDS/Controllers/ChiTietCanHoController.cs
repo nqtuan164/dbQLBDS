@@ -16,7 +16,7 @@ namespace dbQLBDS.Controllers
 
         public ActionResult Index()
         {
-            bool fixDirtyRead = false;
+            bool fixDirtyRead = true;
             Boolean.TryParse(Request.Params["dirtyread"], out fixDirtyRead);
 
             int canHoID = 0;
@@ -48,7 +48,17 @@ namespace dbQLBDS.Controllers
                 param[0].Value = canHoID.ToString();
 
                 DataTable dt = new DataTable();
-                dt = dp.ExecuteProcQuery("sp_XemCanHo",ref param);
+
+                if (fixDirtyRead == true)
+                {
+                    dt = dp.ExecuteProcQuery("sp_XemCanHo_Fixed", ref param);
+                }
+                else
+                {
+                    dt = dp.ExecuteProcQuery("sp_XemCanHo", ref param);
+                }
+
+                
 
                 if (dt.Rows.Count > 0)
                 {

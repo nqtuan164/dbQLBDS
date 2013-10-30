@@ -153,5 +153,9 @@
     <input type="checkbox" id="chkSuaLoi"  name="chkSuaLoi" @if(ViewBag.chkSuaLoi != null) { @Html.Raw("checked='checked'") } />
     <label for="chkSuaLoi">Sửa lỗi Lost Update</label>
 
+    <br />
+
+    <input type="checkbox" id="chkDirtyRead" name="chkDirtyRead" @if(ViewBag.chkDirtyRead != null) { @Html.Raw("checked='checked'") }/>
+    <label for="chkDirtyRead">Dirty Read</label>
 </div>
 }

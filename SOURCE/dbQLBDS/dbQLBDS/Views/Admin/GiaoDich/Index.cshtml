@@ -33,9 +33,6 @@
                     <th width="20%">
                         Trạng Thái
                     </th>
-                    <th width="15%">
-                        &nbsp;
-                    </th>
                 </tr>
 
                 @foreach (GiaoDich gd in Model)
@@ -69,10 +66,6 @@
                                 @Html.Raw("Giao dịch bị hủy");
                                 break;
                         }
-                    </td>
-                    <td>
-                        <a href="@Url.Action("ChinhSuaTaiKhoan", "TaiKhoan", new { id = gd.MaGiaoDich })" class="list-edit-button" ><img src="@Url.Content("~/Content/images/edit.png")" /></a>
-                        <a href="" class="list-delete-button" ><img src="@Url.Content("~/Content/images/del.png")" /></a>
                     </td>
                 </tr>
                 }

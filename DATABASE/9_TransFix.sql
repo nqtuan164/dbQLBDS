@@ -108,3 +108,20 @@ BEGIN TRAN
 COMMIT TRAN
 GO
 ----------------------------------------------
+
+CREATE PROCEDURE dbo.sp_XemCanHo_Fixed
+	@macanho INT
+AS
+BEGIN TRAN
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+	SELECT ch.*, d.tenduong, q.tenquan, tp.tenthanhpho
+    FROM canho ch, duong d, quan q, thanhpho tp
+    WHERE ch.kichhoat = 1 AND
+        ch.matrangthaicanho = 2 AND
+        ch.maduong = d.maduong AND
+        d.maquan = q.maquan AND
+        q.mathanhpho = tp.mathanhpho AND
+        ch.macanho = @macanho
+    ORDER BY ch.ngaydang DESC
+
+COMMIT TRAN

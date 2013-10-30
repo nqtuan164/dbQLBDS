@@ -342,7 +342,7 @@ namespace QLBDS.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult ChinhSuaCanHo(CanHo canho, string chkSuaLoi)
+        public ActionResult ChinhSuaCanHo(CanHo canho, string chkSuaLoi, string chkDirtyRead)
         {
             if (isLogin() == -1)
             {
@@ -357,6 +357,7 @@ namespace QLBDS.Controllers.Admin
                 //*/
                 try
                 {
+                    ViewBag.chkDirtyRead = chkDirtyRead;
                     ViewBag.chkSuaLoi = chkSuaLoi;
                     DataProvider dp = new DataProvider();
 
@@ -392,6 +393,11 @@ namespace QLBDS.Controllers.Admin
                     {
                         //Set level = Serializable để giải quyết Unrepeatable Read
                         dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo_Fixed", ref param);
+                    }
+                    else if (chkDirtyRead != null)
+                    {
+                        //Set waitfor delay 
+                        dp.ExecuteProcNonQuery("sp_ChinhSuaCanHo_DirtyRead", ref param);
                     }
                     else
                     {

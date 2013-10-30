@@ -103,4 +103,66 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
+CREATE PROCEDURE dbo.sp_ChinhSuaCanHo_DirtyRead
+	@macanho INT,
+	@tencanho NVARCHAR(255),
+	@maduong INT,
+	@diachi NVARCHAR(100),
+	@mieuta NVARCHAR(4000),
+	@toado NVARCHAR(30),
+	@giathue FLOAT,
+	@dientich FLOAT,
+	@matrangthaicanho INT
+AS
+BEGIN TRAN
+	/* SET NOCOUNT ON */
+	
+	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
+	BEGIN
+		RAISERROR (N'Không tìm thấy căn hộ cần chỉnh sửa', 10, 1)
+		ROLLBACK TRAN
+		RETURN
+	END
+	
+	UPDATE canho 
+	SET
+		tencanho = @tencanho,
+		maduong = @maduong,
+		diachi = @diachi,
+		mieuta = @mieuta,
+		toado = @toado,
+		giathue = @giathue,
+		dientich = @dientich,
+		matrangthaicanho = @matrangthaicanho
+	WHERE macanho = @macanho
+
+	WAITFOR DELAY '00:00:10'
+
+	IF (@giathue = 0) 
+	BEGIN
+		ROLLBACK TRAN
+	END
+	ELSE
+	BEGIN
+		COMMIT TRAN
+	END
+----------------------------------------------
+
+CREATE PROCEDURE [dbo].[sp_XemCanHo]
+	@macanho INT
+AS
+BEGIN TRAN
+	
+	SELECT ch.*, d.tenduong, q.tenquan, tp.tenthanhpho 
+    FROM canho ch WITH(NOLOCK), duong d, quan q, thanhpho tp 
+    WHERE ch.kichhoat = 1 AND
+        ch.matrangthaicanho = 2 AND
+        ch.maduong = d.maduong AND
+        d.maquan = q.maquan AND
+        q.mathanhpho = tp.mathanhpho AND
+        ch.macanho = @macanho
+    ORDER BY ch.ngaydang DESC
+
+COMMIT TRAN
+
 

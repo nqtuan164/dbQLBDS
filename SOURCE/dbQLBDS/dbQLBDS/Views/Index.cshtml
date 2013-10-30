@@ -28,7 +28,7 @@
                     @item.GiaThue <sup class="vnd">VNĐ</sup>
                 </div>
                 <div class="prop-detail">
-                    <a href="/ChiTietCanHo?id=@item.MaCanHo" >Chi tiết</a>
+                    <a href="/ChiTietCanHo?id=@item.MaCanHo" data-url="/ChiTietCanHo?id=@item.MaCanHo" data-key="false" class="url-chitiet" >Chi tiết</a>
                 </div>
             </div>
         }
@@ -36,8 +36,27 @@
     <input type="checkbox" value="dirtyread" id="chk_dirtyread" style="margin-left:16px;"/>
     <label for="chk_dirtyread" >Xử lý dirty read</label>
     <script>
-        $("document").change(function () {
+        $("document").ready(function () {
+            $("#chk_dirtyread").change(function () {
 
+                $(".url-chitiet").each(function () {
+                    var key = $(this).attr("data-key");
+                    var url = $(this).attr("data-url");
+
+                    console.log(key + " - " + url);
+
+                    if (key == "false") {
+                        $(this).attr("href", url + "&dirtyread=true");
+                        $(this).attr("data-key", "true");
+                        console.log("checked");
+                    } else {
+                        $(this).attr("href", url);
+                        console.log("unchecked");
+                    }
+
+                    
+                });
+            });
         });
     </script>
 </div>

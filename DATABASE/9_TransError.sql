@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
+﻿--UNREPEATABLE READ
+CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan]
 	@email nvarchar(100), @matkhau nvarchar(100)
 AS
 BEGIN TRAN
@@ -15,7 +16,7 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
-
+--LOST UPDATE
 CREATE PROCEDURE [dbo].[sp_NhanGiaoDich]
 	@mataikhoan INT,
 	@mathuecanho INT
@@ -67,6 +68,7 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
+--LOST UPDATE
 CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo]
 	@macanho INT,
 	@tencanho NVARCHAR(255),
@@ -103,6 +105,7 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
+--DIRTY READ
 CREATE PROCEDURE dbo.sp_ChinhSuaCanHo_DirtyRead
 	@macanho INT,
 	@tencanho NVARCHAR(255),
@@ -146,6 +149,7 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
+--DIRTY READ
 CREATE PROCEDURE [dbo].[sp_XemCanHo]
 	@macanho INT
 AS
@@ -163,5 +167,4 @@ BEGIN TRAN
 
 COMMIT TRAN
 GO
-
 

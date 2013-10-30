@@ -281,8 +281,8 @@ CREATE PROC [dbo].[sp_ThueCanHo]
 	@thoigiangiaodich datetime, @dienthoai nvarchar(100), @diachi nvarchar(100), @ghichu text
 AS
 BEGIN
-	IF NOT EXISTS(SELECT * FROM canho WHERE macanho = @macanho) BEGIN
-			RAISERROR(N'Mã căn hộ không tồn tại', 16, 9)
+	IF NOT EXISTS(SELECT * FROM canho WHERE macanho = @macanho AND matrangthaicanho = 2) BEGIN
+			RAISERROR(N'Mã căn hộ không tồn tại hoặc không có sẵn để thuê', 16, 9)
 	END
 	ELSE BEGIN
 		INSERT INTO thuecanho(mataikhoan, macanho, tiencoc, thoigianthue, thoigianketthuc,

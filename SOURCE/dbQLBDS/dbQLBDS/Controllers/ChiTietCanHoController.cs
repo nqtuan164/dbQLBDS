@@ -16,6 +16,9 @@ namespace dbQLBDS.Controllers
 
         public ActionResult Index()
         {
+            bool fixDirtyRead = false;
+            Boolean.TryParse(Request.Params["dirtyread"], out fixDirtyRead);
+
             int canHoID = 0;
             CanHo ch = new CanHo();
 
@@ -23,6 +26,7 @@ namespace dbQLBDS.Controllers
             {
                 ch.MaTrangThaiCanHo = -999;
             }
+
             else
             {
                 DataProvider dp = new DataProvider();

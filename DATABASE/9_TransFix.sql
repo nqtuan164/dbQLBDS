@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan_Fixed]
+﻿--UNREPEATABLE READ
+CREATE PROCEDURE [dbo].[sp_DangNhapTaiKhoan_Fixed]
 	@email nvarchar(100), @matkhau nvarchar(100)
 AS
 BEGIN TRAN
@@ -17,12 +18,14 @@ COMMIT TRAN
 GO
 --------------------------------------
 
+--LOST UPDATE
 CREATE PROCEDURE [dbo].[sp_NhanGiaoDich_Fixed]
 	@mataikhoan INT,
 	@mathuecanho INT
 AS
 BEGIN TRAN
 	set tran isolation level Serializable
+	SET DEADLOCK_PRIORITY LOW
 	
 	DECLARE @macanho INT
 	SELECT @macanho = ch.macanho 
@@ -71,6 +74,7 @@ GO
 --update canho set matrangthaicanho = 2 where macanho = 9
 ----------------------------------------------
 
+--LOST UPDATE
 CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo_Fixed]
 	@macanho INT,
 	@tencanho NVARCHAR(255),
@@ -84,6 +88,7 @@ CREATE PROCEDURE [dbo].[sp_ChinhSuaCanHo_Fixed]
 AS
 BEGIN TRAN
 	set tran isolation level Serializable
+	SET DEADLOCK_PRIORITY HIGH
 	
 	IF NOT EXISTS (SELECT * FROM canho WHERE macanho = @macanho)
 	BEGIN
@@ -109,6 +114,7 @@ COMMIT TRAN
 GO
 ----------------------------------------------
 
+--DIRTY READ
 CREATE PROCEDURE dbo.sp_XemCanHo_Fixed
 	@macanho INT
 AS
@@ -125,3 +131,4 @@ BEGIN TRAN
     ORDER BY ch.ngaydang DESC
 
 COMMIT TRAN
+GO
